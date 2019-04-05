@@ -164,13 +164,13 @@
 
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="tags">
+<meta property="og:title" content="标签">
 <meta property="og:url" content="http://yoursite.com/tags/index.html">
 <meta property="og:site_name" content="ZERO">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-04T13:22:18.999Z">
+<meta property="og:updated_time" content="2019-04-04T13:57:02.071Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
+<meta name="twitter:title" content="标签">
 
 
 
@@ -187,7 +187,7 @@
   };
 </script>
 
-  <title>tags | ZERO</title>
+  <title>标签 | ZERO</title>
   
 
 
@@ -449,7 +449,7 @@
     <div class="post-block page">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">tags</h1>
+<h1 class="post-title" itemprop="name headline">标签</h1>
 
 <div class="post-meta">
   
@@ -489,6 +489,7 @@
 
   
     <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MzU4NC8yMDEyMw=="></div>
     </div>
 
   
@@ -567,6 +568,15 @@
                     
                   
                   <a href="mailto:hyw33666@gmail.com" title="E-Mail &rarr; mailto:hyw33666@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/5367925874" title="Weibo &rarr; https://weibo.com/u/5367925874" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i></a>
                 </span>
               
             </div>
@@ -689,6 +699,12 @@
 
 
 
+  
+    
+      
+  
+  <script type="text/javascript" color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
 
 
 
@@ -759,38 +775,27 @@
 
 
   
-
-
-
-
-
-
-
-
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: 'tags/index.html'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
-  
-  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
-  
-  <script type="text/javascript">
-    var GUEST = ['nick','mail','link'];
-    var guest = 'nick,mail,link';
-    guest = guest.split(',').filter(function (item) {
-      return GUEST.indexOf(item)>-1;
-    });
-    new Valine({
-        el: '#comments' ,
-        verify: false,
-        notify: false,
-        appId: 'd62QtY9eQnROzU04By29kKXr-gzGzoHsz',
-        appKey: 'EPTGYMSpHsgNH7mxy5RFL6AS',
-        placeholder: '来呀，快活呀',
-        avatar:'mm',
-        meta:guest,
-        pageSize:'10' || 10,
-        visitor: false
-    });
-  </script>
+
+
+
+
+
+
+
 
 
 
@@ -801,7 +806,7 @@
     var isfetched = false;
     var isXml = true;
     // Search DB path;
-    var search_path = "";
+    var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
     } else if (/json$/i.test(search_path)) {
