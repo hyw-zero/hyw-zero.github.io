@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#fff">
+<meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#fff">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CDejaVu+Sans+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css" integrity="sha256-no0c5ccDODBwp+9hSmV5VvPpKwHCpbVzXHexIkupM6U=" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js" integrity="sha256-a5YRB27CcBwBFcT5EF/f3E4vzIqyHrSR878nseNYw64=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hyw-zero.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":10,"offset":12,"scrollpercent":false,"onmobile":false},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="1.压缩命令123456tar-c: 建立压缩档案-x：解压-t：查看内容-r：向压缩归档文件末尾追加文件-u：更新原压缩包中的文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux命令(压缩)">
+<meta property="og:url" content="https://hyw-zero.github.io/2018/12/04/linux%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="ZERO">
+<meta property="og:description" content="1.压缩命令123456tar-c: 建立压缩档案-x：解压-t：查看内容-r：向压缩归档文件末尾追加文件-u：更新原压缩包中的文件">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-12-03T21:31:57.000Z">
+<meta property="article:modified_time" content="2021-08-22T09:50:16.649Z">
+<meta property="article:author" content="hyw-zero">
+<meta property="article:tag" content="Linux压缩命令">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://hyw-zero.github.io/2018/12/04/linux%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hyw-zero.github.io/2018/12/04/linux%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4/","path":"2018/12/04/linux压缩命令/","title":"linux命令(压缩)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>linux命令(压缩) | ZERO</title>
+  
+
+
+
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ZERO" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">ZERO</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep  learning, be  curious !</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="nav-text">1.压缩命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93"><span class="nav-text">1.1 压缩命令总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="nav-text">2.解压缩命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E8%A7%A3%E5%8E%8B%E7%BC%A9%E6%80%BB%E7%BB%93"><span class="nav-text">2.1解压缩总结</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+            <div class="site-overview">
+              <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hyw-zero"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">hyw-zero</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:hyw33666@gmail.com" title="E-Mail → mailto:hyw33666@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/hyw-zero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hyw-zero" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      推荐阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://c.biancheng.net/cplus/" title="http:&#x2F;&#x2F;c.biancheng.net&#x2F;cplus&#x2F;" rel="noopener" target="_blank">c语言中文网</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/chenshuo/documents/downloads" title="https:&#x2F;&#x2F;github.com&#x2F;chenshuo&#x2F;documents&#x2F;downloads" rel="noopener" target="_blank">Linux多线程服务端</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/SilverMaple/STLSourceCodeNote" title="https:&#x2F;&#x2F;github.com&#x2F;SilverMaple&#x2F;STLSourceCodeNote" rel="noopener" target="_blank">STL源码剖析</a>
+        </li>
+    </ul>
+  </div>
+<div class="cc-license animated" itemprop="sponsor">
+  <a href="https://www.netlify.com" class="cc-opacity" title="Deploy with Netlify → https://www.netlify.com" target="_blank"><img width="80" src="https://www.netlify.com/img/global/badges/netlify-dark.svg" alt="Netlify"></a>
+</div>
+            </div>
+        </div>
+	    </div>
+	  
+
+    </div>
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=300 src="//music.163.com/outchain/player?type=0&id=411680085&auto=1&height=430"></iframe>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hyw-zero.github.io/2018/12/04/linux%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hyw-zero">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZERO">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux命令(压缩)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-12-03 21:31:57" itemprop="dateCreated datePublished" datetime="2018-12-03T21:31:57Z">2018-12-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="1-压缩命令"><a href="#1-压缩命令" class="headerlink" title="1.压缩命令"></a>1.压缩命令</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tar</span><br><span class="line">-c: 建立压缩档案</span><br><span class="line">-x：解压</span><br><span class="line">-t：查看内容</span><br><span class="line">-r：向压缩归档文件末尾追加文件</span><br><span class="line">-u：更新原压缩包中的文件</span><br></pre></td></tr></table></figure>
+
+ <span id="more"></span>
+
+<p>这五个是独立的命令，压缩解压都要用到其中一个，可以和别的命令连用但只能用其中一个。下面的参数是根据需要在压缩或解压档案时可选的。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-z：有gzip属性的</span><br><span class="line">-j：有bz2属性的</span><br><span class="line">-Z：有compress属性的</span><br><span class="line">-v：显示所有过程</span><br><span class="line">-O：将文件解开到标准输出</span><br></pre></td></tr></table></figure>
+
+<p>下面的参数-f是必须的</p>
+<p><code>-f:  使用档案名字，切记，这个参数是最后一个参数，后面只能接档案名。</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">tar  -cf  all.tar  *.jpg    <span class="comment">#将.jpg的文件打成一个名为all.tar的包。</span></span><br><span class="line">							<span class="comment">#-c是表示产生新的包，</span></span><br><span class="line">							<span class="comment">#-f指定包的文件名。</span></span><br><span class="line"></span><br><span class="line"> tar  -rf  all.tar  *.gif   <span class="comment">#将所有.gif的文件增加到all.tar的包里面去。</span></span><br><span class="line"> 							<span class="comment">#-r是表示增加文件的意思。 </span></span><br><span class="line"></span><br><span class="line"> tar  -uf  all.tar logo.gif <span class="comment">#更新原来tar包all.tar中logo.gif文件</span></span><br><span class="line">							<span class="comment">#-u  是表示更新文件的意思。 </span></span><br><span class="line"></span><br><span class="line">tar -tf all.tar  			<span class="comment">#列出all.tar包中所有文件，</span></span><br><span class="line">							<span class="comment">#-t是列出文件的意思 </span></span><br><span class="line"></span><br><span class="line">tar -xf all.tar 			<span class="comment">#解出all.tar包中所有文件，</span></span><br><span class="line">							<span class="comment">#-x是解开的意思 </span></span><br></pre></td></tr></table></figure>
+<h3 id="1-1-压缩命令总结"><a href="#1-1-压缩命令总结" class="headerlink" title="1.1 压缩命令总结"></a>1.1 压缩命令总结</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tar -cvf jpg.tar *.jpg      <span class="comment"># 将目录里所有jpg文件打包成tar.jpg </span></span><br><span class="line">tar -czf jpg.tar.gz *.jpg   <span class="comment">#将目录里所有jpg文件打包成jpg.tar后，并且将其用gzip压缩，命名为jpg.tar.gz</span></span><br><span class="line">tar -cjf jpg.tar.bz2 *.jpg  <span class="comment">#将目录里所有jpg文件打包成jpg.tar后，并且将其用bzip2压缩，命名jpg.tar.bz2</span></span><br><span class="line">tar -cZf jpg.tar.Z *.jpg    <span class="comment">#将目录里所有jpg文件打包成jpg.tar后，并且将其用compress压缩，命名为jpg.tar.Z</span></span><br><span class="line">rar a jpg.rar *.jpg     	<span class="comment">#rar格式的压缩，需要先下载rar for [Linux](http://lib.csdn.net/base/linux)</span></span><br><span class="line">zip jpg.zip *.jpg 			<span class="comment">#zip格式的压缩，需要先下载zip for [linux](http://lib.csdn.net/base/linux)</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="2-解压缩命令"><a href="#2-解压缩命令" class="headerlink" title="2.解压缩命令"></a>2.解压缩命令</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tar    –xvf   file.tar         <span class="comment">#解压 tar包</span></span><br><span class="line">tar   -xzvf   file.tar.gz      <span class="comment">#解压tar.gz</span></span><br><span class="line">tar   -xjvf    file.tar.bz2    <span class="comment">#解压 tar.bz2</span></span><br><span class="line">tar   –xZvf  file.tar.Z        <span class="comment">#解压tar.Z</span></span><br><span class="line">unrar  e     file.rar          <span class="comment">#解压rar</span></span><br><span class="line">unzip           file.zip       <span class="comment">#解压zip</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-1解压缩总结"><a href="#2-1解压缩总结" class="headerlink" title="2.1解压缩总结"></a>2.1解压缩总结</h3><table>
+<thead>
+<tr>
+<th align="center">压缩类型</th>
+<th align="center">解压命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">*.tar</td>
+<td align="center">用 tar –xvf   解压</td>
+</tr>
+<tr>
+<td align="center">*.gz</td>
+<td align="center">用 gzip -d 或gunzip 解压</td>
+</tr>
+<tr>
+<td align="center">*.tar.gz和 *.tgz</td>
+<td align="center">用 tar –xzf 解压</td>
+</tr>
+<tr>
+<td align="center">*.bz2</td>
+<td align="center">用 bzip2 -d或bunzip2 解压</td>
+</tr>
+<tr>
+<td align="center">*.tar.bz2</td>
+<td align="center">用tar –xjf 解压</td>
+</tr>
+<tr>
+<td align="center">*.Z</td>
+<td align="center">用 uncompress 解压</td>
+</tr>
+<tr>
+<td align="center">*.tar.Z</td>
+<td align="center">用tar –xZf 解压</td>
+</tr>
+<tr>
+<td align="center">*.rar</td>
+<td align="center">用 unrar e解压</td>
+</tr>
+<tr>
+<td align="center">*.zip</td>
+<td align="center">用 unzip 解压</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+	<div>
+		
+			<div>
+	
+		<div style="text-align:center;color: #ccc;font-size:16px;">---------------------------------------本文结束<i class="fa fa-paw"></i>感谢您的阅读---------------------------------------</div>
+	
+</div>
+		
+	</div>
+	<div>
+		
+			
+<div class="my_post_copyright">
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+<!-- JS库 sweetalert 可修改路径 -->
+<script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<p><span>本文标题:</span><a href="/2018/12/04/linux%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4/">linux命令(压缩)</a></p>
+<!--
+<p><span>文章作者:</span><a href="/" title="访问  的个人博客"></a></p>
+-->
+<p><span>发布时间:</span>2018年12月03日 - 21:31</p>
+<p><span>最后更新:</span>2021年08月22日 - 09:50</p>
+<p><span>原始链接:</span><a href="/2018/12/04/linux%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4/" title="linux命令(压缩)">https://hyw-zero.github.io/2018/12/04/linux%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4/</a>
+<span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://hyw-zero.github.io/2018/12/04/linux%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4/" aria-label="复制成功！"></i></span>
+</p>
+<p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+var clipboard = new Clipboard('.fa-clipboard');
+$(".fa-clipboard").click(function(){
+clipboard.on('success', function(){
+swal({
+title: "",
+text: '复制成功',
+icon: "success",
+showConfirmButton: true
+});
+});
+});
+</script>
+
+		
+	</div>
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wx.png" alt="hyw-zero 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="hyw-zero 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Linux%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4/" rel="tag"><i class="fa fa-tag"></i>Linux压缩命令</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/10/03/C-%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B03-%E6%8F%90%E9%AB%98%E7%AF%87/" rel="prev" title="C++入门笔记3(提高篇)">
+                  <i class="fa fa-chevron-left"></i> C++入门笔记3(提高篇)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/01/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E4%BF%A1%E5%8F%B7%E4%B8%8E%E6%A7%BD/" rel="next" title="Qt学习笔记之信号与槽">
+                  Qt学习笔记之信号与槽 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MzU4NC8yMDEyMw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hyw-zero</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+<div class="theme-info">
+	<i class="fa fa-edit" style="font-size:18px"></i>
+	<span class="post-count">博客全站共98.2k字</span>
+</div>
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script class="next-config" data-name="nprogress" type="application/json">{"enable":true,"spinner":true}</script>
+  <script src="/js/third-party/nprogress.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+</body>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+</html>
+

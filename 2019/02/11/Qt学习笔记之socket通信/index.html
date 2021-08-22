@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#fff">
+<meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#fff">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CDejaVu+Sans+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css" integrity="sha256-no0c5ccDODBwp+9hSmV5VvPpKwHCpbVzXHexIkupM6U=" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js" integrity="sha256-a5YRB27CcBwBFcT5EF/f3E4vzIqyHrSR878nseNYw64=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hyw-zero.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":10,"offset":12,"scrollpercent":false,"onmobile":false},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="1 liunx socket通信流程1.1 TCP&#x2F;IP通信流程图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt学习笔记之socket通信">
+<meta property="og:url" content="https://hyw-zero.github.io/2019/02/11/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8Bsocket%E9%80%9A%E4%BF%A1/index.html">
+<meta property="og:site_name" content="ZERO">
+<meta property="og:description" content="1 liunx socket通信流程1.1 TCP&#x2F;IP通信流程图">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/hyw-zero/blogimage/raw/master/img/socket.jpg">
+<meta property="og:image" content="https://gitee.com/hyw-zero/blogimage/raw/master/img/udp.jpg">
+<meta property="og:image" content="https://gitee.com/hyw-zero/blogimage/raw/master/img/servr_tcp.png">
+<meta property="og:image" content="https://gitee.com/hyw-zero/blogimage/raw/master/img/client_tcp.png">
+<meta property="og:image" content="https://gitee.com/hyw-zero/blogimage/raw/master/img/udp.png">
+<meta property="article:published_time" content="2019-02-10T20:40:30.000Z">
+<meta property="article:modified_time" content="2021-08-22T09:52:13.148Z">
+<meta property="article:author" content="hyw-zero">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/hyw-zero/blogimage/raw/master/img/socket.jpg">
+
+
+<link rel="canonical" href="https://hyw-zero.github.io/2019/02/11/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8Bsocket%E9%80%9A%E4%BF%A1/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hyw-zero.github.io/2019/02/11/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8Bsocket%E9%80%9A%E4%BF%A1/","path":"2019/02/11/Qt学习笔记之socket通信/","title":"Qt学习笔记之socket通信"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Qt学习笔记之socket通信 | ZERO</title>
+  
+
+
+
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ZERO" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">ZERO</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep  learning, be  curious !</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-liunx-socket%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B"><span class="nav-text">1 liunx socket通信流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-TCP-IP%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-text">1.1 TCP&#x2F;IP通信流程图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-UDP%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-text">1.2 UDP通信流程图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Qt%E4%B8%AD%E7%9A%84Socket%E9%80%9A%E4%BF%A1"><span class="nav-text">2 Qt中的Socket通信</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-TCP-IP"><span class="nav-text">2.1 TCP&#x2F;IP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B"><span class="nav-text">2.1.1 服务器端通信流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">2.1.2 服务器端代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B"><span class="nav-text">2.1.3客户端通信流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4-%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">2.1.4 客户端代码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-UDP"><span class="nav-text">2.2 UDP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1UDP%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B"><span class="nav-text">2.2.1UDP通信流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2UDP%E9%80%9A%E4%BF%A1%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">2.2.2UDP通信代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-%E5%B9%BF%E6%92%AD"><span class="nav-text">2.2.3 广播</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-4%E7%BB%84%E6%92%AD"><span class="nav-text">2.2.4组播</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-TCP-IP-%E5%92%8C-UDP%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">2.3 TCP&#x2F;IP 和 UDP的区别</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+            <div class="site-overview">
+              <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hyw-zero"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">hyw-zero</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:hyw33666@gmail.com" title="E-Mail → mailto:hyw33666@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/hyw-zero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hyw-zero" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      推荐阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://c.biancheng.net/cplus/" title="http:&#x2F;&#x2F;c.biancheng.net&#x2F;cplus&#x2F;" rel="noopener" target="_blank">c语言中文网</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/chenshuo/documents/downloads" title="https:&#x2F;&#x2F;github.com&#x2F;chenshuo&#x2F;documents&#x2F;downloads" rel="noopener" target="_blank">Linux多线程服务端</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/SilverMaple/STLSourceCodeNote" title="https:&#x2F;&#x2F;github.com&#x2F;SilverMaple&#x2F;STLSourceCodeNote" rel="noopener" target="_blank">STL源码剖析</a>
+        </li>
+    </ul>
+  </div>
+<div class="cc-license animated" itemprop="sponsor">
+  <a href="https://www.netlify.com" class="cc-opacity" title="Deploy with Netlify → https://www.netlify.com" target="_blank"><img width="80" src="https://www.netlify.com/img/global/badges/netlify-dark.svg" alt="Netlify"></a>
+</div>
+            </div>
+        </div>
+	    </div>
+	  
+
+    </div>
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=300 src="//music.163.com/outchain/player?type=0&id=411680085&auto=1&height=430"></iframe>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hyw-zero.github.io/2019/02/11/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8Bsocket%E9%80%9A%E4%BF%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hyw-zero">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZERO">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Qt学习笔记之socket通信
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-02-10 20:40:30" itemprop="dateCreated datePublished" datetime="2019-02-10T20:40:30Z">2019-02-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="1-liunx-socket通信流程"><a href="#1-liunx-socket通信流程" class="headerlink" title="1 liunx socket通信流程"></a>1 liunx socket通信流程</h1><h2 id="1-1-TCP-IP通信流程图"><a href="#1-1-TCP-IP通信流程图" class="headerlink" title="1.1 TCP/IP通信流程图"></a>1.1 TCP/IP通信流程图</h2><p><img src="https://gitee.com/hyw-zero/blogimage/raw/master/img/socket.jpg" alt="socket"></p>
+<span id="more"></span> 
+
+<h2 id="1-2-UDP通信流程图"><a href="#1-2-UDP通信流程图" class="headerlink" title="1.2 UDP通信流程图"></a>1.2 UDP通信流程图</h2><p><img src="https://gitee.com/hyw-zero/blogimage/raw/master/img/udp.jpg" alt="udp"></p>
+<h1 id="2-Qt中的Socket通信"><a href="#2-Qt中的Socket通信" class="headerlink" title="2 Qt中的Socket通信"></a>2 Qt中的Socket通信</h1><p>Qt中提供的所有的Socket类都是非阻塞的。</p>
+<p>Qt中常用的用于socket通信的套接字类:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">QTcpServer  <span class="comment">//用于TCP/IP通信, 作为服务器端套接字使用</span></span><br><span class="line">QTcpSocket  <span class="comment">//用于TCP/IP通信，作为客户端套接字使用。</span></span><br><span class="line">    </span><br><span class="line">QUdpSocket  <span class="comment">//用于UDP通信，服务器，客户端均使用此套接字。</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：在Qt中使用上述类时需要在.pro文件中写入 QT += network</p>
+</blockquote>
+<h2 id="2-1-TCP-IP"><a href="#2-1-TCP-IP" class="headerlink" title="2.1 TCP/IP"></a>2.1 TCP/IP</h2><h3 id="2-1-1-服务器端通信流程"><a href="#2-1-1-服务器端通信流程" class="headerlink" title="2.1.1 服务器端通信流程"></a>2.1.1 服务器端通信流程</h3><ol>
+<li><strong>创建套接字</strong></li>
+<li><strong>将套接字设置为监听模式</strong></li>
+<li><strong>等待并接受客户端请求</strong><br>可以通过QTcpServer提供的void <strong>newConnection()信号</strong>来检测是否有连接请求，如果有可以在对应的槽函数中调用<strong>nextPendingConnection</strong>函数获取到客户端的Socket信息（返回值为QTcpSocket*类型指针），通过此套接字与客户端之间进行通信。</li>
+<li><strong>接收或者向客户端发送数据</strong><ul>
+<li>接收数据：使用read（）或者readAll（）函数</li>
+<li>发送数据：使用write（）函数<h3 id="2-1-2-服务器端代码实现"><a href="#2-1-2-服务器端代码实现" class="headerlink" title="2.1.2 服务器端代码实现"></a>2.1.2 服务器端代码实现</h3></li>
+</ul>
+</li>
+</ol>
+<p>通过Qt提供的QTcpServer类实现服务器端的socket通信:</p>
+<p><img src="https://gitee.com/hyw-zero/blogimage/raw/master/img/servr_tcp.png" alt="servr_tcp"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*---------- serverwidget.h ------------*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> SERVERWIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERVERWIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QWidget&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QTcpServer&gt;</span> <span class="comment">//监听套接字</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QTcpSocket&gt;</span> <span class="comment">//通信套接字</span></span></span><br><span class="line"><span class="keyword">namespace</span> Ui &#123;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">ServerWidget</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ServerWidget</span> :</span> <span class="keyword">public</span> QWidget</span><br><span class="line">&#123;</span><br><span class="line">  Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">ServerWidget</span><span class="params">(QWidget *parent = <span class="number">0</span>)</span></span>;</span><br><span class="line">  ~<span class="built_in">ServerWidget</span>();</span><br><span class="line"><span class="keyword">private</span> slots:</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">on_sendButton_clicked</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">on_closeButton_clicked</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  Ui::ServerWidget *ui;</span><br><span class="line">  QTcpServer * tcpserver;  <span class="comment">// 负责监听的套接字</span></span><br><span class="line">  QTcpSocket * tcpsocket;  <span class="comment">// 负责通信的套接字</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// SERVERWIDGET_H</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*---------- serverwidget.c-----------*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;serverwidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ui_serverwidget.h&quot;</span></span></span><br><span class="line">ServerWidget::<span class="built_in">ServerWidget</span>(QWidget *parent) :</span><br><span class="line">  <span class="built_in">QWidget</span>(parent),</span><br><span class="line">  <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::ServerWidget)</span><br><span class="line">&#123;</span><br><span class="line">  ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line">  <span class="built_in">setWindowTitle</span>(<span class="string">&quot;服务器&quot;</span>);</span><br><span class="line">  tcpserver = <span class="literal">NULL</span>;</span><br><span class="line">  tcpsocket = <span class="literal">NULL</span>;</span><br><span class="line">  tcpserver = <span class="keyword">new</span> <span class="built_in">QTcpServer</span>(<span class="keyword">this</span>);             <span class="comment">//1.创建套接字对象</span></span><br><span class="line">  tcpserver-&gt;<span class="built_in">listen</span>(QHostAddress::Any,<span class="number">8888</span>);    <span class="comment">//2.将套接字设置为监听模式</span></span><br><span class="line">  </span><br><span class="line">  <span class="built_in">connect</span>(tcpserver,&amp;QTcpServer::newConnection,  <span class="comment">//3.接收客户端请求，连接成功会触发newConnection</span></span><br><span class="line">          [=]()</span><br><span class="line">          &#123;</span><br><span class="line">             tcpsocket = tcpserver-&gt;<span class="built_in">nextPendingConnection</span>();<span class="comment">//处理客户端的连接请求</span></span><br><span class="line">             qint32 ip = tcpsocket-&gt;<span class="built_in">peerAddress</span>().<span class="built_in">toIPv4Address</span>();</span><br><span class="line">             qint16 port = tcpsocket-&gt;<span class="built_in">peerPort</span>();</span><br><span class="line">             QString temp = <span class="built_in">QString</span>(<span class="string">&quot;[%1:%2]连接成功&quot;</span>).<span class="built_in">arg</span>(ip).<span class="built_in">arg</span>(port);</span><br><span class="line">             ui-&gt;showBrowser-&gt;<span class="built_in">setText</span>(temp);</span><br><span class="line">             <span class="built_in">connect</span>(tcpsocket,&amp;QTcpSocket::readyRead,  <span class="comment">//传输成功会触发readyRead</span></span><br><span class="line">                     [=]()</span><br><span class="line">                     &#123; </span><br><span class="line">                       QByteArray array = tcpsocket-&gt;<span class="built_in">readAll</span>(); <span class="comment">//4.接收数据</span></span><br><span class="line">                       ui-&gt;showBrowser-&gt;<span class="built_in">append</span>(array);  <span class="comment">//显示数据</span></span><br><span class="line">                     &#125;</span><br><span class="line">             );</span><br><span class="line">          &#125;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ServerWidget::on_sendButton_clicked</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="literal">NULL</span> == tcpsocket)</span><br><span class="line">  &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  QString str = ui-&gt;sendBrowser-&gt;<span class="built_in">toPlainText</span>();<span class="comment">//获取发送内容</span></span><br><span class="line">  tcpsocket-&gt;<span class="built_in">write</span>(str.<span class="built_in">toUtf8</span>().<span class="built_in">data</span>());       <span class="comment">//4.发送数据</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ServerWidget::on_closeButton_clicked</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="literal">NULL</span> == tcpsocket)</span><br><span class="line">  &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  tcpsocket-&gt;<span class="built_in">disconnectFromHost</span>();</span><br><span class="line">  tcpsocket-&gt;<span class="built_in">close</span>();</span><br><span class="line">  ui-&gt;showBrowser-&gt;<span class="built_in">append</span>(<span class="string">&quot;已断开连接&quot;</span>);</span><br><span class="line">  tcpsocket = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line">ServerWidget::~<span class="built_in">ServerWidget</span>()</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-3客户端通信流程"><a href="#2-1-3客户端通信流程" class="headerlink" title="2.1.3客户端通信流程"></a>2.1.3客户端通信流程</h3><ol>
+<li><p><strong>创建套接字</strong></p>
+</li>
+<li><p><strong>连接服务器</strong></p>
+<p>可以使用QTcpSocket类的<strong>connectToHost（）</strong>函数来连接服务器。</p>
+</li>
+<li><p><strong>向服务器发送或者接受数据</strong></p>
+</li>
+</ol>
+<h3 id="2-1-4-客户端代码实现"><a href="#2-1-4-客户端代码实现" class="headerlink" title="2.1.4 客户端代码实现"></a>2.1.4 客户端代码实现</h3><p>客户端通过使用Qt提供的QTcpSocket类可以方便的实现与服务器端的通信。</p>
+<p><img src="https://gitee.com/hyw-zero/blogimage/raw/master/img/client_tcp.png" alt="client_tcp"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*---------- clientwidget.h-----------*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> CLIENTWIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CLIENTWIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QWidget&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QTcpSocket&gt;</span></span></span><br><span class="line"><span class="keyword">namespace</span> Ui &#123;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">ClientWidget</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClientWidget</span> :</span> <span class="keyword">public</span> QWidget</span><br><span class="line">&#123;</span><br><span class="line">  Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">ClientWidget</span><span class="params">(QWidget *parent = <span class="number">0</span>)</span></span>;</span><br><span class="line">  ~<span class="built_in">ClientWidget</span>();</span><br><span class="line"><span class="keyword">private</span> slots:</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">on_connectButton_clicked</span><span class="params">()</span></span>;    <span class="comment">//连接按钮槽函数</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">on_sendButton_clicked</span><span class="params">()</span></span>;       <span class="comment">//发送按钮槽函数</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">on_disconnectButton_clicked</span><span class="params">()</span></span>; <span class="comment">//断开连接按钮槽函数</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  Ui::ClientWidget *ui;</span><br><span class="line">  QTcpSocket * tcpsocket;   <span class="comment">// 负责通信的套接字</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// CLIENTWIDGET_H</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/*---------- clientwidget.c-----------*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;clientwidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ui_clientwidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QHostAddress&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Debug qDebug()&lt;&lt;<span class="meta-string">&quot;[&quot;</span>&lt;&lt;__FILE__&lt;&lt;<span class="meta-string">&quot;:&quot;</span>&lt;&lt;__LINE__&lt;&lt;<span class="meta-string">&quot;]&quot;</span></span></span><br><span class="line">ClientWidget::<span class="built_in">ClientWidget</span>(QWidget *parent) :</span><br><span class="line">  <span class="built_in">QWidget</span>(parent),</span><br><span class="line">  <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::ClientWidget)</span><br><span class="line">&#123;</span><br><span class="line">  ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line">  <span class="built_in">setWindowTitle</span>(<span class="string">&quot;客户端&quot;</span>);</span><br><span class="line">  tcpsocket = <span class="literal">NULL</span>;</span><br><span class="line">  tcpsocket = <span class="keyword">new</span> <span class="built_in">QTcpSocket</span>(<span class="keyword">this</span>);  <span class="comment">//创建套接字</span></span><br><span class="line">  <span class="built_in">connect</span>(tcpsocket,&amp;QTcpSocket::connected,</span><br><span class="line">          [=]()</span><br><span class="line">          &#123;</span><br><span class="line">            qint32 ip = tcpsocket-&gt;<span class="built_in">peerAddress</span>().<span class="built_in">toIPv4Address</span>();</span><br><span class="line">            qint16 port = tcpsocket-&gt;<span class="built_in">peerPort</span>();</span><br><span class="line">            QString temp = <span class="built_in">QString</span>(<span class="string">&quot;和服务器[%1:%2]连接成功&quot;</span>).<span class="built_in">arg</span>(ip).<span class="built_in">arg</span>(port);</span><br><span class="line">            ui-&gt;textshow-&gt;<span class="built_in">setText</span>(temp);</span><br><span class="line">          &#125;</span><br><span class="line">  );</span><br><span class="line">  <span class="built_in">connect</span>(tcpsocket,&amp;QTcpSocket::readyRead, <span class="comment">//通过信号接收服务器数据</span></span><br><span class="line">          [=]()</span><br><span class="line">          &#123;</span><br><span class="line">            QByteArray array = tcpsocket-&gt;<span class="built_in">readAll</span>();<span class="comment">//接收数据</span></span><br><span class="line">            ui-&gt;textshow-&gt;<span class="built_in">append</span>(array);</span><br><span class="line">          &#125;</span><br><span class="line">   );</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ClientWidget::on_connectButton_clicked</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   QString ip = ui-&gt;ip-&gt;<span class="built_in">text</span>();</span><br><span class="line">   qint16 port = ui-&gt;port-&gt;<span class="built_in">text</span>().<span class="built_in">toInt</span>();</span><br><span class="line">   Debug&lt;&lt;<span class="built_in">QHostAddress</span>(ip)&lt;&lt;port;</span><br><span class="line">   tcpsocket-&gt;<span class="built_in">connectToHost</span>(<span class="built_in">QHostAddress</span>(ip),port);  <span class="comment">//连接服务器</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ClientWidget::on_sendButton_clicked</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="literal">NULL</span> == tcpsocket)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    QString str = ui-&gt;textsend-&gt;<span class="built_in">toPlainText</span>();</span><br><span class="line">    tcpsocket-&gt;<span class="built_in">write</span>(str.<span class="built_in">toUtf8</span>().<span class="built_in">data</span>());       <span class="comment">//发送数据</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ClientWidget::on_disconnectButton_clicked</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="literal">NULL</span> == tcpsocket)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    tcpsocket-&gt;<span class="built_in">disconnectFromHost</span>();</span><br><span class="line">    tcpsocket-&gt;<span class="built_in">close</span>();</span><br><span class="line">    ui-&gt;textshow-&gt;<span class="built_in">append</span>(<span class="string">&quot;已断开连接&quot;</span>);</span><br><span class="line">    tcpsocket =<span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line">ClientWidget::~<span class="built_in">ClientWidget</span>()</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-UDP"><a href="#2-2-UDP" class="headerlink" title="2.2 UDP"></a>2.2 UDP</h2><p>使用Qt提供的QUdpSocket进行UDP通信。<strong>在UDP方式下，客户端并不与服务器建立连接，它只负责调用发送函数向服务器发送数据</strong>。类似的<strong>服务器也不从客户端接收连接，只负责调用接收函数，等待来自客户端的数据的到达</strong>。</p>
+<h3 id="2-2-1UDP通信流程"><a href="#2-2-1UDP通信流程" class="headerlink" title="2.2.1UDP通信流程"></a>2.2.1UDP通信流程</h3><p>在UDP通信中，服务器端和客户端的概念已经显得有些淡化，两部分做的工作都大致相同：</p>
+<ol>
+<li><p><strong>创建套接字</strong></p>
+</li>
+<li><p><strong>绑定套接字</strong></p>
+<p>在UDP中如果需要<strong>接收数据</strong>则<strong>需要对套接字进行绑定</strong>，<strong>发送数据</strong>则<strong>不需要对套接字进行绑定</strong>。</p>
+<p>通过调用<strong>bind（）</strong>函数将套接字绑定到指定端口上。</p>
+</li>
+<li><p><strong>接收或者发送数据</strong></p>
+</li>
+</ol>
+<ul>
+<li><p><strong>接收数据：使用readDatagram()函数</strong></p>
+<p>接收数据函数声明如下:</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">qint64 <span class="title">readDatagram</span><span class="params">(<span class="keyword">char</span>* data,qint64 maxSize,QHostAddress* address = <span class="number">0</span>,quint16 * port = <span class="number">0</span>)</span></span></span><br><span class="line"><span class="function"> </span></span><br><span class="line"><span class="function"><span class="comment">//data:      接收数据的缓存地址</span></span></span><br><span class="line"><span class="function"><span class="comment">//maxSize:   缓存接收的最大字节数</span></span></span><br><span class="line"><span class="function"><span class="comment">//address:   数据发送方的地址（一般使用提供的默认值）</span></span></span><br><span class="line"><span class="function"><span class="comment">//port:      数据发送方的端口号（一般使用提供的默认值）</span></span></span><br></pre></td></tr></table></figure>
+
+<p>使用<strong>pendingDatagramSize()可以获取到将要接收的数据的大小</strong>，根据该函数返回值来准备对应大小的内存空间存放将要接收的数据。</p>
+<ul>
+<li><strong>发送数据: 使用writeDatagram()函数</strong></li>
+<li>发送数据函数声明如下：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">qint64 <span class="title">writeDatagram</span><span class="params">(<span class="keyword">const</span> QByteArray &amp; datagram,<span class="keyword">const</span> QHostAddress &amp; host, quint16 port)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// datagram： 要发送的字符串</span></span></span><br><span class="line"><span class="function"><span class="comment">// host：     数据接收方的地址</span></span></span><br><span class="line"><span class="function"><span class="comment">// port：     数据接收方的端口号</span></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-2UDP通信代码实现"><a href="#2-2-2UDP通信代码实现" class="headerlink" title="2.2.2UDP通信代码实现"></a>2.2.2UDP通信代码实现</h3><p>在UDP通信中，服务器和客服端基本没什么区别，在这里进行局域网广播的方式进行自己发数据，自己接受数据</p>
+<p><img src="https://gitee.com/hyw-zero/blogimage/raw/master/img/udp.png" alt="udp"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/*---------- udpwidget.h-----------*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> UDPWIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UDPWIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QWidget&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QUdpSocket&gt;</span></span></span><br><span class="line"><span class="keyword">namespace</span> Ui &#123;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">UDPWidget</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UDPWidget</span> :</span> <span class="keyword">public</span> QWidget</span><br><span class="line">&#123;</span><br><span class="line">  Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">UDPWidget</span><span class="params">(QWidget *parent = <span class="number">0</span>)</span></span>;</span><br><span class="line">  ~<span class="built_in">UDPWidget</span>();</span><br><span class="line"><span class="keyword">private</span> slots:</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">on_sendButton_clicked</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  Ui::UDPWidget *ui;</span><br><span class="line">  QUdpSocket * udpsocket;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// UDPWIDGET_H</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/*---------- udpwidget.c-----------*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;udpwidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ui_udpwidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QHostAddress&gt;</span></span></span><br><span class="line">UDPWidget::<span class="built_in">UDPWidget</span>(QWidget *parent) :</span><br><span class="line">  <span class="built_in">QWidget</span>(parent),</span><br><span class="line">  <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::UDPWidget)</span><br><span class="line">&#123;</span><br><span class="line">  ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line">  <span class="built_in">setWindowTitle</span>(<span class="string">&quot;UDP通信端口:8888&quot;</span>);</span><br><span class="line">  udpsocket = <span class="keyword">new</span> <span class="built_in">QUdpSocket</span>(<span class="keyword">this</span>);   <span class="comment">//1.创建套接字</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> 0    <span class="comment">//加入组播</span></span></span><br><span class="line">  udpsocket-&gt;<span class="built_in">joinMulticastGroup</span>(<span class="built_in">QHostAddress</span>(<span class="string">&quot;224.0.0.1&quot;</span>));</span><br><span class="line">  udpsocket-&gt;<span class="built_in">bind</span>(QHostAddress::AnyIPv4,<span class="number">8888</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> 0  <span class="comment">//离开组播</span></span></span><br><span class="line">  udpsocket-&gt;<span class="built_in">leaveMulticastGroup</span>(<span class="built_in">QHostAddress</span>(<span class="string">&quot;224.0.0.1&quot;</span>));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    udpsocket-&gt;<span class="built_in">bind</span>(<span class="number">8888</span>);            <span class="comment">//2.将套接字绑定到指定端口上   </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  <span class="built_in">connect</span>(udpsocket,&amp;QUdpSocket::readyRead, <span class="comment">//3.接收数据</span></span><br><span class="line">          [=]()</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="keyword">char</span>  buff[<span class="number">1024</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">            QHostAddress ip;</span><br><span class="line">            quint16 port;</span><br><span class="line">            qint64 len = udpsocket-&gt;<span class="built_in">readDatagram</span>(buff,<span class="built_in"><span class="keyword">sizeof</span></span>(buff),&amp;ip,&amp;port);</span><br><span class="line">            <span class="keyword">if</span>(len&gt;<span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">              QString str = <span class="built_in">QString</span>(<span class="string">&quot;[%1:%2\t%3]&quot;</span>)</span><br><span class="line">                                    .<span class="built_in">arg</span>(ip.<span class="built_in">toString</span>())</span><br><span class="line">                                    .<span class="built_in">arg</span>(port)</span><br><span class="line">                                    .<span class="built_in">arg</span>(buff);</span><br><span class="line">              ui-&gt;textEdit-&gt;<span class="built_in">append</span>(<span class="string">&quot;&#123;receive:&#125;&quot;</span>+str+<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UDPWidget::on_sendButton_clicked</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    QString ip = ui-&gt;ip-&gt;<span class="built_in">text</span>();               <span class="comment">//获取ip</span></span><br><span class="line">    quint16 port = ui-&gt;port-&gt;<span class="built_in">text</span>().<span class="built_in">toInt</span>();   <span class="comment">//获取端口</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">NULL</span> == ip)</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    QString str = ui-&gt;textEdit-&gt;<span class="built_in">toPlainText</span>();</span><br><span class="line">    udpsocket-&gt;<span class="built_in">writeDatagram</span>(str.<span class="built_in">toUtf8</span>(),<span class="built_in">QHostAddress</span>(ip),port);<span class="comment">//3.发送数据</span></span><br><span class="line">&#125;</span><br><span class="line">UDPWidget::~<span class="built_in">UDPWidget</span>()</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-3-广播"><a href="#2-2-3-广播" class="headerlink" title="2.2.3 广播"></a>2.2.3 广播</h3><p>​         在使用QUdpSocket类的writeDatagram()函数发送数据的时候，其中第二个参数host应该指定为广播地址：QHostAddress：：Broadcast此设置相当于QHostAddress(“255.255.255.255”)</p>
+<p><strong>使用UDP广播的的特点：</strong></p>
+<ul>
+<li>使用UDP进行广播，局域网内的其他的UDP用户全部可以收到广播的消息</li>
+</ul>
+<ul>
+<li>UDP广播只能在局域网范围内使用</li>
+</ul>
+<h3 id="2-2-4组播"><a href="#2-2-4组播" class="headerlink" title="2.2.4组播"></a>2.2.4组播</h3><p>​        我们再使用广播发送消息的时候会发送给所有用户，但是有些用户是不想接受消息的，这时候我们就应该使用组播，接收方只有先注册到组播地址中才能收到组播消息，否则则接受不到消息。另外组播是可以在Internet中使用的。</p>
+<p>在使用QUdpSocket类的writeDatagram()函数发送数据的时候，其中第二个参数host应该指定为组播地址，关于组播地址的分类：</p>
+<ul>
+<li><p>224.0.0.0～224.0.0.255为预留的组播地址（永久组地址），地址224.0.0.0保留不做分配，其它地址供路由协议使用；</p>
+</li>
+<li><p>224.0.1.0～224.0.1.255是公用组播地址，可以用于Internet；</p>
+</li>
+<li><p>224.0.2.0～238.255.255.255为用户可用的组播地址（临时组地址），全网范围内有效；</p>
+</li>
+<li><p>239.0.0.0～239.255.255.255为本地管理组播地址，仅在特定的本地范围内有效。</p>
+</li>
+</ul>
+<p>注册加入到组播地址需要使用QUdpSocket类的成员函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span>  <span class="title">joinMulticastGroup</span><span class="params">(<span class="keyword">const</span> QHostAddress &amp; groupAddress)</span></span>;   <span class="comment">//加入组播</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span>  <span class="title">leaveMulticastGroup</span><span class="params">(<span class="keyword">const</span> QHostAddress &amp; groupAddress)</span></span>; <span class="comment">//离开组播</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-TCP-IP-和-UDP的区别"><a href="#2-3-TCP-IP-和-UDP的区别" class="headerlink" title="2.3 TCP/IP 和 UDP的区别"></a>2.3 TCP/IP 和 UDP的区别</h2><table>
+<thead>
+<tr>
+<th></th>
+<th><strong>TCP/IP</strong></th>
+<th><strong>UDP</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>是否连接</td>
+<td>面向连接</td>
+<td>无连接</td>
+</tr>
+<tr>
+<td>传输方式</td>
+<td>基于流</td>
+<td>基于数据报</td>
+</tr>
+<tr>
+<td>传输可靠性</td>
+<td>可靠</td>
+<td>不可靠</td>
+</tr>
+<tr>
+<td>传输效率</td>
+<td>效率低</td>
+<td>效率高</td>
+</tr>
+<tr>
+<td>能否广播</td>
+<td>不能</td>
+<td>能</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+	<div>
+		
+			<div>
+	
+		<div style="text-align:center;color: #ccc;font-size:16px;">---------------------------------------本文结束<i class="fa fa-paw"></i>感谢您的阅读---------------------------------------</div>
+	
+</div>
+		
+	</div>
+	<div>
+		
+			
+<div class="my_post_copyright">
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+<!-- JS库 sweetalert 可修改路径 -->
+<script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<p><span>本文标题:</span><a href="/2019/02/11/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8Bsocket%E9%80%9A%E4%BF%A1/">Qt学习笔记之socket通信</a></p>
+<!--
+<p><span>文章作者:</span><a href="/" title="访问  的个人博客"></a></p>
+-->
+<p><span>发布时间:</span>2019年02月10日 - 20:40</p>
+<p><span>最后更新:</span>2021年08月22日 - 09:52</p>
+<p><span>原始链接:</span><a href="/2019/02/11/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8Bsocket%E9%80%9A%E4%BF%A1/" title="Qt学习笔记之socket通信">https://hyw-zero.github.io/2019/02/11/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8Bsocket%E9%80%9A%E4%BF%A1/</a>
+<span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://hyw-zero.github.io/2019/02/11/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8Bsocket%E9%80%9A%E4%BF%A1/" aria-label="复制成功！"></i></span>
+</p>
+<p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+var clipboard = new Clipboard('.fa-clipboard');
+$(".fa-clipboard").click(function(){
+clipboard.on('success', function(){
+swal({
+title: "",
+text: '复制成功',
+icon: "success",
+showConfirmButton: true
+});
+});
+});
+</script>
+
+		
+	</div>
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wx.png" alt="hyw-zero 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="hyw-zero 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i>C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/02/07/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AA%97%E5%8F%A3%E7%B3%BB%E7%BB%9F/" rel="prev" title="Qt学习笔记之窗口系统">
+                  <i class="fa fa-chevron-left"></i> Qt学习笔记之窗口系统
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/03/16/vim%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/" rel="next" title="vim常用快捷键">
+                  vim常用快捷键 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MzU4NC8yMDEyMw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hyw-zero</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+<div class="theme-info">
+	<i class="fa fa-edit" style="font-size:18px"></i>
+	<span class="post-count">博客全站共98.2k字</span>
+</div>
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script class="next-config" data-name="nprogress" type="application/json">{"enable":true,"spinner":true}</script>
+  <script src="/js/third-party/nprogress.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+</body>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+</html>
+

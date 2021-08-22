@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#fff">
+<meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#fff">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CDejaVu+Sans+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css" integrity="sha256-no0c5ccDODBwp+9hSmV5VvPpKwHCpbVzXHexIkupM6U=" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js" integrity="sha256-a5YRB27CcBwBFcT5EF/f3E4vzIqyHrSR878nseNYw64=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hyw-zero.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":10,"offset":12,"scrollpercent":false,"onmobile":false},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="1. 多线程通常情况下，应用程序都是在一个线程中执行操作。 但是，当调用一个耗时操作（例如，大批量I&#x2F;O或大量矩阵变换等CPU密集操作）时，用户界面常常会冻结。而使用多线程可以解决这一问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt 学习笔记之多线程">
+<meta property="og:url" content="https://hyw-zero.github.io/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:site_name" content="ZERO">
+<meta property="og:description" content="1. 多线程通常情况下，应用程序都是在一个线程中执行操作。 但是，当调用一个耗时操作（例如，大批量I&#x2F;O或大量矩阵变换等CPU密集操作）时，用户界面常常会冻结。而使用多线程可以解决这一问题。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/hyw-zero/blogimage/raw/master/img/timer.png">
+<meta property="og:image" content="https://gitee.com/hyw-zero/blogimage/raw/master/img/paint.png">
+<meta property="article:published_time" content="2019-02-05T22:10:30.000Z">
+<meta property="article:modified_time" content="2021-08-22T09:52:29.680Z">
+<meta property="article:author" content="hyw-zero">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/hyw-zero/blogimage/raw/master/img/timer.png">
+
+
+<link rel="canonical" href="https://hyw-zero.github.io/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hyw-zero.github.io/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B/","path":"2019/02/06/Qt学习笔记之多线程/","title":"Qt 学习笔记之多线程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Qt 学习笔记之多线程 | ZERO</title>
+  
+
+
+
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ZERO" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">ZERO</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep  learning, be  curious !</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-text">1. 多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E7%BA%BF%E7%A8%8B%E4%BB%8B%E7%BB%8D"><span class="nav-text">1.1 线程介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-text">1.2 多线程的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E7%BB%98%E5%9B%BE"><span class="nav-text">1.3 使用线程绘图</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+            <div class="site-overview">
+              <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hyw-zero"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">hyw-zero</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:hyw33666@gmail.com" title="E-Mail → mailto:hyw33666@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/hyw-zero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hyw-zero" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      推荐阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://c.biancheng.net/cplus/" title="http:&#x2F;&#x2F;c.biancheng.net&#x2F;cplus&#x2F;" rel="noopener" target="_blank">c语言中文网</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/chenshuo/documents/downloads" title="https:&#x2F;&#x2F;github.com&#x2F;chenshuo&#x2F;documents&#x2F;downloads" rel="noopener" target="_blank">Linux多线程服务端</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/SilverMaple/STLSourceCodeNote" title="https:&#x2F;&#x2F;github.com&#x2F;SilverMaple&#x2F;STLSourceCodeNote" rel="noopener" target="_blank">STL源码剖析</a>
+        </li>
+    </ul>
+  </div>
+<div class="cc-license animated" itemprop="sponsor">
+  <a href="https://www.netlify.com" class="cc-opacity" title="Deploy with Netlify → https://www.netlify.com" target="_blank"><img width="80" src="https://www.netlify.com/img/global/badges/netlify-dark.svg" alt="Netlify"></a>
+</div>
+            </div>
+        </div>
+	    </div>
+	  
+
+    </div>
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=300 src="//music.163.com/outchain/player?type=0&id=411680085&auto=1&height=430"></iframe>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hyw-zero.github.io/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hyw-zero">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZERO">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Qt 学习笔记之多线程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-02-05 22:10:30" itemprop="dateCreated datePublished" datetime="2019-02-05T22:10:30Z">2019-02-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="1-多线程"><a href="#1-多线程" class="headerlink" title="1. 多线程"></a>1. 多线程</h1><p>通常情况下，应用程序都是在一个线程中执行操作。 但是，当调用一个耗时操作（例如，大批量I/O或大量矩阵变换等CPU密集操作）时，用户界面常常会冻结。而使用多线程可以解决这一问题。</p>
+<span id="more"></span> 
+
+<p>多线程有以下几个优势：</p>
+<ol>
+<li><p><strong>提高应用程序响应速度。</strong></p>
+<p>这对于图形界面开发的程序尤为重要，当一个操作耗时很长时，整个系统都会等待这个操作，程序就不能响应键盘、鼠标、菜单等操作，而使用多线程技术可将耗时长的操作置于一个新的线程，避免以上问题。</p>
+</li>
+<li><p><strong>使多CPU系统更加有效。</strong></p>
+<p>当前线程数不大于CPU数目时，操作系统可以调度不同的线程运行于不同的CPU上。</p>
+</li>
+<li><p><strong>改善程序结构。</strong></p>
+<p>一个既长又复杂的进程可以考虑分为多个线程，成为独立或半独立的运行部分，这样有利于代码的理解和维护。</p>
+</li>
+</ol>
+<p>多线程程序有以下几个特点：</p>
+<ul>
+<li>多线程程序的行为无法预期，当多次执行程序时，每一次的结果都可能不同。</li>
+<li>多线程的执行顺序无法保证，它与操作系统的调度策略和线程优先级等因素有关。</li>
+<li>多线程的切换可能发生在任何时刻、任何地点。</li>
+<li>多线程对代码的敏感度高，对代码的细微修改都可能产生意想不到的结果。</li>
+</ul>
+<p>基于以上这些特点，为了有效的使用线程，开发人员必须对其进行控制。</p>
+<h2 id="1-1-线程介绍"><a href="#1-1-线程介绍" class="headerlink" title="1.1 线程介绍"></a>1.1 线程介绍</h2><p>在Qt中使用QThread 来管理线程。下面来看一个简单的例子:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">MainWindow::<span class="built_in">MainWindow</span>(QWidget *parent)</span><br><span class="line">  : <span class="built_in">QMainWindow</span>(parent)</span><br><span class="line">&#123;</span><br><span class="line">  QWidget *widget = <span class="keyword">new</span> <span class="built_in">QWidget</span>(<span class="keyword">this</span>);</span><br><span class="line">  QVBoxLayout *layout = <span class="keyword">new</span> QVBoxLayout;</span><br><span class="line">  widget-&gt;<span class="built_in">setLayout</span>(layout);</span><br><span class="line">  QLCDNumber *lcdNu<span class="comment">///mber = new QLCDNumber(this);</span></span><br><span class="line">  layout-&gt;<span class="built_in">addWidget</span>(lcdNumber);</span><br><span class="line">  QPushButton *button = <span class="keyword">new</span> <span class="built_in">QPushButton</span>(<span class="built_in">tr</span>(<span class="string">&quot;Start&quot;</span>), <span class="keyword">this</span>);</span><br><span class="line">  layout-&gt;<span class="built_in">addWidget</span>(button);</span><br><span class="line">  <span class="built_in">setCentralWidget</span>(widget);</span><br><span class="line">  QTimer *timer = <span class="keyword">new</span> <span class="built_in">QTimer</span>(<span class="keyword">this</span>);</span><br><span class="line">  <span class="built_in">connect</span>(timer, &amp;QTimer::timeout, </span><br><span class="line">          [=]() </span><br><span class="line">          &#123;</span><br><span class="line">               <span class="keyword">static</span> <span class="keyword">int</span> sec = <span class="number">0</span>;</span><br><span class="line">               lcdNumber-&gt;<span class="built_in">display</span>(QString::<span class="built_in">number</span>(sec++));</span><br><span class="line">  		  &#125;</span><br><span class="line">  );</span><br><span class="line">  <span class="built_in">connect</span>(button, &amp;QPushButton::clicked, </span><br><span class="line">          [=]() </span><br><span class="line">          &#123;</span><br><span class="line">              timer-&gt;<span class="built_in">start</span>(<span class="number">1</span>);</span><br><span class="line">              <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2000000000</span>; i++);</span><br><span class="line">              timer-&gt;<span class="built_in">stop</span>();</span><br><span class="line">          &#125;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们的主界面有一个用于显示时间的 LCD 数字面板还有一个用于启动任务的按钮。程序的目的是用户点击按钮，开始一个非常耗时的运算（程序中我们以一个 2000000000 次的循环来替代这个非常耗时的工作，在真实的程序中，这可能是一个网络访问，可能是需要复制一个很大的文件或者其它任务），同时 LCD 开始显示逝去的毫秒数。毫秒数通过一个计时器QTimer进行更新。计算完成后，计时器停止。这是一个很简单的应用，也看不出有任何问题。但是当我们开始运行程序时，问题就来了：点击按钮之后，程序界面直接停止响应，直到循环结束才开始重新更新。</p>
+<p>有经验的开发者立即指出，这里需要使用线程。这是因为 Qt 中所有界面都是在 UI 线程中（也被称为主线程，就是执行了QApplication::exec()的线程），在这个线程中执行耗时的操作（比如那个循环），就会阻塞 UI 线程，从而让界面停止响应。界面停止响应，用户体验自然不好，不过更严重的是，有些窗口管理程序会检测到你的程序已经失去响应，可能会建议用户强制停止程序，这样一来你的程序可能就此终止，任务再也无法完成。所以，为了避免这一问题，我们要使用 QThread 开启一个新的线程：</p>
+<p><img src="https://gitee.com/hyw-zero/blogimage/raw/master/img/timer.png" alt="timer"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/******************* mythread.hpp *******************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QThread&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">mythread</span> :</span> <span class="keyword">public</span> QThread</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">mythread</span><span class="params">(QObject *parent = <span class="number">0</span>)</span></span>;</span><br><span class="line">signals:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">isDone</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span>  <span class="comment">//QThread的虚函数,线程处理函数不能直接调用，通过 start（）间接调用</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">sleep</span>(<span class="number">5</span>);</span><br><span class="line">    	<span class="function">emit <span class="title">isDone</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/******************* widget.cpp *******************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ui_widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QThread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line">Widget::<span class="built_in">Widget</span>(QWidget *parent) :</span><br><span class="line">    <span class="built_in">QWidget</span>(parent),</span><br><span class="line">    <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::Widget)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line">    timer = <span class="keyword">new</span> <span class="built_in">QTimer</span>(<span class="keyword">this</span>);</span><br><span class="line">    thread = <span class="keyword">new</span> <span class="built_in">mythread</span>(<span class="keyword">this</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> 1</span></span><br><span class="line">    <span class="built_in">connect</span>(thread,&amp;mythread::isDone,<span class="keyword">this</span>,&amp;Widget::timerstop);</span><br><span class="line">    <span class="built_in">connect</span>(timer,&amp;QTimer::timeout,<span class="keyword">this</span>,&amp;Widget::ledshow);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    <span class="built_in">connect</span>(thread,&amp;mythread::isDone,  <span class="comment">//使用lambda表达式会出现以下提示</span></span><br><span class="line">           							   <span class="comment">//Timers cannot be stopped from another thread</span></span><br><span class="line">            [=]()</span><br><span class="line">            &#123;</span><br><span class="line">               timer-&gt;<span class="built_in">stop</span>();</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    <span class="built_in">connect</span>(timer,&amp;QTimer::timeout,</span><br><span class="line">            [=]()</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">static</span> <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">                i++;</span><br><span class="line">                ui-&gt;lcdNumber-&gt;<span class="built_in">display</span>(i);</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">     <span class="built_in">connect</span>(<span class="keyword">this</span>,&amp;Widget::destroyed,<span class="keyword">this</span>,&amp;Widget::threadclose);<span class="comment">//线程关闭函数</span></span><br><span class="line">&#125;</span><br><span class="line">Widget::~<span class="built_in">Widget</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::on_pushButton_clicked</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!timer-&gt;<span class="built_in">isActive</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        timer-&gt;<span class="built_in">start</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    thread-&gt;<span class="built_in">start</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::ledshow</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    i++;</span><br><span class="line">    ui-&gt;lcdNumber-&gt;<span class="built_in">display</span>(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::timerstop</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> timer-&gt;<span class="built_in">stop</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::threadclose</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    thread-&gt;<span class="built_in">quit</span>();</span><br><span class="line">    thread-&gt;<span class="built_in">wait</span>();</span><br><span class="line">    <span class="built_in">qDebug</span>()&lt;&lt;<span class="string">&quot;Thread close&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/******************* widget.h *******************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> WIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> WIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QWidget&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QTimer&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;mythread.hpp&quot;</span></span></span><br><span class="line"><span class="keyword">namespace</span> Ui &#123;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Widget</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Widget</span> :</span> <span class="keyword">public</span> QWidget</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Widget</span><span class="params">(QWidget *parent = <span class="number">0</span>)</span></span>;</span><br><span class="line">    ~<span class="built_in">Widget</span>();</span><br><span class="line"><span class="keyword">private</span> slots:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">on_pushButton_clicked</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">ledshow</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">timerstop</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">threadclose</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">private</span>:</span></span><br><span class="line"><span class="function">    Ui::Widget *ui;</span></span><br><span class="line">    QTimer * timer;</span><br><span class="line">    mythread * thread;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// WIDGET_H</span></span></span><br></pre></td></tr></table></figure>
+
+<p>注意，我们增加了一个mythread类。mythread继承自QThread类，重写了其run()函数。我们可以认为，<strong>run()函数就是新的线程需要执行的代码</strong>。在这里就是要执行这个循环，然后发出计算完成的信号。<strong>run()是线程的入口，就像main()对于应用程序的作用，使用QThread::start()函数启动一个线程</strong>（注意，这里不是run()函数）。再次运行程序，你会发现现在界面已经不会被阻塞了。<br>这是 Qt 线程的最基本的使用方式之一（确切的说，这种方式已经不大推荐使用，不过因为看起来很清晰，而且简单使用起来也没有什么问题，所以还是有必要介绍）。代码看起来很简单，不过，如果你认为 Qt 的多线程编程也很简单，那就大错特错了。Qt 多线程的优势设计使得它使用起来变得容易，但是坑很多，稍不留神就会被绊住，尤其是涉及到与 QObject 交互的情况。稍懂多线程开发的童鞋都会知道，调试多线程开发简直就是煎熬。</p>
+<h2 id="1-2-多线程的使用"><a href="#1-2-多线程的使用" class="headerlink" title="1.2 多线程的使用"></a>1.2 多线程的使用</h2><p>在Qt4.7及以后版本推荐使用以下的工作方式。其主要特点就是利用Qt的事件驱动特性，将<strong>需要在次线程中处理的业务放在独立的模块（类）中，由主线程创建完该对象后，将其移交给指定的线程，且可以将多个类似的对象移交给同一个线程。</strong>在这个例子中，信号由主线程的QTimer对象发出，之后Qt会将关联的事件放到worker所属线程的事件队列。由于队列连接的作用，在不同线程间连接信号和槽是很安全的。</p>
+<p>示例代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Worker</span> :</span> <span class="keyword">public</span> QObject</span><br><span class="line">&#123;</span><br><span class="line">  Q_OBJECT</span><br><span class="line"><span class="keyword">private</span> slots:</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">onTimeout</span><span class="params">()</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">  <span class="built_in">qDebug</span>()&lt;&lt;<span class="string">&quot;Worker::onTimeout get called from?:&quot;</span>&lt;&lt;QThread::<span class="built_in">currentThreadId</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function">QApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line">  <span class="built_in">qDebug</span>()&lt;&lt;<span class="string">&quot;From main thread: &quot;</span>&lt;&lt;QThread::<span class="built_in">currentThreadId</span>();</span><br><span class="line">  QThread t;</span><br><span class="line">  QTimer timer;</span><br><span class="line">  Worker worker;</span><br><span class="line">  QObject::<span class="built_in">connect</span>(&amp;timer, <span class="built_in">SIGNAL</span>(<span class="built_in">timeout</span>()), &amp;worker, <span class="built_in">SLOT</span>(<span class="built_in">onTimeout</span>()));</span><br><span class="line">  <span class="comment">// 启动定时器</span></span><br><span class="line">  timer.<span class="built_in">start</span>(<span class="number">1000</span>);</span><br><span class="line">  <span class="comment">// 将类对象移交个线程</span></span><br><span class="line">  worker.<span class="built_in">moveToThread</span>(&amp;t);</span><br><span class="line">  <span class="comment">// 启动线程</span></span><br><span class="line">  t.<span class="built_in">start</span>();</span><br><span class="line">  <span class="keyword">return</span> a.<span class="built_in">exec</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>关于Qobject类的connect函数最后一个参数（connect的第五个参数）⭐⭐</strong></p>
+<p>连接类型：</p>
+<ol>
+<li><p><strong>自动连接(AutoConnection)，默认的连接方式。</strong></p>
+<ul>
+<li><p> 如果信号与槽，也就是发送者与接受者在同一线程，等同于直接连接；</p>
+</li>
+<li><p> 如果发送者与接受者处在不同线程，等同于队列连接。</p>
+</li>
+</ul>
+</li>
+<li><p> <strong>直接连接(DirectConnection)</strong></p>
+</li>
+</ol>
+<p>   当信号发射时，槽函数立即直接调用。<strong>无论槽函数所属对象在哪个线程，槽函数总在发送者所在线程执行。</strong></p>
+<ol start="3">
+<li><p><strong>队列连接(QueuedConnection)</strong></p>
+<p>当控制权回到接受者所在线程的事件循环时，槽函数被调用。<strong>槽函数在接受者所在线程执行。</strong></p>
+</li>
+</ol>
+<blockquote>
+<p><strong>总结：</strong></p>
+<p><strong>队列连接：槽函数在接受者所在线程执行</strong>。</p>
+<p><strong>直接连接：槽函数在发送者所在线程执行</strong>。</p>
+<p><strong>自动连接：二者不在同一线程时，等同于队列连接</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>多线程使用过程中注意事项：</strong></p>
+<ul>
+<li> <strong>线程不能操作UI对象（从Qwidget直接或间接派生的窗口对象）</strong></li>
+</ul>
+<ul>
+<li><strong>需要移动到子线程中处理的模块类，创建的对象的时候不能指定父对象。</strong></li>
+</ul>
+</blockquote>
+<h2 id="1-3-使用线程绘图"><a href="#1-3-使用线程绘图" class="headerlink" title="1.3 使用线程绘图"></a>1.3 使用线程绘图</h2><p>根据前面讲过的知识,实现以下案例:</p>
+<p>在窗口中有一个按钮,当点击按钮之后,在线程中绘制一张图片,然后将绘制好的图片显示到当前窗口中。</p>
+<p><img src="https://gitee.com/hyw-zero/blogimage/raw/master/img/paint.png" alt="paint"></p>
+<p>实现步骤：</p>
+<p>将需要画图线程中的操作放入单独的一个类中去处理：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/******************* MyThread.h *******************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> MYTHREAD_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MYTHREAD_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QObject&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QImage&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QPainter&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> :</span> <span class="keyword">public</span> QObject</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">MyThread</span><span class="params">(QObject *parent = <span class="number">0</span>)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">drawing</span><span class="params">()</span></span>; <span class="comment">//线程处理函数</span></span><br><span class="line"></span><br><span class="line">signals:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">updateimg</span><span class="params">(QImage)</span></span>;<span class="comment">//更新绘图信号</span></span><br><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// MYTHREAD_H</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/******************* MyThread.cpp *******************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;mythread.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QPen&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QBrush&gt;</span></span></span><br><span class="line">MyThread::<span class="built_in">MyThread</span>(QObject *parent) : <span class="built_in">QObject</span>(parent)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MyThread::drawing</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//定义QImage绘图设备;</span></span><br><span class="line">    <span class="function">QImage <span class="title">image</span><span class="params">(<span class="number">600</span>,<span class="number">600</span>,QImage::Format_ARGB32)</span></span>;</span><br><span class="line">    <span class="comment">//定义画家</span></span><br><span class="line">    <span class="function">QPainter  <span class="title">p</span><span class="params">(&amp;image)</span></span>;</span><br><span class="line">    <span class="comment">//定义画笔</span></span><br><span class="line">    QPen pen;</span><br><span class="line">    pen.<span class="built_in">setWidth</span>(<span class="number">5</span>); <span class="comment">//画笔宽度；</span></span><br><span class="line">    p.<span class="built_in">setPen</span>(pen);  <span class="comment">//画笔交给画家</span></span><br><span class="line"></span><br><span class="line">    QBrush brush;</span><br><span class="line">    brush.<span class="built_in">setStyle</span>(Qt::Dense2Pattern);</span><br><span class="line">    brush.<span class="built_in">setColor</span>(Qt::blue);</span><br><span class="line">    p.<span class="built_in">setBrush</span>(brush);</span><br><span class="line">    <span class="comment">//定义5个点</span></span><br><span class="line">    QPoint a[]=</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">QPoint</span>(<span class="built_in">qrand</span>()%<span class="number">500</span>,<span class="built_in">qrand</span>()%<span class="number">500</span>),</span><br><span class="line">        <span class="built_in">QPoint</span>(<span class="built_in">qrand</span>()%<span class="number">500</span>,<span class="built_in">qrand</span>()%<span class="number">500</span>),</span><br><span class="line">        <span class="built_in">QPoint</span>(<span class="built_in">qrand</span>()%<span class="number">500</span>,<span class="built_in">qrand</span>()%<span class="number">500</span>),</span><br><span class="line">        <span class="built_in">QPoint</span>(<span class="built_in">qrand</span>()%<span class="number">500</span>,<span class="built_in">qrand</span>()%<span class="number">500</span>),</span><br><span class="line">        <span class="built_in">QPoint</span>(<span class="built_in">qrand</span>()%<span class="number">500</span>,<span class="built_in">qrand</span>()%<span class="number">500</span>)</span><br><span class="line">    &#125;;</span><br><span class="line">    p.<span class="built_in">drawPolygon</span>(a,<span class="number">5</span>);</span><br><span class="line">    <span class="function">emit <span class="title">updateimg</span><span class="params">(image)</span></span>;<span class="comment">//发送绘图完成信号</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在UI线程中(主线程)中创建Work类对象, 并调用moveToThread函数将操作移入到子线程中取处理.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/******************* widget.h *******************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> WIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> WIDGET_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QWidget&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QThread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;mythread.h&quot;</span></span></span><br><span class="line"><span class="keyword">namespace</span> Ui &#123;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Widget</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Widget</span> :</span> <span class="keyword">public</span> QWidget</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Widget</span><span class="params">(QWidget *parent = <span class="number">0</span>)</span></span>;</span><br><span class="line">    ~<span class="built_in">Widget</span>();</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">paintEvent</span><span class="params">(QPaintEvent *event)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">getimage</span><span class="params">(QImage )</span></span>; <span class="comment">//槽函数</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">threadclose</span><span class="params">()</span></span>;<span class="comment">//线程关闭槽函数</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Ui::Widget *ui;</span><br><span class="line">    QImage image;</span><br><span class="line">    MyThread * mythread; <span class="comment">//自定义线程</span></span><br><span class="line">    QThread * thread;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// WIDGET_H</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/******************* widget.cpp *******************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ui_widget.h&quot;</span></span></span><br><span class="line">Widget::<span class="built_in">Widget</span>(QWidget *parent) :</span><br><span class="line">    <span class="built_in">QWidget</span>(parent),</span><br><span class="line">    <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::Widget)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">//自定义类对象，分配空间，不可以指定父对象</span></span><br><span class="line">    mythread = <span class="keyword">new</span> MyThread;</span><br><span class="line">    <span class="comment">//创建子线程</span></span><br><span class="line">    thread = <span class="keyword">new</span> <span class="built_in">QThread</span>(<span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">//把子线程添加到线程中</span></span><br><span class="line">    mythread-&gt;<span class="built_in">moveToThread</span>(thread);</span><br><span class="line">    <span class="comment">//启动子线程，未启动线程处理函数</span></span><br><span class="line">    thread-&gt;<span class="built_in">start</span>();</span><br><span class="line">    <span class="comment">//线程处理函数必须通过single slot调用</span></span><br><span class="line">    <span class="built_in">connect</span>(ui-&gt;pushButton,&amp;QPushButton::clicked,mythread,&amp;MyThread::drawing);<span class="comment">//按钮点击触发绘图线程</span></span><br><span class="line">    <span class="built_in">connect</span>(mythread,&amp;MyThread::updateimg,<span class="keyword">this</span>,&amp;Widget::getimage); <span class="comment">//加载绘图线程结果</span></span><br><span class="line">    <span class="built_in">connect</span>(<span class="keyword">this</span>,&amp;Widget::destroyed,<span class="keyword">this</span>,&amp;Widget::threadclose); <span class="comment">//线程销毁</span></span><br><span class="line">&#125;</span><br><span class="line">Widget::~<span class="built_in">Widget</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::paintEvent</span><span class="params">(QPaintEvent *event)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QPainter <span class="title">p</span><span class="params">(<span class="keyword">this</span>)</span></span>; <span class="comment">//创建画家，指定画图设备为窗口</span></span><br><span class="line">    p.<span class="built_in">drawImage</span>(<span class="number">20</span>,<span class="number">20</span>,image);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::getimage</span><span class="params">(QImage temp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    image = temp;</span><br><span class="line">    <span class="built_in">update</span>();<span class="comment">//更新窗口，间接调用paintEvent</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::threadclose</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//退出子线程</span></span><br><span class="line">    thread-&gt;<span class="built_in">quit</span>();</span><br><span class="line">    <span class="comment">//回收资源</span></span><br><span class="line">    thread-&gt;<span class="built_in">wait</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果需要在窗口中绘制图形,那么就需要重写paintEvent事件处理函数。通过QPainter对象将子线程中绘制的图片画到当前窗口中。如果需要刷新窗口可以调用update（）函数，时间处理器会自动被调用。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::paintEvent</span><span class="params">(QPaintEvent *event)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QPainter <span class="title">p</span><span class="params">(<span class="keyword">this</span>)</span></span>; <span class="comment">//创建画家，指定画图设备为窗口</span></span><br><span class="line">    p.<span class="built_in">drawImage</span>(<span class="number">20</span>,<span class="number">20</span>,image);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+	<div>
+		
+			<div>
+	
+		<div style="text-align:center;color: #ccc;font-size:16px;">---------------------------------------本文结束<i class="fa fa-paw"></i>感谢您的阅读---------------------------------------</div>
+	
+</div>
+		
+	</div>
+	<div>
+		
+			
+<div class="my_post_copyright">
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+<!-- JS库 sweetalert 可修改路径 -->
+<script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<p><span>本文标题:</span><a href="/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Qt 学习笔记之多线程</a></p>
+<!--
+<p><span>文章作者:</span><a href="/" title="访问  的个人博客"></a></p>
+-->
+<p><span>发布时间:</span>2019年02月05日 - 22:10</p>
+<p><span>最后更新:</span>2021年08月22日 - 09:52</p>
+<p><span>原始链接:</span><a href="/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="Qt 学习笔记之多线程">https://hyw-zero.github.io/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B/</a>
+<span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://hyw-zero.github.io/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B/" aria-label="复制成功！"></i></span>
+</p>
+<p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+var clipboard = new Clipboard('.fa-clipboard');
+$(".fa-clipboard").click(function(){
+clipboard.on('success', function(){
+swal({
+title: "",
+text: '复制成功',
+icon: "success",
+showConfirmButton: true
+});
+});
+});
+</script>
+
+		
+	</div>
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wx.png" alt="hyw-zero 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="hyw-zero 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i>C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" rel="prev" title="Qt学习笔记之数据库操作">
+                  <i class="fa fa-chevron-left"></i> Qt学习笔记之数据库操作
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/02/07/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AA%97%E5%8F%A3%E7%B3%BB%E7%BB%9F/" rel="next" title="Qt学习笔记之窗口系统">
+                  Qt学习笔记之窗口系统 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MzU4NC8yMDEyMw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hyw-zero</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+<div class="theme-info">
+	<i class="fa fa-edit" style="font-size:18px"></i>
+	<span class="post-count">博客全站共98.2k字</span>
+</div>
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script class="next-config" data-name="nprogress" type="application/json">{"enable":true,"spinner":true}</script>
+  <script src="/js/third-party/nprogress.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+</body>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+</html>
+

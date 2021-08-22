@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#fff">
+<meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#fff">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CDejaVu+Sans+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css" integrity="sha256-no0c5ccDODBwp+9hSmV5VvPpKwHCpbVzXHexIkupM6U=" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js" integrity="sha256-a5YRB27CcBwBFcT5EF/f3E4vzIqyHrSR878nseNYw64=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hyw-zero.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":10,"offset":12,"scrollpercent":false,"onmobile":false},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="1 数据库操作Qt 使用QSqlDatabase表示一个数据库连接。更底层上，Qt 使用驱动（drivers）来与不同的数据库 API 进行交互。Qt 桌面版本提供了如下几种驱动：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt学习笔记之数据库操作">
+<meta property="og:url" content="https://hyw-zero.github.io/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="ZERO">
+<meta property="og:description" content="1 数据库操作Qt 使用QSqlDatabase表示一个数据库连接。更底层上，Qt 使用驱动（drivers）来与不同的数据库 API 进行交互。Qt 桌面版本提供了如下几种驱动：">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-02-05T22:10:30.000Z">
+<meta property="article:modified_time" content="2021-08-22T09:52:04.224Z">
+<meta property="article:author" content="hyw-zero">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://hyw-zero.github.io/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hyw-zero.github.io/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/","path":"2019/02/06/Qt 学习笔记之数据库操作/","title":"Qt学习笔记之数据库操作"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Qt学习笔记之数据库操作 | ZERO</title>
+  
+
+
+
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ZERO" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">ZERO</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep  learning, be  curious !</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="nav-text">1 数据库操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E5%AE%9E%E4%BE%8B"><span class="nav-text">1.1实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%BD%BF%E7%94%A8%E6%A8%A1%E5%9E%8B%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-text">2 使用模型操作数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C"><span class="nav-text">2.1 查询操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C"><span class="nav-text">2.2 插入操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%9B%B4%E6%96%B0%E6%93%8D%E4%BD%9C"><span class="nav-text">2.3 更新操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C"><span class="nav-text">2.4 删除操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%8F%AF%E8%A7%86%E5%8C%96%E6%98%BE%E7%A4%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE"><span class="nav-text">3 可视化显示数据库数据</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+            <div class="site-overview">
+              <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hyw-zero"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">hyw-zero</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:hyw33666@gmail.com" title="E-Mail → mailto:hyw33666@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/hyw-zero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hyw-zero" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      推荐阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://c.biancheng.net/cplus/" title="http:&#x2F;&#x2F;c.biancheng.net&#x2F;cplus&#x2F;" rel="noopener" target="_blank">c语言中文网</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/chenshuo/documents/downloads" title="https:&#x2F;&#x2F;github.com&#x2F;chenshuo&#x2F;documents&#x2F;downloads" rel="noopener" target="_blank">Linux多线程服务端</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/SilverMaple/STLSourceCodeNote" title="https:&#x2F;&#x2F;github.com&#x2F;SilverMaple&#x2F;STLSourceCodeNote" rel="noopener" target="_blank">STL源码剖析</a>
+        </li>
+    </ul>
+  </div>
+<div class="cc-license animated" itemprop="sponsor">
+  <a href="https://www.netlify.com" class="cc-opacity" title="Deploy with Netlify → https://www.netlify.com" target="_blank"><img width="80" src="https://www.netlify.com/img/global/badges/netlify-dark.svg" alt="Netlify"></a>
+</div>
+            </div>
+        </div>
+	    </div>
+	  
+
+    </div>
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=300 src="//music.163.com/outchain/player?type=0&id=411680085&auto=1&height=430"></iframe>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hyw-zero.github.io/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="hyw-zero">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZERO">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Qt学习笔记之数据库操作
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-02-05 22:10:30" itemprop="dateCreated datePublished" datetime="2019-02-05T22:10:30Z">2019-02-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="1-数据库操作"><a href="#1-数据库操作" class="headerlink" title="1 数据库操作"></a>1 数据库操作</h2><p><strong>Qt</strong> <strong>使用QSqlDatabase表示一个数据库连接。</strong>更底层上，Qt 使用驱动（drivers）来与不同的数据库 API 进行交互。Qt 桌面版本提供了如下几种驱动：</p>
+<span id="more"></span>
+
+<table>
+<thead>
+<tr>
+<th>驱动</th>
+<th>数据库</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>QDB2</td>
+<td>IBM DB2 (7.1 或更新版本)</td>
+</tr>
+<tr>
+<td>QIBASE</td>
+<td>Borland InterBase</td>
+</tr>
+<tr>
+<td>QMYSQL</td>
+<td>MySQL</td>
+</tr>
+<tr>
+<td>QOCI</td>
+<td>Oracle Call Interface Driver</td>
+</tr>
+<tr>
+<td>QODBC</td>
+<td>Open Database Connectivity (ODBC) – Microsoft SQL Server 及其它兼容 ODBC 的数据库</td>
+</tr>
+<tr>
+<td>QPSQL</td>
+<td>PostgreSQL (7.3 或更新版本)</td>
+</tr>
+<tr>
+<td>QSQLITE2</td>
+<td>SQLite 2</td>
+</tr>
+<tr>
+<td>QSQLITE</td>
+<td>SQLite 3</td>
+</tr>
+<tr>
+<td>QSYMSQL</td>
+<td>针对 Symbian 平台的SQLite 3</td>
+</tr>
+<tr>
+<td>QTDS</td>
+<td>Sybase Adaptive Server (自  Qt 4.7 起废除)</td>
+</tr>
+</tbody></table>
+<p>Qt 只默认搭载 QSqlite 驱动（这个驱动实际还包括 Sqlite 数据库，也就是说，如果需要使用 Sqlite 的话，只需要该驱动即可）。我们可以选择把这些驱动作为 Qt 的一部分进行编译，也可以当作插件编译。</p>
+<p>如果习惯于使用 SQL 语句，我们可以选择QSqlQuery类；如果只需要使用高层次的数据库接口（不关心 SQL 语法），我们可以选择使用QsqlTableModel类。 </p>
+<p>在使用时，我们可以通过</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QSqlDatabase::<span class="built_in">drivers</span>();</span><br></pre></td></tr></table></figure>
+
+<p>找到系统中所有可用的数据库驱动的名字列表。我们只能使用出现在列表中的驱动。由于默认情况下，QtSql 是作为 Qt 的一个模块提供的。为了使用有关数据库的类，我们必须早 .pro 文件中添加这么一句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QT += sql</span><br></pre></td></tr></table></figure>
+
+<p>这表示，我们的程序需要使用 Qt 的 core、gui 以及 sql 三个模块。注意，如果需要同时使用 Qt4 和 Qt5 编译程序，通常我们的 .pro 文件是这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">QT += core gui sql</span><br><span class="line">greaterThan(QT_MAJOR_VERSION, 4): QT += widgets</span><br></pre></td></tr></table></figure>
+
+<p>这两句也很明确：Qt 需要加载 core、gui 和 sql 三个模块，如果主板本大于 4，则再添加 widgets 模块。</p>
+<p>下面来看一个简单的函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">connect</span><span class="params">(<span class="keyword">const</span> QString &amp;dbName)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  QSqlDatabase db = QSqlDatabase::<span class="built_in">addDatabase</span>(<span class="string">&quot;QSQLITE&quot;</span>);</span><br><span class="line"><span class="comment">//  db.setHostName(&quot;host&quot;);</span></span><br><span class="line"><span class="comment">//   db.setDatabaseName(&quot;dbname&quot;);</span></span><br><span class="line"><span class="comment">//  db.setUserName(&quot;username&quot;);</span></span><br><span class="line"><span class="comment">//  db.setPassword(&quot;password&quot;);</span></span><br><span class="line">  db.<span class="built_in">setDatabaseName</span>(dbName);</span><br><span class="line">  <span class="keyword">if</span> (!db.<span class="built_in">open</span>()) &#123;</span><br><span class="line">    QMessageBox::<span class="built_in">critical</span>(<span class="number">0</span>, QObject::<span class="built_in">tr</span>(<span class="string">&quot;Database Error&quot;</span>),db.<span class="built_in">lastError</span>().<span class="built_in">text</span>());</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们使用connect()函数创建一个数据库连接。我们使用QSqlDatabase::addDatabase()静态函数完成这一请求，也就是创建了一个QSqlDatabase实例。注意，数据库连接使用自己的名字进行区分，而不是数据库的名字。例如，我们可以使用下面的语句：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QSqlDatabase db=QSqlDatabase::<span class="built_in">addDatabase</span>(<span class="string">&quot;QSQLITE&quot;</span>,<span class="built_in">QString</span>(<span class="string">&quot;con%1&quot;</span>).<span class="built_in">arg</span>(dbName));</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们是使用addDatabase()函数的第二个参数来给这个数据库连接一个名字。在这个例子中，用于区分这个数据库连接的名字是QString(“conn%1”).arg(dbName)，而不是 “QSQLITE”。这个参数是可选的，如果不指定，系统会给出一个默认的名字QSqlDatabase::defaultConnection，此时，Qt 会创建一个默认的连接。如果你给出的名字与已存在的名字相同，新的连接会替换掉已有的连接。通过这种设计，我们可以为一个数据库建立多个连接。</p>
+<p>我们这里使用的是 sqlite 数据库，只需要指定数据库名字即可。如果是数据库服务器，比如 MySQL，我们还需要指定主机名、端口号、用户名和密码，这些语句使用注释进行了简单的说明。</p>
+<p>接下来我们调用了<strong>QSqlDatabase类的open()函数，打开这个数据库连接</strong>。通过检查open()函数的返回值，我们可以判断数据库是不是正确打开。</p>
+<p>QtSql 模块中的类大多具有lastError()函数，用于检查最新出现的错误。如果你发现数据库操作有任何问题，应该使用这个函数进行错误的检查。这一点我们也在上面的代码中进行了体现。当然，这只是最简单的实现，一般来说，更好的设计是，不要在数据库操作中混杂界面代码（并且将这个connect()函数放在一个专门的数据库操作类中）。</p>
+<p>接下来我们可以在main()函数中使用这个connect()函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="function">QApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">connect</span>(<span class="string">&quot;demo.db&quot;</span>)) </span><br><span class="line">  &#123;</span><br><span class="line">    QSqlQuery query;</span><br><span class="line">    <span class="keyword">if</span> (!query.<span class="built_in">exec</span>(<span class="string">&quot;CREATE TABLE student (&quot;</span></span><br><span class="line">                                            <span class="string">&quot;id INT PRIMARY KEY AUTOINCREMENT,&quot;</span></span><br><span class="line">                                            <span class="string">&quot;name VARCHAR(255),&quot;</span></span><br><span class="line">                                            <span class="string">&quot;age INT)&quot;</span>)</span><br><span class="line">       ) </span><br><span class="line">    &#123;</span><br><span class="line">	   QMessageBox::<span class="built_in">critical</span>(<span class="number">0</span>,QObject::<span class="built_in">tr</span>(<span class="string">&quot;Database Error&quot;</span>), query.<span class="built_in">lastError</span>().<span class="built_in">text</span>());</span><br><span class="line">       <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> </span><br><span class="line">  &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> a.<span class="built_in">exec</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>main()函数中，我们调用这个connect()函数打开数据库。如果打开成功，我们通过一个QSqlQuery实例执行了 SQL 语句。同样，我们使用其lastError()函数检查了执行结果是否正确。</p>
+<blockquote>
+<p><strong>注意：</strong><br>这里的QSqlQuery实例的创建。我们并没有指定是为哪一个数据库连接创建查询对象，此时，系统会使用默认的连接，也就是使用没有第二个参数的addDatabase()函数创建的那个连接（其实就是名字为QSqlDatabase::defaultConnection的默认连接）。如果没有这么一个连接，系统就会报错。也就是说，如果没有默认连接，我们在创建QSqlQuery对象时必须指明是哪一个QSqlDatabase对象，也就是addDatabase()的返回值。</p>
+</blockquote>
+<p>我们还可以通过使用QSqlQuery::isActive()函数检查语句执行正确与否。如果QSqlQuery对象是活动的，该函数返回 true。所谓“活动”，就是指该对象成功执行了exec()函数，但是还没有完成。这里需要注意的是，如果存在一个活动的 SELECT 语句，某些数据库系统不能成功完成connect()或者rollback()函数的调用。此时，我们必须首先将活动的 SELECT 语句设置成不活动的。</p>
+<p>创建过数据库表 student 之后，我们开始插入数据，然后将其独取出来：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">connect</span>(<span class="string">&quot;demo.db&quot;</span>)) &#123;</span><br><span class="line">  QSqlQuery query;</span><br><span class="line">  query.<span class="built_in">prepare</span>(<span class="string">&quot;INSERT INTO student (name, age) VALUES (?, ?)&quot;</span>);</span><br><span class="line">  QVariantList names;</span><br><span class="line">  names &lt;&lt; <span class="string">&quot;Tom&quot;</span> &lt;&lt; <span class="string">&quot;Jack&quot;</span> &lt;&lt; <span class="string">&quot;Jane&quot;</span> &lt;&lt; <span class="string">&quot;Jerry&quot;</span>;</span><br><span class="line">  query.<span class="built_in">addBindValue</span>(names);</span><br><span class="line">  QVariantList ages;</span><br><span class="line">  ages &lt;&lt; <span class="number">20</span> &lt;&lt; <span class="number">23</span> &lt;&lt; <span class="number">22</span> &lt;&lt; <span class="number">25</span>;</span><br><span class="line">  query.<span class="built_in">addBindValue</span>(ages);</span><br><span class="line">  <span class="keyword">if</span> (!query.<span class="built_in">execBatch</span>())</span><br><span class="line">  &#123;</span><br><span class="line">    QMessageBox::<span class="built_in">critical</span>(<span class="number">0</span>, QObject::<span class="built_in">tr</span>(<span class="string">&quot;Database Error&quot;</span>),query.<span class="built_in">lastError</span>().<span class="built_in">text</span>());</span><br><span class="line">  &#125;</span><br><span class="line">  query.<span class="built_in">exec</span>(<span class="string">&quot;SELECT name, age FROM student&quot;</span>);</span><br><span class="line">  <span class="keyword">while</span> (query.<span class="built_in">next</span>()) &#123;</span><br><span class="line">    QString name = query.<span class="built_in">value</span>(<span class="number">0</span>).<span class="built_in">toString</span>();</span><br><span class="line">    <span class="keyword">int</span> age = query.<span class="built_in">value</span>(<span class="number">1</span>).<span class="built_in">toInt</span>();</span><br><span class="line">    <span class="built_in">qDebug</span>() &lt;&lt; name &lt;&lt; <span class="string">&quot;: &quot;</span> &lt;&lt; age;</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>依旧连接到我们创建的 demo.db 数据库。我们需要插入多条数据，此时可以使用QSqlQuery::exec()函数一条一条插入数据，但是这里我们选择了另外一种方法：批量执行。首先，我们使用<strong>QSqlQuery::prepare()函数对这条 SQL 语句进行预处理，问号 ? 相当于占位符，预示着以后我们可以使用实际数据替换这些位置。</strong>简单说明一下，预处理是数据库提供的一种特性，它会将 SQL 语句进行编译，性能和安全性都要优于普通的 SQL 处理。在上面的代码中，我们使用一个字符串列表 names 替换掉第一个问号的位置，一个整型列表 ages 替换掉第二个问号的位置，利用<strong>QSqlQuery::addBindValue()我们将实际数据绑定到这个预处理的 SQL 语句上</strong>。需要注意的是，names 和 ages 这两个列表里面的数据需要一一对应。然后我们调用<strong>QSqlQuery::execBatch()批量执行 SQL，之后结束该对象。</strong>这样，插入操作便完成了。</p>
+<p>另外说明一点，我们这里使用了 ODBC 风格的 ? 占位符，同样，我们也可以使用 Oracle 风格的占位符：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">query.<span class="built_in">prepare</span>(<span class="string">&quot;INSERT INTO student (name, age) VALUES (:name, :age)&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们就需要使用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">query.<span class="built_in">bindValue</span>(<span class="string">&quot;:name&quot;</span>, names);</span><br><span class="line">query.<span class="built_in">bindValue</span>(<span class="string">&quot;:age&quot;</span>, ages);</span><br></pre></td></tr></table></figure>
+
+<p>进行绑定。Oracle 风格的绑定最大的好处是，绑定的名字和值很清晰，与顺序无关。但是这里需要注意，bindValue()函数只能绑定一个位置。比如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">query.<span class="built_in">prepare</span>(<span class="string">&quot;INSERT INTO test (name1, name2) </span></span><br><span class="line"><span class="string">VALUES (:name, :name)&quot;</span>);</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">query.<span class="built_in">bindValue</span>(<span class="string">&quot;:name&quot;</span>, name);</span><br></pre></td></tr></table></figure>
+
+<p>只能绑定第一个 :name 占位符，不能绑定到第二个。</p>
+<p>接下来我们依旧使用同一个查询对象执行一个 SELECT 语句。如果存在查询结果，QSqlQuery::next()会返回 true，直到到达结果最末，返回 false，说明遍历结束。我们利用这一点，使用 while 循环即可遍历查询结果。使用QSqlQuery::value()函数即可按照 SELECT 语句的字段顺序获取到对应的数据库存储的数据。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">query.<span class="built_in">exec</span>(“select name, age from student”);</span><br><span class="line"><span class="keyword">while</span>（query.<span class="built_in">next</span>()）</span><br><span class="line">&#123;</span><br><span class="line">  QString name = query.<span class="built_in">value</span>(<span class="number">0</span>);</span><br><span class="line">  QString age = query.<span class="built_in">value</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于数据库事务的操作，我们可以使用 QSqlDatabase::transaction() 开启事务，QSqlDatabase::commit() 或者QSqlDatabase::rollback() 结束事务。使用QSqlDatabase::database()函数则可以根据名字获取所需要的数据库连接。</p>
+<h3 id="1-1实例"><a href="#1-1实例" class="headerlink" title="1.1实例"></a>1.1实例</h3><p><strong>1. MySql数据库</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ui_widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QSqlDatabase&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QMessageBox&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QSqlError&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QSqlQuery&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QVariantList&gt;</span></span></span><br><span class="line">Widget::<span class="built_in">Widget</span>(QWidget *parent) :</span><br><span class="line">    <span class="built_in">QWidget</span>(parent),</span><br><span class="line">    <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::Widget)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">//打印Qt支持的数据库驱动</span></span><br><span class="line">    <span class="built_in">qDebug</span>() &lt;&lt; QSqlDatabase::<span class="built_in">drivers</span>();</span><br><span class="line">    <span class="comment">//添加MySql数据库</span></span><br><span class="line">    QSqlDatabase db = QSqlDatabase::<span class="built_in">addDatabase</span>(<span class="string">&quot;QMYSQL&quot;</span>);</span><br><span class="line">    <span class="comment">//连接数据库</span></span><br><span class="line">    db.<span class="built_in">setHostName</span>(<span class="string">&quot;127.0.0.1&quot;</span>); <span class="comment">//数据库服务器IP</span></span><br><span class="line">    db.<span class="built_in">setUserName</span>(<span class="string">&quot;root&quot;</span>); <span class="comment">//数据库用户名</span></span><br><span class="line">    db.<span class="built_in">setPassword</span>(<span class="string">&quot;123456&quot;</span>); <span class="comment">//密码</span></span><br><span class="line">    db.<span class="built_in">setDatabaseName</span>(<span class="string">&quot;info&quot;</span>); <span class="comment">//使用哪个数据库</span></span><br><span class="line">    <span class="comment">//打开数据库</span></span><br><span class="line">    <span class="keyword">if</span>(!db.<span class="built_in">open</span>() ) <span class="comment">//数据库打开失败</span></span><br><span class="line">    &#123;</span><br><span class="line">        QMessageBox::<span class="built_in">warning</span>(<span class="keyword">this</span>, <span class="string">&quot;错误&quot;</span>, db.<span class="built_in">lastError</span>().<span class="built_in">text</span>());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//    QSqlQuery query;</span></span><br><span class="line"><span class="comment">//    query.exec(&quot;create table student(id int primary key, name varchar(255), age int, score int);&quot;);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* //多个数据库查询操作</span></span><br><span class="line"><span class="comment">     QSqlDatabase db1 = QSqlDatabase::addDatabase(&quot;QMYSQL&quot;, &quot;a&quot;);</span></span><br><span class="line"><span class="comment">     db1.setHostName(&quot;127.0.0.1&quot;); //数据库服务器IP</span></span><br><span class="line"><span class="comment">     db1.setUserName(&quot;root&quot;); //数据库用户名</span></span><br><span class="line"><span class="comment">     db1.setPassword(&quot;123456&quot;); //密码</span></span><br><span class="line"><span class="comment">     db1.setDatabaseName(&quot;test&quot;); //使用哪个数据库</span></span><br><span class="line"><span class="comment">     //打开数据库</span></span><br><span class="line"><span class="comment">     if( !db1.open() ) //数据库打开失败</span></span><br><span class="line"><span class="comment">     &#123;</span></span><br><span class="line"><span class="comment">         QMessageBox::warning(this, &quot;错误&quot;, db.lastError().text());</span></span><br><span class="line"><span class="comment">         return;</span></span><br><span class="line"><span class="comment">     &#125;</span></span><br><span class="line"><span class="comment">     QSqlQuery query1;</span></span><br><span class="line"><span class="comment">     query1.exec(&quot;create table student(id int primary key, name varchar(255), age int, score int);&quot;);</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> 0</span></span><br><span class="line">    <span class="comment">//插入</span></span><br><span class="line">    QSqlQuery query;</span><br><span class="line">    query.<span class="built_in">exec</span>(<span class="string">&quot;insert into student(id, name, age, score) values(1, &#x27;mike&#x27;, 18, 59);&quot;</span>);</span><br><span class="line">    <span class="comment">//批量插入</span></span><br><span class="line">    <span class="comment">//odbc风格</span></span><br><span class="line">    <span class="comment">//预处理语句</span></span><br><span class="line">    <span class="comment">// ? 相当于 占位符</span></span><br><span class="line">    query.<span class="built_in">prepare</span>(<span class="string">&quot;insert into student(name, age, score) values(?, ?, ?)&quot;</span>);</span><br><span class="line">    <span class="comment">//给字段设置内容 list</span></span><br><span class="line">    QVariantList nameList;</span><br><span class="line">    nameList &lt;&lt; <span class="string">&quot;xiaoming&quot;</span> &lt;&lt; <span class="string">&quot;xiaolong&quot;</span> &lt;&lt; <span class="string">&quot;xiaojiang&quot;</span>;</span><br><span class="line">    QVariantList ageList;</span><br><span class="line">    ageList &lt;&lt; <span class="number">11</span> &lt;&lt; <span class="number">22</span> &lt;&lt; <span class="number">33</span>;</span><br><span class="line">    QVariantList scoreList;</span><br><span class="line">    scoreList &lt;&lt; <span class="number">59</span> &lt;&lt; <span class="number">69</span> &lt;&lt; <span class="number">79</span>;</span><br><span class="line">    <span class="comment">//给字段绑定相应的值 按顺序绑定</span></span><br><span class="line">    query.<span class="built_in">addBindValue</span>(nameList);</span><br><span class="line">    query.<span class="built_in">addBindValue</span>(ageList);</span><br><span class="line">    query.<span class="built_in">addBindValue</span>(scoreList);</span><br><span class="line">    <span class="comment">//执行预处理命令</span></span><br><span class="line">    query.<span class="built_in">execBatch</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//oracle风格</span></span><br><span class="line">    <span class="comment">//占位符 ： + 自定义名字</span></span><br><span class="line">    query.<span class="built_in">prepare</span>(<span class="string">&quot;insert into student(name, age, score) values(:name, :age, :score)&quot;</span>);</span><br><span class="line">    <span class="comment">//给字段设置内容 list</span></span><br><span class="line">    QVariantList nameList;</span><br><span class="line">    nameList &lt;&lt; <span class="string">&quot;xiaoa&quot;</span> &lt;&lt; <span class="string">&quot;xiaob&quot;</span> &lt;&lt; <span class="string">&quot;xiaoc&quot;</span>;</span><br><span class="line">    QVariantList ageList;</span><br><span class="line">    ageList &lt;&lt; <span class="number">33</span> &lt;&lt; <span class="number">44</span> &lt;&lt; <span class="number">55</span>;</span><br><span class="line">    QVariantList scoreList;</span><br><span class="line">    scoreList &lt;&lt; <span class="number">89</span> &lt;&lt; <span class="number">90</span> &lt;&lt; <span class="number">99</span>;</span><br><span class="line">    <span class="comment">//给字段绑定</span></span><br><span class="line">    query.<span class="built_in">bindValue</span>(<span class="string">&quot;:name&quot;</span>, nameList);</span><br><span class="line">    query.<span class="built_in">bindValue</span>(<span class="string">&quot;:score&quot;</span>, scoreList);</span><br><span class="line">    query.<span class="built_in">bindValue</span>(<span class="string">&quot;:age&quot;</span>, ageList);</span><br><span class="line">    <span class="comment">//执行预处理命令</span></span><br><span class="line">    query.<span class="built_in">execBatch</span>();</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    QSqlQuery query;</span><br><span class="line">    query.<span class="built_in">exec</span>(<span class="string">&quot;select * from student&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span>(query.<span class="built_in">next</span>()) <span class="comment">//一行一行遍历</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//取出当前行的内容</span></span><br><span class="line">        <span class="built_in">qDebug</span>() &lt;&lt; query.<span class="built_in">value</span>(<span class="number">0</span>).<span class="built_in">toInt</span>()</span><br><span class="line">                 &lt;&lt; query.<span class="built_in">value</span>(<span class="number">1</span>).<span class="built_in">toString</span>()</span><br><span class="line">                 &lt;&lt; query.<span class="built_in">value</span>(<span class="string">&quot;age&quot;</span>).<span class="built_in">toInt</span>()</span><br><span class="line">                 &lt;&lt; query.<span class="built_in">value</span>(<span class="string">&quot;score&quot;</span>).<span class="built_in">toInt</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Widget::~<span class="built_in">Widget</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::on_buttonDel_clicked</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//获取行编辑内容</span></span><br><span class="line">    QString name = ui-&gt;lineEdit-&gt;<span class="built_in">text</span>();</span><br><span class="line">    QString sql = <span class="built_in">QString</span>(<span class="string">&quot;delete from student where name = &#x27;%1&#x27;&quot;</span>).<span class="built_in">arg</span>(name);</span><br><span class="line">    <span class="comment">//开启一个事务</span></span><br><span class="line">    QSqlDatabase::<span class="built_in">database</span>().<span class="built_in">transaction</span>();</span><br><span class="line">    QSqlQuery query;</span><br><span class="line">    query.<span class="built_in">exec</span>(sql);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::on_buttonSure_clicked</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//确定删除</span></span><br><span class="line">    QSqlDatabase::<span class="built_in">database</span>().<span class="built_in">commit</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::on_buttonCancel_clicked</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//回滚，撤销</span></span><br><span class="line">     QSqlDatabase::<span class="built_in">database</span>().<span class="built_in">rollback</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.SQLite</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ui_widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QSqlDatabase&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QMessageBox&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QSqlError&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QSqlQuery&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QVariantList&gt;</span></span></span><br><span class="line">Widget::<span class="built_in">Widget</span>(QWidget *parent) :</span><br><span class="line">    <span class="built_in">QWidget</span>(parent),</span><br><span class="line">    <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::Widget)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//打印Qt支持的数据库驱动</span></span><br><span class="line">    <span class="built_in">qDebug</span>() &lt;&lt; QSqlDatabase::<span class="built_in">drivers</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//添加Sqlite数据库</span></span><br><span class="line">    QSqlDatabase db = QSqlDatabase::<span class="built_in">addDatabase</span>(<span class="string">&quot;QSQLITE&quot;</span>);</span><br><span class="line">    <span class="comment">//设置数据库</span></span><br><span class="line">    db.<span class="built_in">setDatabaseName</span>(<span class="string">&quot;../info.db&quot;</span>);</span><br><span class="line">    <span class="comment">//打开数据库</span></span><br><span class="line">    <span class="keyword">if</span>( !db.<span class="built_in">open</span>() ) <span class="comment">//数据库打开失败</span></span><br><span class="line">    &#123;</span><br><span class="line">        QMessageBox::<span class="built_in">warning</span>(<span class="keyword">this</span>, <span class="string">&quot;错误&quot;</span>, db.<span class="built_in">lastError</span>().<span class="built_in">text</span>());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    QSqlQuery query;</span><br><span class="line">    query.<span class="built_in">exec</span>(<span class="string">&quot;create table student(id int primary key, name varchar(255), age int, score int);&quot;</span>);</span><br><span class="line">    query.<span class="built_in">prepare</span>(<span class="string">&quot;insert into student(name, age, score) values(?, ?, ?)&quot;</span>);</span><br><span class="line">    <span class="comment">//给字段设置内容 list</span></span><br><span class="line">    QVariantList nameList;</span><br><span class="line">    nameList &lt;&lt; <span class="string">&quot;xiaoming&quot;</span> &lt;&lt; <span class="string">&quot;xiaolong&quot;</span> &lt;&lt; <span class="string">&quot;xiaojiang&quot;</span>;</span><br><span class="line">    QVariantList ageList;</span><br><span class="line">    ageList &lt;&lt; <span class="number">11</span> &lt;&lt; <span class="number">22</span> &lt;&lt; <span class="number">33</span>;</span><br><span class="line">    QVariantList scoreList;</span><br><span class="line">    scoreList &lt;&lt; <span class="number">59</span> &lt;&lt; <span class="number">69</span> &lt;&lt; <span class="number">79</span>;</span><br><span class="line">    <span class="comment">//给字段绑定相应的值 按顺序绑定</span></span><br><span class="line">    query.<span class="built_in">addBindValue</span>(nameList);</span><br><span class="line">    query.<span class="built_in">addBindValue</span>(ageList);</span><br><span class="line">    query.<span class="built_in">addBindValue</span>(scoreList);</span><br><span class="line">    <span class="comment">//执行预处理命令</span></span><br><span class="line">    query.<span class="built_in">execBatch</span>();</span><br><span class="line">    query.<span class="built_in">exec</span>(<span class="string">&quot;select * from student&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span>(query.<span class="built_in">next</span>()) <span class="comment">//一行一行遍历</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//取出当前行的内容</span></span><br><span class="line">        <span class="built_in">qDebug</span>() &lt;&lt; query.<span class="built_in">value</span>(<span class="number">0</span>).<span class="built_in">toInt</span>()</span><br><span class="line">                 &lt;&lt; query.<span class="built_in">value</span>(<span class="number">1</span>).<span class="built_in">toString</span>()</span><br><span class="line">                 &lt;&lt; query.<span class="built_in">value</span>(<span class="string">&quot;age&quot;</span>).<span class="built_in">toInt</span>()</span><br><span class="line">                 &lt;&lt; query.<span class="built_in">value</span>(<span class="string">&quot;score&quot;</span>).<span class="built_in">toInt</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-使用模型操作数据库"><a href="#2-使用模型操作数据库" class="headerlink" title="2 使用模型操作数据库"></a>2 使用模型操作数据库</h2><p>上一节我们使用 SQL 语句完成了对数据库的常规操作，包括简单的 CREATE、SELECT 等语句的使用。我们也提到过，Qt 不仅提供了这种使用 SQL 语句的方式，还提供了一种基于模型的更高级的处理方式。这种<strong>基于QSqlTableModel 的模型处理更为高级，如果对 SQL 语句不熟悉，并且不需要很多复杂的查询，这种QSqlTableModel模型基本可以满足一般的需求。</strong>本节我们将介绍QSqlTableModel的一般使用，对比 SQL 语句完成对数据库的增删改查等的操作。值得注意的是，QSqlTableModel并不一定非得结合 QListView或QTableView使用，我们完全可以用其作一般性处理。</p>
+<h3 id="2-1-查询操作"><a href="#2-1-查询操作" class="headerlink" title="2.1 查询操作"></a>2.1 查询操作</h3><p>首先我们来看看如何使用QSqlTableModel 进行 SELECT 操作：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">connect</span>(<span class="string">&quot;demo.db&quot;</span>)) &#123;</span><br><span class="line">  QSqlTableModel model;</span><br><span class="line">  model.<span class="built_in">setTable</span>(<span class="string">&quot;student&quot;</span>);</span><br><span class="line">  model.<span class="built_in">setFilter</span>(<span class="string">&quot;age &gt; 20 and age &lt; 25&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (model.<span class="built_in">select</span>())</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; model.<span class="built_in">rowCount</span>(); ++i) <span class="comment">//打印模型界面显示内容</span></span><br><span class="line">    &#123;</span><br><span class="line">      QSqlRecord record = model.<span class="built_in">record</span>(i);</span><br><span class="line">      QString name = record.<span class="built_in">value</span>(<span class="string">&quot;name&quot;</span>).<span class="built_in">toString</span>();</span><br><span class="line">      <span class="keyword">int</span> age = record.<span class="built_in">value</span>(<span class="string">&quot;age&quot;</span>).<span class="built_in">toInt</span>();</span><br><span class="line">      <span class="built_in">qDebug</span>() &lt;&lt; name &lt;&lt; <span class="string">&quot;: &quot;</span> &lt;&lt; age;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们依旧使用了上一节的connect()函数。接下来我们创建了QSqlTableModel实例，</p>
+<ul>
+<li>setTable()函数设置所需要操作的表格；</li>
+</ul>
+<ul>
+<li> setFilter()函数则是添加过滤器，也就是 WHERE 语句所需要的部分。</li>
+</ul>
+<p>例如上面代码中的操作实际相当于 SQL 语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> student <span class="keyword">WHERE</span> age <span class="operator">&gt;</span> <span class="number">20</span> <span class="keyword">and</span> age <span class="operator">&lt;</span> <span class="number">25</span></span><br></pre></td></tr></table></figure>
+
+<p>使用QSqlTableModel::select()函数进行操作，也就是执行了查询操作。如果查询成功，函数返回 true，由此判断是否发生了错误。如果没有错误，我们使用record()函数取出一行记录，该记录是以QSqlRecord的形式给出的，而QSqlRecord::value()则取出一个列的实际数据值。注意，由于QSqlTableModel没有提供const_iterator遍历器，因此不能使用foreach宏进行遍历。</p>
+<p>另外需要注意，由于QSqlTableModel只是一种高级操作，肯定没有实际 SQL 语句方便。具体来说，<strong>我们使用QSqlTableModel只能进行 SELECT   * 的查询，不能只查询其中某些列的数据。</strong></p>
+<h3 id="2-2-插入操作"><a href="#2-2-插入操作" class="headerlink" title="2.2 插入操作"></a>2.2 插入操作</h3><p>下面一段代码则显示了如何使用QSqlTableModel进行插入操作：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">QSqlTableModel model;</span><br><span class="line">model.<span class="built_in">setTable</span>(<span class="string">&quot;student&quot;</span>);</span><br><span class="line"><span class="keyword">int</span> row = <span class="number">0</span>;</span><br><span class="line">model.<span class="built_in">insertRows</span>(row, <span class="number">1</span>);</span><br><span class="line">model.<span class="built_in">setData</span>(model.<span class="built_in">index</span>(row, <span class="number">1</span>), <span class="string">&quot;Cheng&quot;</span>);</span><br><span class="line">model.<span class="built_in">setData</span>(model.<span class="built_in">index</span>(row, <span class="number">2</span>), <span class="number">24</span>);</span><br><span class="line">model.<span class="built_in">submitAll</span>();</span><br></pre></td></tr></table></figure>
+
+<p>插入也很简单：model.insertRows(row, 1);说明我们想在索引 0 的位置插入 1 行新的数据。使用<strong>setData()函数则开始准备实际需要插入的数据</strong>。注意这里我们向 row 的第一个位置写入 Cheng（通过model.index(row, 1)，回忆一下，我们把 model 当作一个二维表，这个坐标相当于第 row 行第 1 列），其余以此类推。最后，调用<strong>submitAll()函数提交所有修改</strong>。这里执行的操作可以用如下 SQL 表示：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> student (name, age) <span class="keyword">VALUES</span> (<span class="string">&#x27;Cheng&#x27;</span>, <span class="number">24</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-3-更新操作"><a href="#2-3-更新操作" class="headerlink" title="2.3 更新操作"></a>2.3 更新操作</h3><p>当我们取出了已经存在的数据后，对其进行修改，然后重新写入数据库，即完成了一次更新操作：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">QSqlTableModel model;</span><br><span class="line">model.<span class="built_in">setTable</span>(<span class="string">&quot;student&quot;</span>);</span><br><span class="line">model.<span class="built_in">setFilter</span>(<span class="string">&quot;age = 25&quot;</span>);</span><br><span class="line"><span class="keyword">if</span> (model.<span class="built_in">select</span>()) &#123;</span><br><span class="line">  <span class="keyword">if</span> (model.<span class="built_in">rowCount</span>() == <span class="number">1</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    QSqlRecord record = model.<span class="built_in">record</span>(<span class="number">0</span>);</span><br><span class="line">    record.<span class="built_in">setValue</span>(<span class="string">&quot;age&quot;</span>, <span class="number">26</span>);</span><br><span class="line">    model.<span class="built_in">setRecord</span>(<span class="number">0</span>, record);</span><br><span class="line">    model.<span class="built_in">submitAll</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码中，我们首先找到 age = 25 的记录，然后将 age 重新设置为 26，存入相同的位置（在这里都是索引 0 的位置），提交之后完成一次更新。当然，我们也可以类似其它模型一样的设置方式：setData()函数。具体代码片段如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (model.<span class="built_in">select</span>()) </span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (model.<span class="built_in">rowCount</span>() == <span class="number">1</span>) </span><br><span class="line">  &#123;</span><br><span class="line">    model.<span class="built_in">setData</span>(model.<span class="built_in">index</span>(<span class="number">0</span>, <span class="number">2</span>), <span class="number">26</span>);</span><br><span class="line">    model.<span class="built_in">submitAll</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意我们的 age 列是第 3 列，索引值为 2，因为前面还有 id 和 name 两列。这里的更新操作则可以用如下 SQL 表示：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE student <span class="keyword">SET</span> age <span class="operator">=</span> <span class="number">26</span> <span class="keyword">WHERE</span> age <span class="operator">=</span> <span class="number">25</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-删除操作"><a href="#2-4-删除操作" class="headerlink" title="2.4 删除操作"></a>2.4 删除操作</h3><p>删除操作同更新类似：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">QSqlTableModel model;</span><br><span class="line">model.<span class="built_in">setTable</span>(<span class="string">&quot;student&quot;</span>);</span><br><span class="line">model.<span class="built_in">setFilter</span>(<span class="string">&quot;age = 25&quot;</span>);</span><br><span class="line"><span class="keyword">if</span> (model.<span class="built_in">select</span>()) </span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (model.<span class="built_in">rowCount</span>() == <span class="number">1</span>) &#123;</span><br><span class="line">     model.<span class="built_in">removeRows</span>(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">	 model.<span class="built_in">submitAll</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果使用 SQL 则是：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> student <span class="keyword">WHERE</span> age <span class="operator">=</span> <span class="number">25</span></span><br></pre></td></tr></table></figure>
+
+<p>当我们看到removeRows()函数就应该想到：我们可以一次删除多行。事实也正是如此，这里不再赘述。</p>
+<h2 id="3-可视化显示数据库数据"><a href="#3-可视化显示数据库数据" class="headerlink" title="3 可视化显示数据库数据"></a>3 可视化显示数据库数据</h2><p>前面我们用了两个章节介绍了 Qt 提供的两种操作数据库的方法。显然，使用QSqlQuery的方式更灵活，功能更强大，而使用QSqlTableModel则更简单，更方便与 model/view 结合使用（数据库应用很大一部分就是以表格形式显示出来，这正是 model/view 的强项）。本章我们简单介绍使用QSqlTableModel显示数据的方法。当然，我们也可以选择使用QSqlQuery获取数据，然后交给 view 显示，而这需要自己给 model 提供数据。</p>
+<p>我们还是使用前面一直在用的 student 表，直接来看代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="function">QApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">connect</span>(<span class="string">&quot;demo.db&quot;</span>)) </span><br><span class="line">  &#123;</span><br><span class="line">    QSqlTableModel *model = <span class="keyword">new</span> QSqlTableModel;</span><br><span class="line">    model-&gt;<span class="built_in">setTable</span>(<span class="string">&quot;student&quot;</span>);     <span class="comment">//设定数据库显示的表</span></span><br><span class="line">    model-&gt;<span class="built_in">setSort</span>(<span class="number">1</span>, Qt::AscendingOrder); </span><br><span class="line">    model-&gt;<span class="built_in">setHeaderData</span>(<span class="number">1</span>, Qt::Horizontal, <span class="string">&quot;Name&quot;</span>);</span><br><span class="line">    model-&gt;<span class="built_in">setHeaderData</span>(<span class="number">2</span>, Qt::Horizontal, <span class="string">&quot;Age&quot;</span>);</span><br><span class="line">    model-&gt;<span class="built_in">select</span>();</span><br><span class="line">    </span><br><span class="line">    QTableView *view = <span class="keyword">new</span> QTableView;</span><br><span class="line">    view-&gt;<span class="built_in">setModel</span>(model);</span><br><span class="line">	view-&gt;<span class="built_in">setSelectionMode</span>(QAbstractItemView::SingleSelection);    </span><br><span class="line">	view-&gt;<span class="built_in">setSelectionBehavior</span>(QAbstractItemView::SelectRows);</span><br><span class="line"><span class="comment">//  view-&gt;setColumnHidden(0, true);</span></span><br><span class="line">    view-&gt;<span class="built_in">resizeColumnsToContents</span>();</span><br><span class="line">    view-&gt;<span class="built_in">setEditTriggers</span>(QAbstractItemView::NoEditTriggers);</span><br><span class="line"></span><br><span class="line">    QHeaderView *header = view-&gt;<span class="built_in">horizontalHeader</span>();</span><br><span class="line">    header-&gt;<span class="built_in">setStretchLastSection</span>(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">    view-&gt;<span class="built_in">show</span>();</span><br><span class="line"></span><br><span class="line">  &#125; <span class="keyword">else</span> </span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"> <span class="keyword">return</span> a.<span class="built_in">exec</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的connect()函数还是我们前面使用过的（11.1），</p>
+<p>我们在main()函数中创建了QSqlTableModel对象，使用 student 表。student 表有三列：id，name 和 age，我们选择按照 name 排序，使用setSort()函数达到这一目的。然后我们设置每一列的列头。这里我们只使用了后两列，第一列没有设置，所以依旧显示为列名 id。</p>
+<p>在设置好 model 之后，我们又创建了QTableView对象作为视图。注意这里的设置：单行选择，按行选择。resizeColumnsToContents()说明每列宽度适配其内容；**setEditTriggers()**则禁用编辑功能。最后，我们设置最后一列要充满整个窗口。我们的代码中有一行注释，设置第一列不显示。</p>
+
+    </div>
+
+    
+    
+    
+	<div>
+		
+			<div>
+	
+		<div style="text-align:center;color: #ccc;font-size:16px;">---------------------------------------本文结束<i class="fa fa-paw"></i>感谢您的阅读---------------------------------------</div>
+	
+</div>
+		
+	</div>
+	<div>
+		
+			
+<div class="my_post_copyright">
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+<!-- JS库 sweetalert 可修改路径 -->
+<script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<p><span>本文标题:</span><a href="/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">Qt学习笔记之数据库操作</a></p>
+<!--
+<p><span>文章作者:</span><a href="/" title="访问  的个人博客"></a></p>
+-->
+<p><span>发布时间:</span>2019年02月05日 - 22:10</p>
+<p><span>最后更新:</span>2021年08月22日 - 09:52</p>
+<p><span>原始链接:</span><a href="/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" title="Qt学习笔记之数据库操作">https://hyw-zero.github.io/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/</a>
+<span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://hyw-zero.github.io/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" aria-label="复制成功！"></i></span>
+</p>
+<p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+var clipboard = new Clipboard('.fa-clipboard');
+$(".fa-clipboard").click(function(){
+clipboard.on('success', function(){
+swal({
+title: "",
+text: '复制成功',
+icon: "success",
+showConfirmButton: true
+});
+});
+});
+</script>
+
+		
+	</div>
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wx.png" alt="hyw-zero 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="hyw-zero 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i>C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/01/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E4%BF%A1%E5%8F%B7%E4%B8%8E%E6%A7%BD/" rel="prev" title="Qt学习笔记之信号与槽">
+                  <i class="fa fa-chevron-left"></i> Qt学习笔记之信号与槽
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="next" title="Qt 学习笔记之多线程">
+                  Qt 学习笔记之多线程 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MzU4NC8yMDEyMw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hyw-zero</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+<div class="theme-info">
+	<i class="fa fa-edit" style="font-size:18px"></i>
+	<span class="post-count">博客全站共98.2k字</span>
+</div>
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script class="next-config" data-name="nprogress" type="application/json">{"enable":true,"spinner":true}</script>
+  <script src="/js/third-party/nprogress.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+</body>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+</html>
+
