@@ -27,7 +27,7 @@
 <meta name="description" content="1 数据库操作Qt 使用QSqlDatabase表示一个数据库连接。更底层上，Qt 使用驱动（drivers）来与不同的数据库 API 进行交互。Qt 桌面版本提供了如下几种驱动：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Qt学习笔记之数据库操作">
-<meta property="og:url" content="https://hyw-zero.github.io/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:url" content="https://hyw-zero.github.io/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="ZERO">
 <meta property="og:description" content="1 数据库操作Qt 使用QSqlDatabase表示一个数据库连接。更底层上，Qt 使用驱动（drivers）来与不同的数据库 API 进行交互。Qt 桌面版本提供了如下几种驱动：">
 <meta property="og:locale" content="zh_CN">
@@ -38,11 +38,11 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://hyw-zero.github.io/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">
+<link rel="canonical" href="https://hyw-zero.github.io/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hyw-zero.github.io/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/","path":"2019/02/06/Qt 学习笔记之数据库操作/","title":"Qt学习笔记之数据库操作"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hyw-zero.github.io/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/","path":"2019/02/06/Qt学习笔记之数据库操作/","title":"Qt学习笔记之数据库操作"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Qt学习笔记之数据库操作 | ZERO</title>
@@ -250,7 +250,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hyw-zero.github.io/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">
+    <link itemprop="mainEntityOfPage" href="https://hyw-zero.github.io/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -480,14 +480,14 @@
 <!-- JS库 sweetalert 可修改路径 -->
 <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<p><span>本文标题:</span><a href="/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">Qt学习笔记之数据库操作</a></p>
+<p><span>本文标题:</span><a href="/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">Qt学习笔记之数据库操作</a></p>
 <!--
 <p><span>文章作者:</span><a href="/" title="访问  的个人博客"></a></p>
 -->
 <p><span>发布时间:</span>2019年02月05日 - 22:10</p>
 <p><span>最后更新:</span>2021年08月22日 - 09:52</p>
-<p><span>原始链接:</span><a href="/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" title="Qt学习笔记之数据库操作">https://hyw-zero.github.io/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/</a>
-<span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://hyw-zero.github.io/2019/02/06/Qt%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" aria-label="复制成功！"></i></span>
+<p><span>原始链接:</span><a href="/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" title="Qt学习笔记之数据库操作">https://hyw-zero.github.io/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/</a>
+<span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://hyw-zero.github.io/2019/02/06/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" aria-label="复制成功！"></i></span>
 </p>
 <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
