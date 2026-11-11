@@ -1,0 +1,17 @@
+// Restore the full Chinese font fallback chain used before the Hexo 8 /
+// NexT 8 migration. NexT 8 only ships 'PingFang SC', 'Microsoft YaHei',
+// which skips installed CJK fonts such as Source Han Sans / Noto Sans CJK.
+
+$font-family-chinese = -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei'
+
+$font-family-base = $font-family-chinese, sans-serif
+$font-family-base = get_font_family('global'), $font-family-chinese, sans-serif if get_font_family('global')
+
+$font-family-logo = $font-family-base
+$font-family-logo = get_font_family('title'), $font-family-base if get_font_family('title')
+
+$font-family-headings = $font-family-base
+$font-family-headings = get_font_family('headings'), $font-family-base if get_font_family('headings')
+
+$font-family-posts = $font-family-base
+$font-family-posts = get_font_family('posts'), $font-family-base if get_font_family('posts')
