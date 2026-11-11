@@ -1217,7 +1217,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ffda5d;
+    background: #ecc337;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3974,7 +3974,9 @@ mark.search-keyword {
     margin-bottom: 22px;
   }
   .posts-expand .post-title {
-    font-size: 23px;
+    font-size: 21px;
+    line-height: 1.4;
+    text-wrap: balance;
   }
   .post-body {
     font-size: 15.5px;
@@ -4069,15 +4071,23 @@ mark.search-keyword {
     right: 0 !important;
     left: auto !important;
   }
-  #live2d {
-    width: 220px;
-    height: 220px;
+  #waifu #live2d {
+    width: clamp(120px, 40vw, 150px) !important;
+    height: clamp(120px, 40vw, 150px) !important;
   }
-  #waifu-tips {
-    width: 200px;
-    font-size: 13px;
+  #waifu #waifu-tips {
+    right: 6px;
+    bottom: 100%;
+    left: auto;
+    width: 170px;
+    min-height: 0;
+    margin: 0 0 8px;
+    padding: 6px 9px;
+    font-size: 12px;
+    line-height: 20px;
   }
-  #waifu-tool {
-    right: 10px !important;
+  #waifu #waifu-tool {
+    top: 24px;
+    right: 2px !important;
   }
 }
