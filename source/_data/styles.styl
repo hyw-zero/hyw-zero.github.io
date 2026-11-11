@@ -1438,7 +1438,9 @@ mark.search-keyword {
   }
 
   .posts-expand .post-title {
-    font-size: 23px;
+    font-size: 21px;
+    line-height: 1.4;
+    text-wrap: balance;
   }
 
   .post-body {
@@ -1535,7 +1537,9 @@ mark.search-keyword {
   }
 }
 
-// Keep the Live2D mascot clear of the left sidebar and article TOC
+// Keep the Live2D mascot clear of the left sidebar and article TOC.
+// waifu.css is injected after main.css, so mobile overrides need the extra
+// #waifu prefix (or !important) to win the cascade.
 @media (min-width: 768px) {
   #waifu {
     right: 0 !important;
@@ -1553,17 +1557,25 @@ mark.search-keyword {
     left: auto !important;
   }
 
-  #live2d {
-    width: 220px;
-    height: 220px;
+  #waifu #live2d {
+    width: clamp(120px, 40vw, 150px) !important;
+    height: clamp(120px, 40vw, 150px) !important;
   }
 
-  #waifu-tips {
-    width: 200px;
-    font-size: 13px;
+  #waifu #waifu-tips {
+    right: 6px;
+    bottom: 100%;
+    left: auto;
+    width: 170px;
+    min-height: 0;
+    margin: 0 0 8px;
+    padding: 6px 9px;
+    font-size: 12px;
+    line-height: 20px;
   }
 
-  #waifu-tool {
-    right: 10px !important;
+  #waifu #waifu-tool {
+    top: 24px;
+    right: 2px !important;
   }
 }
