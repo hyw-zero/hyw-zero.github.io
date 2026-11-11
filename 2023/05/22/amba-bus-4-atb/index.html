@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.2">
+  <link rel="preload" href="/css/main.css" as="style">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto+Slab:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha256-4Lad8m4ZWW1Lgb9+sMVLYEfnIh7BjV1NQMEe79Pviks=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.css" integrity="sha256-mdaMxrItEW6hMIVJJNPKuX0B7KCSJQVEv3mVY4N2we4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hyw-zero.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"hide","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"stackoverflow-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":null,"activeClass":"livere"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="ATB协议主要用于在SOC的Debug系统中，将数据流导出给CoreSight使用。 1 前言ATB协议是AMBA协议家族的一部分。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AMBA总线（4）—— ATB协议">
+<meta property="og:url" content="https://hyw-zero.github.io/2023/05/22/amba-bus-4-atb/index.html">
+<meta property="og:site_name" content="ZERO">
+<meta property="og:description" content="ATB协议主要用于在SOC的Debug系统中，将数据流导出给CoreSight使用。 1 前言ATB协议是AMBA协议家族的一部分。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-01.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-02.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-03.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-04.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-05.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-06.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-07.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-08.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-09.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-10.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-11.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-12.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-13.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-14.png">
+<meta property="article:published_time" content="2023-05-21T20:02:00.000Z">
+<meta property="article:modified_time" content="2023-05-21T20:02:00.000Z">
+<meta property="article:author" content="hyw-zero">
+<meta property="article:tag" content="AMBA">
+<meta property="article:tag" content="ATB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-4-atb/img-01.png">
+
+
+<link rel="canonical" href="https://hyw-zero.github.io/2023/05/22/amba-bus-4-atb/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hyw-zero.github.io/2023/05/22/amba-bus-4-atb/","path":"2023/05/22/amba-bus-4-atb/","title":"AMBA总线（4）—— ATB协议"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>AMBA总线（4）—— ATB协议 | ZERO</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.umd.js" integrity="sha256-QnJV4HT5r8i89ovZGRD86iynZqHerEbT2xt69vDM36I=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","display_overflow":"scroll","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-mml-chtml.js","integrity":"sha256-ihPtDDm7pTmSF9ViEsItlvsrBTsNkz0MOXMchzOwCQw="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-search popup-trigger" aria-label="搜索" role="button">
+      <i class="fa fa-search fa-fw fa-lg"></i>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ZERO</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep  learning, be  curious !</p>
+  </div>
+
+  <div class="site-nav-toggle" aria-label="切换导航栏" role="button">
+      <i class="fa fa-ellipsis fa-fw fa-lg"></i>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  
+  <template id="search-popup-template"><div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div></template>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80"><span class="nav-text">1 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%BF%A1%E5%8F%B7%E6%8F%8F%E8%BF%B0"><span class="nav-text">2 信号描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E6%B5%81%E6%8E%A7%E5%88%B6"><span class="nav-text">3 数据流控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%85%B3%E4%BA%8E%E6%B5%81%E6%8E%A7"><span class="nav-text">3.1 关于流控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%B5%81%E6%8E%A7%E6%B3%A2%E5%BD%A2"><span class="nav-text">3.2 流控波形</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E4%B8%BB%E6%9C%BA%E5%92%8C%E4%BB%8E%E6%9C%BA%E6%97%A0%E6%B3%95%E5%93%8D%E5%BA%94"><span class="nav-text">3.3 主机和从机无法响应</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-ATB%E4%BF%A1%E5%8F%B7%E8%AF%B4%E6%98%8E"><span class="nav-text">4 ATB信号说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-ATDATA%E5%92%8CATBYTES"><span class="nav-text">4.1 ATDATA和ATBYTES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-ATIDs"><span class="nav-text">4.2 ATIDs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-Flush"><span class="nav-text">4.3 Flush</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-Trigger%EF%BC%88ATB4-5%EF%BC%89"><span class="nav-text">4.4 Trigger（ATB4&#x2F;5）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-Sync%EF%BC%88ATB4-5%EF%BC%89"><span class="nav-text">4.5 Sync（ATB4&#x2F;5）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-Wake-up%EF%BC%88ATB5%EF%BC%89"><span class="nav-text">4.6 Wake-up（ATB5）</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hyw-zero"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">hyw-zero</p>
+  <div class="site-description" itemprop="description">ZERO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hyw-zero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hyw-zero" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hyw33666@gmail.com" title="E-Mail → mailto:hyw33666@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hyw-zero.github.io/2023/05/22/amba-bus-4-atb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="hyw-zero">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZERO">
+      <meta itemprop="description" content="ZERO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="AMBA总线（4）—— ATB协议 | ZERO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AMBA总线（4）—— ATB协议
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-05-21 20:02:00" itemprop="dateCreated datePublished" datetime="2023-05-21T20:02:00Z">2023-05-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AMBA/" itemprop="url" rel="index"><span itemprop="name">AMBA</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-lines"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>13 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>ATB协议主要用于在SOC的Debug系统中，将数据流导出给CoreSight使用。</p>
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1 前言"></a>1 前言</h2><p>ATB协议是AMBA协议家族的一部分。</p>
+<ul>
+<li>ATBv1.0是作为AMBA3的一部分。</li>
+<li>ATBv1.1是作为AMBA 4的一部分。</li>
+<li>ATB-C是作为AMBA 5的一部分。</li>
+</ul>
+<p>ATB协议定义了跟踪信息（Trace）如何在跟踪系统的组件之间传输。ATB是跟踪组件用来通过CoreSight系统传递与格式无关的跟踪数据的通用总线。ATB接口支持多种功能，包括：</p>
+<ul>
+<li>使用valid和ready的响应，使得数据停止。</li>
+<li>指示一个周期中有效字节数的控制信号</li>
+<li>通过向每个数据包发送关联ID来标示原始组件。</li>
+<li>支持任何跟踪协议信息、数据信息或数据格式要求</li>
+<li>刷新。</li>
+</ul>
+<p>ATB是一种公共总线，跟踪组件使用它在跟踪系统中以数据不可知的格式传递跟踪数据。ATB协议定义了总线行为，接口信号根据其功能命名。ATB与关联组件的一般关系如图所示。</p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-01.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-02.png" loading="lazy"></p>
+<p>跟踪系统包括：</p>
+<ul>
+<li>至少一个数据跟踪源，例如ETM或HTM。</li>
+<li>至少一个数据跟踪接收器，例如ETB和TPIU。</li>
+</ul>
+<p>在跟踪源和接收器之间可以有跟踪Link，帮助管理通过ATB接口（如Trace Funnel和Trace Replicator）的数据传递。跟踪源生成的ATB数据流量可以通过ATB路径上的跟踪Link进行管理。跟踪Link可以将信息重新传输到跟踪接收器。跟踪接收器Sink充当跟踪源生成的跟踪数据的接收器。</p>
+<p>通常，跟踪接收器可以请求刷新跟踪结构，以确保在特定时间之前已接收到所有跟踪数据。这些刷新请求在ATB系统中从跟踪接收器向上传播到跟踪源。在接收到刷新请求时，跟踪源标记在刷新请求之前发生的所有数据，并在输出所有这些数据时指示完成。ATB系统中的任何跟踪环节必须：</p>
+<ul>
+<li>将刷新请求向上传递到其连接的跟踪源。</li>
+<li>确保只有在所有连接的跟踪源已确认完成后，它才确认刷新完成。</li>
+</ul>
+<h2 id="2-信号描述"><a href="#2-信号描述" class="headerlink" title="2 信号描述"></a>2 信号描述</h2><p><img src="/uploads/amba/amba-bus-4-atb/img-03.png" loading="lazy"></p>
+<h2 id="3-数据流控制"><a href="#3-数据流控制" class="headerlink" title="3 数据流控制"></a>3 数据流控制</h2><h3 id="3-1-关于流控"><a href="#3-1-关于流控" class="headerlink" title="3.1 关于流控"></a>3.1 关于流控</h3><p>这种机制是一种双向流控制，使Master和Slave能够控制数据和控制信息移动的速率。</p>
+<ul>
+<li>主机拉高ATVALID信号表示何时数据或控制信息可用，必须保持住，直到ATREADY信号为高。</li>
+<li>从机拉高ATREADY信号表示可以接受数据或控制信息。</li>
+</ul>
+<p>数据传输只发生在ATVALID和ATREADY都为1时，且能在一个周期中为每个数据项分配特定的ID来识别流。</p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-04.png" loading="lazy"></p>
+<h3 id="3-2-流控波形"><a href="#3-2-流控波形" class="headerlink" title="3.2 流控波形"></a>3.2 流控波形</h3><p>相关波形如下所示：</p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-05.png" loading="lazy"></p>
+<p>波形解析如下所示：</p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-06.png" loading="lazy"></p>
+<p>如果从机不能保证它在断言ATVALID的同一周期内能够响应ATREADY，那么建议从机实现足够的内部缓冲，必须足以存储一个或多个跟踪周期。当缓冲区中有空间可用时，即使ATVALID没有拉高，从机也可以拉高ATREADY。</p>
+<h3 id="3-3-主机和从机无法响应"><a href="#3-3-主机和从机无法响应" class="headerlink" title="3.3 主机和从机无法响应"></a>3.3 主机和从机无法响应</h3><p><strong>（1）从机无法响应</strong></p>
+<p>如果ATB从机无法响应，那么它必须驱动ATREADY为1和AFVALID为0。例如：</p>
+<ul>
+<li>从机未上电。</li>
+<li>没有从机。</li>
+<li>这个系统的程序是错误的。</li>
+</ul>
+<p><strong>注意：</strong>如果两个输出中的其中一个被禁用，这可确保复制器replicator不会因此阻塞。</p>
+<p><strong>（2）主机无法响应</strong></p>
+<p>如果ATB主机不能响应，那么它必须驱动AFREADY为1和ATVALID为0。例如：</p>
+<ul>
+<li>主机下电。</li>
+<li>没有主机。</li>
+<li>这个系统的程序是错误的。</li>
+</ul>
+<h2 id="4-ATB信号说明"><a href="#4-ATB信号说明" class="headerlink" title="4 ATB信号说明"></a>4 ATB信号说明</h2><h3 id="4-1-ATDATA和ATBYTES"><a href="#4-1-ATDATA和ATBYTES" class="headerlink" title="4.1 ATDATA和ATBYTES"></a>4.1 ATDATA和ATBYTES</h3><p>ATBYTES[m:0]和ATDATA[n:0]，它们的关系如下所示：</p>
+<p>  <em><strong>m&#x3D;log2(n+1)-4</strong></em>  </p>
+<p>下表更直接地表明了它们之间的关系：</p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-07.png" loading="lazy"></p>
+<h3 id="4-2-ATIDs"><a href="#4-2-ATIDs" class="headerlink" title="4.2 ATIDs"></a>4.2 ATIDs</h3><p>跟踪数据项使用单独的ID生成，大多数源使用单个的静态ID，这些单独的ID可以提供：</p>
+<ul>
+<li>区分不同源的跟踪。</li>
+<li>识别跟踪的高带宽和低带宽组件，因此跟踪源下游的组件可以执行选择性滤波。</li>
+<li>通过在对齐同步点（如跟踪数据包的开头）更改ID来对齐同步信息。</li>
+</ul>
+<p>ATB跟踪数据项可以使用：</p>
+<ul>
+<li>0x01~0x6F范围内的任何ATID值。</li>
+<li>在ATBv1.1（AMBA4）中，ATID值0x7D仅用于生成跟踪触发器。</li>
+</ul>
+<p><strong>注意：</strong>ATID值0x00、0x70-0x7C、0x7E、0x7F是保留给CoreSight架构使用的，不能用作ATB ID。</p>
+<p>有两个选项可以确保不同的跟踪流使用唯一的ID值：</p>
+<ul>
+<li><strong>固定式ID</strong><ul>
+<li>所有ATB接口源的ID都是在系统设计时选择的，系统不导出ATB接口。</li>
+</ul>
+</li>
+<li><strong>配置式ID</strong><ul>
+<li>每个ATB接口源的ID是由调试器可配置的，允许组件在更大的系统中重用。</li>
+<li>可重用的CoreSight组件必须实现配置式ID。</li>
+</ul>
+</li>
+</ul>
+<p>具体实现时，必须确保同时捕获ATID值和ATDATA值。</p>
+<p><strong>跟踪字节的顺序</strong></p>
+<p>ATB实现必须保持跟踪字节的顺序，即使在使用不同ATID的跟踪之间也是如此。虽然CoreSight跟踪funnel允许以任何顺序对来自不同源的跟踪进行排序，但当funnel放到单个总线上时，顺序不能更改。</p>
+<p><strong>注意：</strong>这与AXI接口中按ID信号排序的要求不同，在AXI接口中，顺序只在具有相同ID的事务之间保留。</p>
+<h3 id="4-3-Flush"><a href="#4-3-Flush" class="headerlink" title="4.3 Flush"></a><strong>4.3 Flush</strong></h3><p>跟踪数据项的缓冲特性意味着：随着周期的进展，通常有必要从缓冲区中删除剩余数据，为新数据做准备。从缓冲区中删除数据的过程称为flushing（刷新）。在典型的跟踪源中，在“要跟踪的事件发生”和“该事件的跟踪生成”之间有固定的时间和pipeline阶段数量，例如由处理器执行的指令。</p>
+<p>跟踪生成示例如下所示：</p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-08.png" loading="lazy"></p>
+<p>生成跟踪数据项时将其写入FIFO，数据从FIFO输出，每次由一个完整的数据字组成。ATDATA总线的宽度定义了数据字的大小。理论上，跟踪生成和输出之间的时间段是无限的，因为FIFO可能永远不会接收到足够的跟踪数据来填充整个输出数据字。生成和输出之间可能延长delay的一个例子是，跟踪源保留输出，直到它有一个完整的跟踪数据字可用于输出。在一个只有当整个数据字可用时才输出数据的系统中，有各种情况可能需要刷新缓冲区：</p>
+<ul>
+<li><strong>系统或系统的一部分即将下电或时钟即将停止。</strong></li>
+</ul>
+<p>在关闭电源或停止时钟之前，必须输出跟踪源中的buffer或FIFO内剩余的任何跟踪。因此AFVALID信号表示刷新。通常在发出刷新信号后不会再生成跟踪，因为处理器和内存活动已经停止。如果在刷新之后生成跟踪，则可以忽略它，例如来自处理器空闲循环的跟踪数据。</p>
+<ul>
+<li><strong>跟踪捕获设备即将停止捕获，通常是因为触发点。</strong></li>
+</ul>
+<p>跟踪捕获设备可以是off-chip跟踪端口分析器（<em>Trace Port Analyzer</em>，TPA）或on-chip嵌入式跟踪缓冲（<em>Embedded Trace Buffer</em>，ETB）。这种情况下的可能性包括：</p>
+<p>  —— on-chip逻辑发出信号，表示捕获即将停止。（这个点发起刷新。）</p>
+<p>  —— on-chip逻辑收到关于触发器的信号，但没有关于要捕获多少新增跟踪的任何信息。（可以在触发点发起刷新，这确保所有的跟踪在捕获触发之前生成，但对触发之后生成的跟踪没有影响。）</p>
+<p>  —— 定期发起刷新。（必须选择刷新周期，以便在“触发出现”和“跟踪捕获停止”之间始终发生刷新。当刷新发生时，由AFVALID拉高来表示，协议期望funnel将最高优先级授予尚未拉高AFREADY的跟踪源。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>在启动刷新序列后，接收器接口不能取消刷新序列，这意味着它不能被跟踪接收器取消。</li>
+<li>实现时，必须确保ATB信号在ATCLK的上升沿上采样，AFVALID信号保持拉高状态，直到AFREADY拉低。</li>
+</ul>
+<p>下图是ATB刷新的例子：</p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-09.png" loading="lazy"></p>
+<p>生成的所有跟踪在AFVALID拉高时开始输出，拉高AFREADY。拉高AFREADY并不表明FIFO是空的。在拉高AFVALID之后生成的跟踪存储在FIFO中，然后在拉高AFREADY之后输出此跟踪。当拉高AFVALID时，发送器必须立即开始输出缓冲的跟踪。</p>
+<p>当发送方拉高AFREADY时如果不需要额外的刷新，则接收方必须在下一个周期中拉低AFVALID。</p>
+<p>当拉高AFVALID时，变送器必须在“第一次拉高AFVALID的周期上缓冲的输出数据后”的一个周期拉高AFREADY，也就是说它必须在输出“AFVALID拉高要求它刷新的最后一个数据”后的一个周期拉高AFREADY。</p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-10.png" loading="lazy"></p>
+<p><strong>不在本地存储跟踪源的行为</strong></p>
+<p>如果发射器接口是一个不存储任何本地跟踪的跟踪源，下表显示了它如何控制AFREADY。</p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-11.png" loading="lazy"></p>
+<p>下图显示了没有在本地存储任何跟踪的发送器的AFREADY控制：</p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-12.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-13.png" loading="lazy"></p>
+<h3 id="4-4-Trigger（ATB4-5）"><a href="#4-4-Trigger（ATB4-5）" class="headerlink" title="4.4 Trigger（ATB4&#x2F;5）"></a>4.4 Trigger（ATB4&#x2F;5）</h3><p>跟踪触发信号是从跟踪源到跟踪接收器的自己定义的消息。通常可能用于指示发生了重要的情况，并且跟踪捕获应该准备停止。在ATBv1.1（ATB4）中，发送器可以向跟踪触发器发出如下信号：</p>
+<ul>
+<li>“ATID”必须为“0x7D”。</li>
+<li>ATBYTES表示在此周期中输出的跟踪触发器的数量，建议在可能的情况下，一次只生成一个跟踪触发器，在这种情况下：</li>
+</ul>
+<p>  —— 只有1字节的数据。</p>
+<p>  —— ATBYTES为0。</p>
+<ul>
+<li>ATDATA表示每个信号跟踪触发器的源，如下所示：</li>
+</ul>
+<p>  —— 每个字节的数据表示一个单独的跟踪触发器。</p>
+<p>  —— 数据字节为0表示来自未知来源的触发器，建议跟踪源不要使用此值。</p>
+<p>  —— 非零的数据字节表示生成跟踪触发器的跟踪源的ID。</p>
+<p>例如：</p>
+<ul>
+<li>使用ATID 0x10作为ATB的跟踪源可以通过生成一个字节的跟踪数据来指示其ATB接口上的触发器：</li>
+</ul>
+<p>  —— ATID信号0x7D，表示跟踪触发器。</p>
+<p>  —— ATBYTES信号0x0，表示单个数据字节。<br>  —— ATDATA信号0x10，表示跟踪源ID。</p>
+<ul>
+<li>使用AXID 0x10和0x12的跟踪流可以通过生成两个字节的跟踪数据来指示两个跟踪源上的同时跟踪触发器：</li>
+</ul>
+<p>  —— ATID信号0x7D，表示跟踪触发器。</p>
+<p>  —— ATBYTES信号0x1，表示两个数据字节。</p>
+<p>  —— ATDATA信号0x1210，表示0x10和0x12的跟踪源ID。</p>
+<h3 id="4-5-Sync（ATB4-5）"><a href="#4-5-Sync（ATB4-5）" class="headerlink" title="4.5 Sync（ATB4&#x2F;5）"></a>4.5 Sync（ATB4&#x2F;5）</h3><p>ATBv1.1（ATB4）中可以选择性包括SYNCREQ同步请求信号。Slave通过拉高SYNCREQ 一个时钟周期来向 Master发出同步请求的信号。Master可以选择性实现SYNCREQ的输入，当该输入被断言为一个时钟周期时，可以识别来自Slave的同步请求。SYNCREQ信号与ATB接口上的任何其他信号没有任何关系，然而在ATBv1.1（ATB4）的具体实现时，协议期望：</p>
+<ul>
+<li>SYNCREQ将与其他ATB信号一起通过系统路由。</li>
+<li>任何跟踪Link（如跟踪funnel）都可以用于将Master接口的输入同步请求传递到上游跟踪源。</li>
+</ul>
+<p>已启用的跟踪源必须尝试为接收到的每个同步请求在跟踪流中提供一次同步信息。跟踪源可以是：</p>
+<ul>
+<li>同步信息的延迟输出，以避免任何内部buffer的溢出。</li>
+<li>忽略在“跟踪源输出与前一个同步请求对应的同步信息之前”接收到的同步请求。</li>
+</ul>
+<p><strong>注意：</strong>ATB发射器必须意识到，SYNCREQ上的脉冲可能在任何时候被接收，并且必须确保它在需要时对SYNCREQ做出响应。</p>
+<h3 id="4-6-Wake-up（ATB5）"><a href="#4-6-Wake-up（ATB5）" class="headerlink" title="4.6 Wake-up（ATB5）"></a>4.6 Wake-up（ATB5）</h3><p>唤醒信号用于指示与ATB接口相关的活动，可以提供一个glitch-free的信号，可以路由到时钟控制器或类似的组件，可以用于唤醒连接组件的电源和时钟。Wakeup_Signal属性用于指示组件是否支持唤醒信号：</p>
+<ul>
+<li>True：存在唤醒信号。</li>
+<li>False：没有唤醒信号。</li>
+</ul>
+<p>如果未声明Wakeup_Signal，则认为它为False，唤醒信号只能添加到ATB5的接口。</p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-14.png" loading="lazy"></p>
+<p>ATWAKEUP信号的规则是：</p>
+<ul>
+<li>ATWAKEUP与ATCLK是同步的，但更适合于跨时钟域到控制器。</li>
+<li>ATWAKEUP必须是glitch-free的，并且直接从寄存器生成。</li>
+<li>允许在拉高ATVALID之前或之后的任何点拉高ATWAKEUP。</li>
+<li>允许Slave在拉高ATREADY之前等待ATWAKEUP被拉高（这意味着如果ATWAKEUP存在却从未拉高，ATB接口可能会死锁。）</li>
+<li>如果ATWAKEUP和ATVALID在同一周期内为高，则ATWAKEUP必须保持高电平，直到ATREADY被拉高。</li>
+</ul>
+<p>建议：</p>
+<ul>
+<li>在拉高ATVALID之前至少一个周期拉高ATWAKEUP，以防止延迟接受新事务。</li>
+<li>当不需要进一步传输时拉低ATWAKEUP。（允许但不推荐在没有事务发生的情况下拉高ATWAKEUP然后拉低）</li>
+</ul>
+<p>[1] ARM官方数据手册：<a target="_blank" rel="noopener" href="https://www.arm.com/architecture/system-architectures/amba/amba-specifications">https://www.arm.com/architecture/system-architectures/amba/amba-specifications</a></p>
+<hr>
+<blockquote>
+<p>原文：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xianyuIC/p/17419076.html">AMBA总线（4）—— ATB协议</a>（博客园 · 咸鱼IC）</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer"><div class="passage-end-tag">
+  ------------- 本文结束 <i class="fa fa-paw"></i> 感谢阅读 -------------
+</div>
+
+
+
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wx.png" alt="hyw-zero 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="hyw-zero 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/AMBA/" rel="tag"># AMBA</a>
+              <a href="/tags/ATB/" rel="tag"># ATB</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/05/05/amba-bus-3-axi/" rel="prev" title="AMBA总线（3）—— AXI协议">
+                  <i class="fa fa-angle-left"></i> AMBA总线（3）—— AXI协议
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/01/01/amba-bus-5-axi5/" rel="next" title="AMBA总线（5）—— AXI5新feature">
+                  AMBA总线（5）—— AXI5新feature <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MzU4NC8yMDEyMw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">hyw-zero</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">149k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:01</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script src="/js/third-party/comments/livere.js" defer></script>
+<script src="/js/clicklove.js"></script>
+<script src="/js/live2d-autoload.js?v=2"></script>
+
+<div class="sidebar-music" id="sidebar-music">
+  <iframe width="280" height="300" frameborder="no" border="0" marginwidth="0" marginheight="0"
+    src="https://music.163.com/outchain/player?type=0&amp;id=411680085&amp;auto=1&amp;height=430"
+    title="网易云音乐播放器"></iframe>
+</div>
+<script>
+  (function () {
+    var sidebar = document.querySelector('.sidebar');
+    var music = document.getElementById('sidebar-music');
+    if (!sidebar || !music) return;
+    sidebar.appendChild(music);
+  })();
+</script>
+
+</body>
+</html>

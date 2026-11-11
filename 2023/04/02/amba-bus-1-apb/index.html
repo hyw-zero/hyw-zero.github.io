@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.2">
+  <link rel="preload" href="/css/main.css" as="style">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto+Slab:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha256-4Lad8m4ZWW1Lgb9+sMVLYEfnIh7BjV1NQMEe79Pviks=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.css" integrity="sha256-mdaMxrItEW6hMIVJJNPKuX0B7KCSJQVEv3mVY4N2we4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hyw-zero.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"hide","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"stackoverflow-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":null,"activeClass":"livere"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="APB是最简单的AMBA总线了，功耗很低，它多用于低速外围设备和访问寄存器。相比AHB和AXI，有几个很不一样的点：  最快只能背靠背（back to back）传输，至少2个周期传输一个数据，PSEL起来然后PENABLE起来。   背靠背传输，即连续传输，这笔传输传完，紧挨着下一个Cycle就可以开始下一笔传输。   不能Pipeline传输、Burst传输、Outstanding传输，数据有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AMBA总线（1）—— APB协议">
+<meta property="og:url" content="https://hyw-zero.github.io/2023/04/02/amba-bus-1-apb/index.html">
+<meta property="og:site_name" content="ZERO">
+<meta property="og:description" content="APB是最简单的AMBA总线了，功耗很低，它多用于低速外围设备和访问寄存器。相比AHB和AXI，有几个很不一样的点：  最快只能背靠背（back to back）传输，至少2个周期传输一个数据，PSEL起来然后PENABLE起来。   背靠背传输，即连续传输，这笔传输传完，紧挨着下一个Cycle就可以开始下一笔传输。   不能Pipeline传输、Burst传输、Outstanding传输，数据有">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-01.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-02.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-03.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-04.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-05.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-06.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-07.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-08.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-09.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-10.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-11.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-12.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-13.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-14.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-15.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-16.png">
+<meta property="og:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-17.png">
+<meta property="article:published_time" content="2023-04-01T19:46:00.000Z">
+<meta property="article:modified_time" content="2023-04-01T19:46:00.000Z">
+<meta property="article:author" content="hyw-zero">
+<meta property="article:tag" content="AMBA">
+<meta property="article:tag" content="APB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hyw-zero.github.io/uploads/amba/amba-bus-1-apb/img-01.png">
+
+
+<link rel="canonical" href="https://hyw-zero.github.io/2023/04/02/amba-bus-1-apb/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hyw-zero.github.io/2023/04/02/amba-bus-1-apb/","path":"2023/04/02/amba-bus-1-apb/","title":"AMBA总线（1）—— APB协议"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>AMBA总线（1）—— APB协议 | ZERO</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.umd.js" integrity="sha256-QnJV4HT5r8i89ovZGRD86iynZqHerEbT2xt69vDM36I=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","display_overflow":"scroll","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-mml-chtml.js","integrity":"sha256-ihPtDDm7pTmSF9ViEsItlvsrBTsNkz0MOXMchzOwCQw="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-search popup-trigger" aria-label="搜索" role="button">
+      <i class="fa fa-search fa-fw fa-lg"></i>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ZERO</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep  learning, be  curious !</p>
+  </div>
+
+  <div class="site-nav-toggle" aria-label="切换导航栏" role="button">
+      <i class="fa fa-ellipsis fa-fw fa-lg"></i>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  
+  <template id="search-popup-template"><div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div></template>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80"><span class="nav-text">1 前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-APB-%E7%89%88%E6%9C%AC"><span class="nav-text">1.2 APB 版本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-AMBA2-APB-Specification%EF%BC%88APB2%EF%BC%89"><span class="nav-text">1.2.1 AMBA2 APB Specification（APB2）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-AMBA3-APB-Protocol-Specification-v1-0%EF%BC%88APB3%EF%BC%89"><span class="nav-text">1.2.2 AMBA3 APB Protocol Specification v1.0（APB3）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-AMBA-APB-Protocol-Specification-v2-0%EF%BC%88Issue-C-APB4%EF%BC%89"><span class="nav-text">1.2.3 AMBA APB Protocol Specification v2.0（Issue C, APB4）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4-AMBA-APB-Specification-Issue-D-E-APB5%EF%BC%89"><span class="nav-text">1.2.4 AMBA APB Specification (Issue D&#x2F;E, APB5）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-APB%E4%BF%A1%E5%8F%B7"><span class="nav-text">2 APB信号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%95%B0%E6%8D%AE%E6%80%BB%E7%BA%BF"><span class="nav-text">2.1 数据总线</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-APB%E4%BC%A0%E8%BE%93"><span class="nav-text">3 APB传输</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%86%99%E4%BC%A0%E8%BE%93"><span class="nav-text">3.1 写传输</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-%E6%B2%A1%E6%9C%89%E7%AD%89%E5%BE%85%E7%8A%B6%E6%80%81"><span class="nav-text">3.1.1 没有等待状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-2-%E5%85%B7%E6%9C%89%E7%AD%89%E5%BE%85%E7%8A%B6%E6%80%81"><span class="nav-text">3.1.2 具有等待状态</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%86%99%E6%8E%A9%E7%A0%81"><span class="nav-text">3.2 写掩码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E8%AF%BB%E4%BC%A0%E8%BE%93"><span class="nav-text">3.3 读传输</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-%E6%B2%A1%E6%9C%89%E7%AD%89%E5%BE%85%E7%8A%B6%E6%80%81"><span class="nav-text">3.3.1 没有等待状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-%E5%85%B7%E6%9C%89%E7%AD%89%E5%BE%85%E7%8A%B6%E6%80%81"><span class="nav-text">3.3.2 具有等待状态</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E9%94%99%E8%AF%AF%E5%93%8D%E5%BA%94"><span class="nav-text">3.4 错误响应</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-1-%E5%86%99%E4%BC%A0%E8%BE%93"><span class="nav-text">3.4.1 写传输</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-2-%E8%AF%BB%E4%BC%A0%E8%BE%93"><span class="nav-text">3.4.2 读传输</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-3-PSLAVERR%E6%98%A0%E5%B0%84"><span class="nav-text">3.4.3 PSLAVERR映射</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E4%BF%9D%E6%8A%A4%E5%8D%95%E5%85%83%E7%9A%84%E6%94%AF%E6%8C%81"><span class="nav-text">3.5 保护单元的支持</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-APB%E8%BF%90%E8%A1%8C%E9%98%B6%E6%AE%B5"><span class="nav-text">4 APB运行阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E8%BF%90%E8%A1%8C%E9%98%B6%E6%AE%B5"><span class="nav-text">4.1 运行阶段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-APB%E8%AF%BB%E5%86%99%E8%AE%BE%E8%AE%A1"><span class="nav-text">5 APB读写设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-apb-rf"><span class="nav-text">5.1 apb_rf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-apb-top"><span class="nav-text">5.2 apb_top</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-apb-top-tb"><span class="nav-text">5.3 apb_top_tb</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C"><span class="nav-text">5.4 仿真结果</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hyw-zero"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">hyw-zero</p>
+  <div class="site-description" itemprop="description">ZERO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hyw-zero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hyw-zero" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hyw33666@gmail.com" title="E-Mail → mailto:hyw33666@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hyw-zero.github.io/2023/04/02/amba-bus-1-apb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="hyw-zero">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZERO">
+      <meta itemprop="description" content="ZERO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="AMBA总线（1）—— APB协议 | ZERO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AMBA总线（1）—— APB协议
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-04-01 19:46:00" itemprop="dateCreated datePublished" datetime="2023-04-01T19:46:00Z">2023-04-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AMBA/" itemprop="url" rel="index"><span itemprop="name">AMBA</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-lines"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>14 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>APB是最简单的AMBA总线了，功耗很低，它多用于低速外围设备和访问寄存器。相比AHB和AXI，有几个很不一样的点：</p>
+<ul>
+<li><strong>最快只能背靠背（back to back）传输，至少2个周期传输一个数据，PSEL起来然后PENABLE起来。</strong>  <ul>
+<li>背靠背传输，即连续传输，这笔传输传完，紧挨着下一个Cycle就可以开始下一笔传输。</li>
+</ul>
+</li>
+<li><strong>不能Pipeline传输、Burst传输、Outstanding传输，数据有效时，其地址必然是当前数据的对应地址。</strong><ul>
+<li>pipeline传输，即流水式传输，指当前传输的结束Cycle可以是下一笔传输的起始Cycle，起到无缝衔接。</li>
+<li>burst传输，即只需指定起始地址和突发长度，即可自动对后面连续地址进行操作，无需提供连续地址。</li>
+<li>outstanding传输，即不需要等待读写数据完成，即可继续提供下一笔传输的命令和地址，提高传输效率。</li>
+</ul>
+</li>
+<li><strong>不能读写同时传输，因为其读写地址是共用的。（AHB也不能读写同时传输）</strong></li>
+<li><strong>不能仲裁，因为是单主多从协议。典型的APB协议包括唯一的APB桥作为Master，而所有的APB模块都是APB slave。</strong></li>
+</ul>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-01.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-02.png" loading="lazy"></p>
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1 前言"></a>1 前言</h2><h3 id="1-2-APB-版本"><a href="#1-2-APB-版本" class="headerlink" title="1.2 APB 版本"></a>1.2 APB 版本</h3><p>1998年发布的 <em>APB Specification Rev E</em> 现已过时，并被以下三个修订版所取代：</p>
+<ul>
+<li>AMBA2 APB Specification（即所谓APB2）</li>
+<li>AMBA3 APB Protocol Specification v1.0（即所谓APB3）</li>
+<li>AMBA APB Protocol Specification v2.0&#x2F;Issue C（即所谓APB4）</li>
+<li>AMBA APB Protocol Specification Issue D&#x2F;E（即所谓APB5）</li>
+</ul>
+<h4 id="1-2-1-AMBA2-APB-Specification（APB2）"><a href="#1-2-1-AMBA2-APB-Specification（APB2）" class="headerlink" title="1.2.1 AMBA2 APB Specification（APB2）"></a>1.2.1 AMBA2 APB Specification（APB2）</h4><p>AMBA2 APB 规范详见<em>AMBA2 APB Specification Rev2(ARM IHI 0011A)。</em></p>
+<p>该规范定义了接口信号、基本的读写传输以及APB的两个组件APB bridge和APB slave。</p>
+<p>规范的这个版本被称为APB2。</p>
+<h4 id="1-2-2-AMBA3-APB-Protocol-Specification-v1-0（APB3）"><a href="#1-2-2-AMBA3-APB-Protocol-Specification-v1-0（APB3）" class="headerlink" title="1.2.2 AMBA3 APB Protocol Specification v1.0（APB3）"></a>1.2.2 AMBA3 APB Protocol Specification v1.0（APB3）</h4><p>AMBA3 APB Protocol Specification v1.0定义了以下附加功能：</p>
+<ul>
+<li>等待状态。参见<em>Transfers。</em></li>
+<li>错误报告。参见<em>Error response。</em></li>
+</ul>
+<p>以下接口信号支持此功能：</p>
+<ul>
+<li><strong>PREADY</strong> 准备就绪的信号，表示APB传输完成。</li>
+<li><strong>PSLVERR</strong> 传输失败的错误信号。</li>
+</ul>
+<p>规范的这个版本被称为APB3。</p>
+<h4 id="1-2-3-AMBA-APB-Protocol-Specification-v2-0（Issue-C-APB4）"><a href="#1-2-3-AMBA-APB-Protocol-Specification-v2-0（Issue-C-APB4）" class="headerlink" title="1.2.3 AMBA APB Protocol Specification v2.0（Issue C, APB4）"></a>1.2.3 AMBA APB Protocol Specification v2.0（Issue C, APB4）</h4><p>AMBA APB Protocol Specification v2.0定义了以下附加功能：</p>
+<ul>
+<li>事务的保护。参见<em>Protection unit support</em>。</li>
+<li>稀疏数据传输。参见<em>Write strobes</em>。</li>
+</ul>
+<p>以下接口信号支持此功能：</p>
+<ul>
+<li><strong>PPROT</strong> 一种保护信号，用于支持非安全事务和安全事务。</li>
+<li><strong>PSTRB</strong> 一种写掩码信号，用于在写数据总线上实现稀疏数据传输。</li>
+</ul>
+<p>规范的这个版本被称为APB4。</p>
+<h4 id="1-2-4-AMBA-APB-Specification-Issue-D-E-APB5）"><a href="#1-2-4-AMBA-APB-Specification-Issue-D-E-APB5）" class="headerlink" title="1.2.4 AMBA APB Specification (Issue D&#x2F;E, APB5）"></a>1.2.4 AMBA APB Specification (Issue D&#x2F;E, APB5）</h4><p>AMBA APB Protocol Specification issue D&#x2F;E 定义了以下附加功能：</p>
+<ul>
+<li><strong>PWAKEUP</strong> 信号。</li>
+<li><strong>User</strong> 信号。</li>
+<li><strong>Parity protection and check</strong> 信号。</li>
+<li><strong><em>Reaml Management Extension</em> (RME)</strong> 支持。(issue E)</li>
+</ul>
+<p>规范的这个版本被称为APB5。</p>
+<h2 id="2-APB信号"><a href="#2-APB信号" class="headerlink" title="2 APB信号"></a>2 APB信号</h2><p><img src="/uploads/amba/amba-bus-1-apb/img-03.png" loading="lazy"></p>
+<h3 id="2-1-数据总线"><a href="#2-1-数据总线" class="headerlink" title="2.1 数据总线"></a>2.1 数据总线</h3><ul>
+<li>APB协议有两个独立的数据总线，一个用于读取数据，一个用于写入数据。</li>
+<li>总线可以达到32位宽。</li>
+<li>由于总线没有各自的握手信号，因此数据传输不可能同时发生在两个总线上。</li>
+</ul>
+<h2 id="3-APB传输"><a href="#3-APB传输" class="headerlink" title="3 APB传输"></a>3 APB传输</h2><h3 id="3-1-写传输"><a href="#3-1-写传输" class="headerlink" title="3.1 写传输"></a>3.1 写传输</h3><p>介绍写传输的几种类型：</p>
+<ul>
+<li>没有等待状态。</li>
+<li>具有等待状态。</li>
+</ul>
+<h4 id="3-1-1-没有等待状态"><a href="#3-1-1-没有等待状态" class="headerlink" title="3.1.1 没有等待状态"></a>3.1.1 没有等待状态</h4><p>图3-1表示没有等待传输的基本写传输。</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-04.png" loading="lazy"></p>
+<p>T1时，写传输开始于地址PADDR、写数据PWDATA、写信号PWRITE、选择信号PSEL，寄存在PCLK上升沿。这称为写传输的起始阶段。</p>
+<p>T2时，使能信号PENABLE和准备信号PREADY寄存在PCLK上升沿。</p>
+<p>当断言时，PENABLE表示传输的访问阶段的开始。</p>
+<p>当断言时，PREADY表示Slave可以在PCLK的下一个上升边完成传输。</p>
+<p>地址PADDR、写数据PWDATA和控制信号都保持有效，直到传输在访问阶段的T3完成结束。</p>
+<p>使能信号PENABLE在传输结束时被撤销。</p>
+<p>选择信号PSEL也被去断言，除非在此传输之后立即有另一个传输到同一Slave。</p>
+<p>下图给出了burst写的例子：</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-05.png" loading="lazy"></p>
+<h4 id="3-1-2-具有等待状态"><a href="#3-1-2-具有等待状态" class="headerlink" title="3.1.2 具有等待状态"></a>3.1.2 具有等待状态</h4><p>图3-2在显示了如何在访问阶段使用PREADY信号扩展传输。当PENABLE为高，而Slave驱动PREADY为低时扩展传输。其他信号保持不变，而PREADY保持低。</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-06.png" loading="lazy"></p>
+<p>当PENABLE为低时，PREADY可以取任何值。这确保了具有固定两个周期访问的外围设备可以让PREADY tie1。</p>
+<p><strong>——注意 ————</strong></p>
+<p>建议地址和写信号在传输后不要立即改变，而是保持稳定，直到发生另一次访问。这能降低功耗。</p>
+<h3 id="3-2-写掩码"><a href="#3-2-写掩码" class="headerlink" title="3.2 写掩码"></a>3.2 写掩码</h3><p>写掩码信号PSTRB在写数据总线上实现稀疏数据传输。</p>
+<p>每个写掩码信号对应于写数据总线的一个字节。当断言为高时，写掩码指示写数据总线的相应字节通道包含有效信息。写数据总线的每8位都有一个写掩码，因此PSTRB[n]对应于PWDATA[(8n +7):(8n)]。</p>
+<p>在32位数据总线上，这种关系如图3-3所示。</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-07.png" loading="lazy"></p>
+<p><strong>——注意——</strong></p>
+<p>读传输时，Master必须驱动PSTRB的所有位为低。</p>
+<h3 id="3-3-读传输"><a href="#3-3-读传输" class="headerlink" title="3.3 读传输"></a>3.3 读传输</h3><p>本节介绍两种类型的读传输：</p>
+<ul>
+<li>没有等待状态。</li>
+<li>具有等待状态。</li>
+</ul>
+<h4 id="3-3-1-没有等待状态"><a href="#3-3-1-没有等待状态" class="headerlink" title="3.3.1 没有等待状态"></a>3.3.1 没有等待状态</h4><p>如图3-4所示。地址、写、选择和使能信号的时序和前文<strong>&lt;写传输&gt;</strong>中描述的一样。</p>
+<p>Slave必须在读传输结束之前提供数据。</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-08.png" loading="lazy"></p>
+<p>下图给出了burst读的例子。</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-09.png" loading="lazy"></p>
+<h4 id="3-3-2-具有等待状态"><a href="#3-3-2-具有等待状态" class="headerlink" title="3.3.2 具有等待状态"></a>3.3.2 具有等待状态</h4><p>图3-5显示了PREADY信号如何扩展传输。如果PREADY在访问阶段被驱动为低，则传输将被扩展。</p>
+<p>该协议确保其他信号在额外的周期内保持不变。</p>
+<p>图3-5显示了使用PREADY信号添加两个周期。然而，你可以添加从0开始的任何数量的额外周期。</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-10.png" loading="lazy"></p>
+<h3 id="3-4-错误响应"><a href="#3-4-错误响应" class="headerlink" title="3.4 错误响应"></a>3.4 错误响应</h3><p>可以使用PSLVERR指示APB传输上的错误条件。读和写事务都可能发生错误。</p>
+<p>当PSEL、PENABLE和PREADY均为高时，PSLVERR仅在APB传输的最后一个周期中被认为有效。</p>
+<p>建议（但非强制）在当PSEL、PENABLE或PREADY中的任何一个为低时，即未进行采样时驱动PSLVERR为低。</p>
+<p>接收到错误事务可能（也可能没有）改变了Slave的状态，这是特定于外围设备的，两者都是可以接受的。当写事务收到一个错误时，这并不意味着外围设备中的寄存器没有更新。接收到错误读事务可能返回无效数据，但没有要求Slave要驱动data总线为全0。</p>
+<p>APB外设不需要支持PSLVERR引脚，现有的和新的APB外围设计都是如此。如果外设没有这个引脚，那么Slave的合适输入为Tie 0。</p>
+<h4 id="3-4-1-写传输"><a href="#3-4-1-写传输" class="headerlink" title="3.4.1 写传输"></a>3.4.1 写传输</h4><p>图3-6给出了一个写传输失败并报错的例子。</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-11.png" loading="lazy"></p>
+<h4 id="3-4-2-读传输"><a href="#3-4-2-读传输" class="headerlink" title="3.4.2 读传输"></a>3.4.2 读传输</h4><p>读传输也可以在错误响应后完成，这表明没有有效的读数据可用。</p>
+<p>如图3-7所示，读传输完成后出现错误响应。</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-12.png" loading="lazy"></p>
+<h4 id="3-4-3-PSLAVERR映射"><a href="#3-4-3-PSLAVERR映射" class="headerlink" title="3.4.3 PSLAVERR映射"></a>3.4.3 PSLAVERR映射</h4><p>当桥接时：</p>
+<p><strong>从AXI到APB，</strong>PSLVERR被映射回RRESP&#x2F;BRESP &#x3D;SLVERR。这是通过将PSLVERR映射到用于读取的AXI信号的RRESP[1]（对于读）和BRESP[1]（对于写）来实现的。</p>
+<p><strong>从AHB到APB，</strong>PSLVERR被映射回HRESP &#x3D; ERROR（对于读和写）。这是通过将PSLVERR映射到AHB信号的HRESP[0]来实现的。</p>
+<h3 id="3-5-保护单元的支持"><a href="#3-5-保护单元的支持" class="headerlink" title="3.5 保护单元的支持"></a>3.5 保护单元的支持</h3><p>为了支持复杂的系统设计，通常需要系统中的互连和其他设备提供防止非法交易的保护。对于APB接口，这种保护由PPROT[2:0]信号提供。</p>
+<p>访问保护的三个级别是：</p>
+<p><strong>（1）Normal或Privileged，PPROT[0]</strong></p>
+<ul>
+<li>0表示正常访问</li>
+<li>1表示特权访问。</li>
+</ul>
+<p>这被一些Master用来表示它们的处理模式。Privileged处理模式通常在系统中具有更高级别的访问权限。</p>
+<p><strong>（2）Secure或non-Secure，PPROT[1]</strong></p>
+<ul>
+<li>0表示安全访问</li>
+<li>1表示非安全访问。</li>
+</ul>
+<p>这用于需要在处理模式之间进行更大程度区分的系统。</p>
+<p><strong>——注意 ————</strong></p>
+<p>这个位的配置是这样的：当它为1时，事务被认为是非安全的；当它为0时，事务被认为是安全的。</p>
+<p><strong>（3）Data or Instruction，PPROT[2]</strong></p>
+<ul>
+<li>0表示数据访问</li>
+<li>1表示指令访问。</li>
+</ul>
+<p>该位表示该事务是数据访问还是指令访问。</p>
+<p><strong>——注意————</strong></p>
+<p>此指示只是作为提示，并非在所有情况下都是准确的。例如里面事务包含指令和数据项的混合。默认情况下，建议将访问标记为数据访问，除非明确知道它是指令访问。</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-13.png" loading="lazy"></p>
+<p><strong>——注意————</strong></p>
+<p>PPROT的主要用途是作为安全或非安全事务的标识符。</p>
+<p>使用PPROT[0]和PPROT[2]标识符的不同解释是可以接受的。</p>
+<h2 id="4-APB运行阶段"><a href="#4-APB运行阶段" class="headerlink" title="4 APB运行阶段"></a>4 APB运行阶段</h2><h3 id="4-1-运行阶段"><a href="#4-1-运行阶段" class="headerlink" title="4.1 运行阶段"></a>4.1 运行阶段</h3><p>图4-1表示APB的运行活动。</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-14.png" loading="lazy"></p>
+<p>状态机通过以下状态运行：</p>
+<p><strong>（1）IDLE</strong></p>
+<p>这是APB的默认状态。</p>
+<p><strong>（2）SETUP</strong></p>
+<p>当需要传输时，总线进入SETUP状态，在该状态下，将断言适当的选择信号PSELx。总线只在一个时钟周期内保持SETUP状态，并且总是移动到时钟的下一个上升沿的ACCESS状态。</p>
+<p><strong>（3）ACCESS</strong></p>
+<p>使能信号PENABLE在ACCESS状态下被断言。地址、写、选择、写数据信号必须在从SETUP状态转换到ACCESS状态的过程中保持稳定。</p>
+<p>从ACCESS状态的退出由Slave的PREADY信号控制：</p>
+<ul>
+<li>如果PREADY被slave保持为低，那么外围总线仍然处于ACCESS状态。</li>
+<li>如果PREADY被slave驱动为高，那么ACCESS状态将退出，如果不需要更多的传输，总线将返回IDLE状态。或者如果接下来发生另一个传输，总线直接移动到SETUP状态。</li>
+</ul>
+<h2 id="5-APB读写设计"><a href="#5-APB读写设计" class="headerlink" title="5 APB读写设计"></a>5 APB读写设计</h2><p>随着时代的进步，SOC 设计中大多采用 AXI 总线进行数据的高速读写，而 APB 总线往往用于寄存器配置，下面设计一个模拟 APB 读写寄存器文件的设计。</p>
+<p>整个逻辑框图如下所示：</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-15.png" loading="lazy"></p>
+<p>各个模块的功能如下所示：</p>
+<ul>
+<li>apb_top_tb：testbench文件，用于模拟APB接口，提供必要的激励。</li>
+<li>apb_top：APB设计文件，内部包含APB时序转RAM读写时序，可以对寄存器文件 apb_rf.v 中进行读写操作。</li>
+<li>apb_rf：寄存器文件，本质是个RAM，用于存放寄存器，实际综合会成为一个真实的RAM。</li>
+</ul>
+<h3 id="5-1-apb-rf"><a href="#5-1-apb-rf" class="headerlink" title="5.1 apb_rf"></a>5.1 apb_rf</h3><p>SOC设计中包含大量的寄存器控制信号，例如某个功能开关不希望定死，于是就会外接寄存器进行控制。又或者希望实时读取某个模块的状态，于是外接到只读寄存器中，方便软件读取。</p>
+<p>这里我们模拟三个寄存器，他们的功能如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1、寄存器 alarm</span><br><span class="line">bit[0] : 为1时开启报警功能，为0时关闭报警功能。可读可写。</span><br><span class="line">bit[15:0]：报警阈值，达到该阈值后才会报警。可读可写。</span><br><span class="line"></span><br><span class="line">2、寄存器 run</span><br><span class="line">bit[0]：为1时开始运行。可读可写。</span><br><span class="line">bit[1]：为1时结束运行。可读可写。</span><br><span class="line"></span><br><span class="line">3、寄存器 status</span><br><span class="line">bit[4:0]：模块运行状态。只读</span><br></pre></td></tr></table></figure>
+
+<p>这些寄存器要写在 ram 中必须要有一个单独模块，我们一般叫做 config 文件或者 register file。该文件会提供 ram 读写接口，还会根据寄存器实际内容，在接口上加入一些输入或输出信号。根据上面描述，我们可以制作如下的 apb_rf.v 文件。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//**************************************************************************</span></span><br><span class="line"><span class="comment">// *** 名称 : apb_rf.v</span></span><br><span class="line"><span class="comment">// *** 作者 : xianyu_FPGA</span></span><br><span class="line"><span class="comment">// *** 博客 : https://www.cnblogs.com/xianyuIC/</span></span><br><span class="line"><span class="comment">// *** 日期 : 2023年4月</span></span><br><span class="line"><span class="comment">// *** 描述 : 寄存器文件</span></span><br><span class="line"><span class="comment">//**************************************************************************</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> apb_rf(</span><br><span class="line"><span class="comment">//========================&lt; port &gt;==========================================</span></span><br><span class="line"><span class="comment">//system --------------------------------------------</span></span><br><span class="line"><span class="keyword">input</span>                       pclk_i                  ,</span><br><span class="line"><span class="keyword">input</span>                       prst_n_i                ,</span><br><span class="line"><span class="comment">//ram -----------------------------------------------</span></span><br><span class="line"><span class="keyword">input</span>                       ram_wr                  ,</span><br><span class="line"><span class="keyword">input</span>                       ram_rd                  ,</span><br><span class="line"><span class="keyword">input</span>       [<span class="number">15</span>:<span class="number">0</span>]          ram_addr                ,</span><br><span class="line"><span class="keyword">input</span>       [<span class="number">31</span>:<span class="number">0</span>]          ram_wdata               ,</span><br><span class="line"><span class="keyword">output</span>  <span class="keyword">reg</span> [<span class="number">31</span>:<span class="number">0</span>]          ram_rdata               ,</span><br><span class="line"><span class="comment">//---------------------------------------------------</span></span><br><span class="line"><span class="comment">//register output</span></span><br><span class="line"><span class="keyword">output</span>  <span class="keyword">reg</span>                 alarm_int               ,</span><br><span class="line"><span class="keyword">output</span>  <span class="keyword">reg</span> [<span class="number">15</span>:<span class="number">0</span>]          alarm_value             ,</span><br><span class="line"><span class="keyword">output</span>  <span class="keyword">reg</span>                 run_start               ,</span><br><span class="line"><span class="keyword">output</span>  <span class="keyword">reg</span>                 run_stop                ,</span><br><span class="line"><span class="comment">//register input</span></span><br><span class="line"><span class="keyword">input</span>       [ <span class="number">4</span>:<span class="number">0</span>]          status</span><br><span class="line">);</span><br><span class="line"><span class="comment">//========================&lt; signal &gt;========================================</span></span><br><span class="line"><span class="keyword">wire</span>                        wr_alarm                ;</span><br><span class="line"><span class="keyword">wire</span>                        wr_run                  ;</span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="comment">//==    write enable</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="keyword">assign</span> wr_alarm = ram_wr &amp; (ram_addr == <span class="number">16&#x27;h0</span>);</span><br><span class="line"><span class="keyword">assign</span> wr_run   = ram_wr &amp; (ram_addr == <span class="number">16&#x27;h4</span>);</span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="comment">//==    write data</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> pclk_i <span class="keyword">or</span> <span class="keyword">negedge</span> prst_n_i) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!prst_n_i) <span class="keyword">begin</span></span><br><span class="line">        alarm_int   &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">        alarm_value &lt;= <span class="number">16&#x27;h0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(wr_alarm) <span class="keyword">begin</span></span><br><span class="line">        alarm_int   &lt;= ram_wdata[    <span class="number">0</span>];</span><br><span class="line">        alarm_value &lt;= ram_wdata[<span class="number">16</span>: <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> pclk_i <span class="keyword">or</span> <span class="keyword">negedge</span> prst_n_i) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!prst_n_i) <span class="keyword">begin</span></span><br><span class="line">        run_start   &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">        run_stop    &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(wr_run) <span class="keyword">begin</span></span><br><span class="line">        run_start &lt;= ram_wdata[<span class="number">0</span>];</span><br><span class="line">        run_stop  &lt;= ram_wdata[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="comment">//==    read data</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(ram_rd)</span><br><span class="line">        <span class="keyword">case</span>(ram_addr)</span><br><span class="line">            <span class="comment">//reg alarm</span></span><br><span class="line">            <span class="number">16&#x27;h0</span>: <span class="keyword">begin</span></span><br><span class="line">                    ram_rdata[    <span class="number">0</span>] = alarm_int;</span><br><span class="line">                    ram_rdata[<span class="number">16</span>: <span class="number">1</span>] = alarm_value;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="comment">//reg run</span></span><br><span class="line">            <span class="number">16&#x27;h4</span>: <span class="keyword">begin</span></span><br><span class="line">                    ram_rdata[<span class="number">0</span>] = run_start;</span><br><span class="line">                    ram_rdata[<span class="number">1</span>] = run_stop;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="comment">//reg status</span></span><br><span class="line">            <span class="number">16&#x27;h8</span>: <span class="keyword">begin</span></span><br><span class="line">                    ram_rdata[<span class="number">4</span>:<span class="number">0</span>] = status;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="keyword">default</span>: ram_rdata[<span class="number">31</span>:<span class="number">0</span>] = <span class="number">32&#x27;h0</span>;</span><br><span class="line">        <span class="keyword">endcase</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        ram_rdata = <span class="number">32&#x27;h0</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-apb-top"><a href="#5-2-apb-top" class="headerlink" title="5.2 apb_top"></a><strong>5.2 apb_top</strong></h3><p>APB 接口无法直接对 RAM 进行读写操作，因此需要一个 APB 转 RAM 的设计，这里建立一个 apb_top.v 文件，将 apb_rf.v 文件包起来，同时加入 APB 转 RAM 设计。可以看到这个 apb_top 接口完全就是 APB 接口了，可以看成是一个 APB Slave。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//**************************************************************************</span></span><br><span class="line"><span class="comment">// *** 名称 : apb_top.v</span></span><br><span class="line"><span class="comment">// *** 作者 : xianyu_FPGA</span></span><br><span class="line"><span class="comment">// *** 博客 : https://www.cnblogs.com/xianyuIC/</span></span><br><span class="line"><span class="comment">// *** 日期 : 2023年4月</span></span><br><span class="line"><span class="comment">// *** 描述 : APB读写RAM寄存器</span></span><br><span class="line"><span class="comment">//**************************************************************************</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> apb_top(</span><br><span class="line"><span class="comment">//========================&lt; port &gt;==========================================</span></span><br><span class="line"><span class="keyword">input</span>                       pclk_i                  ,</span><br><span class="line"><span class="keyword">input</span>                       prst_n_i                ,</span><br><span class="line"><span class="comment">//---------------------------------------------------</span></span><br><span class="line"><span class="keyword">input</span>       [<span class="number">15</span>:<span class="number">0</span>]          paddr_i                 ,</span><br><span class="line"><span class="keyword">input</span>                       pwrite_i                ,</span><br><span class="line"><span class="keyword">input</span>                       psel_i                  ,</span><br><span class="line"><span class="keyword">input</span>                       penable_i               ,</span><br><span class="line"><span class="keyword">input</span>       [<span class="number">31</span>:<span class="number">0</span>]          pwdata_i                ,</span><br><span class="line"><span class="keyword">output</span> <span class="keyword">reg</span>  [<span class="number">31</span>:<span class="number">0</span>]          prdata_o                ,</span><br><span class="line"><span class="keyword">output</span>                      pready_o                ,</span><br><span class="line"><span class="keyword">output</span>                      pslverr_o</span><br><span class="line">);</span><br><span class="line"><span class="comment">//========================&lt; signal &gt;========================================</span></span><br><span class="line"><span class="keyword">wire</span>                        ram_wr                  ;</span><br><span class="line"><span class="keyword">wire</span>                        ram_rd                  ;</span><br><span class="line"><span class="keyword">wire</span>    [<span class="number">15</span>:<span class="number">0</span>]              ram_addr                ;</span><br><span class="line"><span class="keyword">wire</span>    [<span class="number">31</span>:<span class="number">0</span>]              ram_wdata               ;</span><br><span class="line"><span class="keyword">wire</span>    [<span class="number">31</span>:<span class="number">0</span>]              ram_rdata               ;</span><br><span class="line"><span class="comment">//---------------------------------------------------</span></span><br><span class="line"><span class="keyword">wire</span>                        alarm_int               ;</span><br><span class="line"><span class="keyword">wire</span>    [<span class="number">15</span>:<span class="number">0</span>]              alarm_value             ;</span><br><span class="line"><span class="keyword">wire</span>                        run_start               ;</span><br><span class="line"><span class="keyword">wire</span>                        run_stop                ;</span><br><span class="line"><span class="comment">//wire    [ 4:0]            status                  ;</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="comment">//==    APB trans to RAM</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="keyword">assign</span> ram_wdata = pwdata_i;</span><br><span class="line"><span class="keyword">assign</span> ram_addr  = paddr_i;</span><br><span class="line"><span class="keyword">assign</span> ram_wr    =  pwrite_i &amp; psel_i &amp; penable_i;</span><br><span class="line"><span class="keyword">assign</span> ram_rd    = ~pwrite_i &amp; psel_i &amp; ~penable_i;</span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> pclk_i <span class="keyword">or</span> <span class="keyword">negedge</span> prst_n_i) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!prst_n_i)</span><br><span class="line">        prdata_o &lt;= <span class="number">32&#x27;h0</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(ram_rd)</span><br><span class="line">        prdata_o &lt;= ram_rdata;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">assign</span> pready_o = <span class="number">1&#x27;b1</span>;</span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="comment">//==    APB register</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line">apb_rf u_apb_rf</span><br><span class="line">(</span><br><span class="line">    <span class="variable">.pclk_i</span>                 (pclk_i                 ),  <span class="comment">//I</span></span><br><span class="line">    <span class="variable">.prst_n_i</span>               (prst_n_i               ),  <span class="comment">//I</span></span><br><span class="line">    <span class="comment">//ram -------------------------------------------</span></span><br><span class="line">    <span class="variable">.ram_wr</span>                 (ram_wr                 ),  <span class="comment">//I</span></span><br><span class="line">    <span class="variable">.ram_rd</span>                 (ram_rd                 ),  <span class="comment">//I</span></span><br><span class="line">    <span class="variable">.ram_addr</span>               (ram_addr               ),  <span class="comment">//I</span></span><br><span class="line">    <span class="variable">.ram_wdata</span>              (ram_wdata              ),  <span class="comment">//I</span></span><br><span class="line">    <span class="variable">.ram_rdata</span>              (ram_rdata              ),  <span class="comment">//O</span></span><br><span class="line">    <span class="comment">//register output -------------------------------</span></span><br><span class="line">    <span class="variable">.alarm_int</span>              (alarm_int              ),  <span class="comment">//O</span></span><br><span class="line">    <span class="variable">.alarm_value</span>            (alarm_value            ),  <span class="comment">//O</span></span><br><span class="line">    <span class="variable">.run_start</span>              (run_start              ),  <span class="comment">//O</span></span><br><span class="line">    <span class="variable">.run_stop</span>               (run_stop               ),  <span class="comment">//O</span></span><br><span class="line">    <span class="comment">//register input --------------------------------</span></span><br><span class="line">    <span class="variable">.status</span>                 (<span class="number">5&#x27;d4</span>                   )   <span class="comment">//I</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-3-apb-top-tb"><a href="#5-3-apb-top-tb" class="headerlink" title="5.3 apb_top_tb"></a><strong>5.3 apb_top_tb</strong></h3><p>最后是激励部分，由于 apb_top 模块可以看成是一个 APB slave 接口，那么这个 apb_top_tb 文件就可以看成是一个上游的 APB Master。我们根据 APB 时序，对上面的 3 个寄存器进行读写操作。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//**************************************************************************</span></span><br><span class="line"><span class="comment">// *** 名称 : apb_top_tb.v</span></span><br><span class="line"><span class="comment">// *** 作者 : xianyu_FPGA</span></span><br><span class="line"><span class="comment">// *** 博客 : https://www.cnblogs.com/xianyuIC/</span></span><br><span class="line"><span class="comment">// *** 日期 : 2023年4月</span></span><br><span class="line"><span class="comment">// *** 描述 : APB读写激励</span></span><br><span class="line"><span class="comment">//**************************************************************************</span></span><br><span class="line"><span class="meta">`<span class="keyword">timescale</span> 1ns/1ps  </span><span class="comment">//时间精度</span></span><br><span class="line"><span class="meta">`<span class="keyword">define</span>    Clock 20 </span><span class="comment">//时钟周期</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">module</span> apb_top_tb;</span><br><span class="line"><span class="comment">//========================&lt; signal &gt;========================================</span></span><br><span class="line"><span class="keyword">reg</span>                         pclk_i                  ;</span><br><span class="line"><span class="keyword">reg</span>                         prst_n_i                ;</span><br><span class="line"><span class="comment">//---------------------------------------------------</span></span><br><span class="line"><span class="keyword">reg</span>  [<span class="number">15</span>:<span class="number">0</span>]                 paddr_i                 ;</span><br><span class="line"><span class="keyword">reg</span>                         pwrite_i                ;</span><br><span class="line"><span class="keyword">reg</span>                         psel_i                  ;</span><br><span class="line"><span class="keyword">reg</span>                         penable_i               ;</span><br><span class="line"><span class="keyword">reg</span>  [<span class="number">31</span>:<span class="number">0</span>]                 pwdata_i                ;</span><br><span class="line"><span class="keyword">wire</span> [<span class="number">31</span>:<span class="number">0</span>]                 prdata_o                ;</span><br><span class="line"><span class="keyword">wire</span>                        pready_o                ;</span><br><span class="line"><span class="keyword">wire</span>                        pslverr_o               ;</span><br><span class="line"><span class="comment">//---------------------------------------------------</span></span><br><span class="line"><span class="keyword">reg</span>  [<span class="number">31</span>:<span class="number">0</span>]                 rdata                   ;</span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="comment">//==    instantiation</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line">apb_top u_apb_top</span><br><span class="line">(</span><br><span class="line">    <span class="variable">.pclk_i</span>                 (pclk_i                 ),</span><br><span class="line">    <span class="variable">.prst_n_i</span>               (prst_n_i               ),</span><br><span class="line">    <span class="comment">//-----------------------------------------------</span></span><br><span class="line">    <span class="variable">.paddr_i</span>                (paddr_i                ),</span><br><span class="line">    <span class="variable">.pwrite_i</span>               (pwrite_i               ),</span><br><span class="line">    <span class="variable">.psel_i</span>                 (psel_i                 ),</span><br><span class="line">    <span class="variable">.penable_i</span>              (penable_i              ),</span><br><span class="line">    <span class="variable">.pwdata_i</span>               (pwdata_i               ),</span><br><span class="line">    <span class="variable">.prdata_o</span>               (prdata_o               ),</span><br><span class="line">    <span class="variable">.pready_o</span>               (pready_o               ),</span><br><span class="line">    <span class="variable">.pslverr_o</span>              (pslverr_o              )</span><br><span class="line">);</span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="comment">//==    clock and reset</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">    pclk_i = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">forever</span></span><br><span class="line">        <span class="variable">#(`Clock/2)</span> pclk_i = ~pclk_i;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">    paddr_i    = <span class="number">0</span>;</span><br><span class="line">    pwrite_i   = <span class="number">0</span>;</span><br><span class="line">    psel_i     = <span class="number">0</span>;</span><br><span class="line">    penable_i  = <span class="number">0</span>;</span><br><span class="line">    pwdata_i   = <span class="number">0</span>;</span><br><span class="line">    prst_n_i   = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">repeat</span>(<span class="number">10</span>) @(<span class="keyword">negedge</span> pclk_i);</span><br><span class="line">    prst_n_i   = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="comment">//==    fsdb</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">initial begin</span></span><br><span class="line"><span class="comment">  $fsdbDumpfile(&quot;apb_tb.fsdb&quot;);</span></span><br><span class="line"><span class="comment">  $fsdbDumpvars;</span></span><br><span class="line"><span class="comment">  $fsdbDumpMDA;</span></span><br><span class="line"><span class="comment">end</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="comment">//==    task: apb_wr apb_rd</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="keyword">task</span> apb_wr;</span><br><span class="line">    <span class="keyword">input</span> [<span class="number">15</span>:<span class="number">0</span>] addr;</span><br><span class="line">    <span class="keyword">input</span> [<span class="number">31</span>:<span class="number">0</span>] data;</span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">        @(<span class="keyword">posedge</span> pclk_i)</span><br><span class="line">        paddr_i   = addr;</span><br><span class="line">        pwrite_i  = <span class="number">1</span>;</span><br><span class="line">        pwdata_i  = data;</span><br><span class="line">        psel_i    = <span class="number">1</span>;</span><br><span class="line">        penable_i = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        @(<span class="keyword">posedge</span> pclk_i)</span><br><span class="line">        penable_i = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        @(<span class="keyword">posedge</span> pclk_i)</span><br><span class="line">        pwrite_i  = <span class="number">0</span>;</span><br><span class="line">        psel_i    = <span class="number">0</span>;</span><br><span class="line">        penable_i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endtask</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">task</span> apb_rd;</span><br><span class="line">    <span class="keyword">input</span> [<span class="number">15</span>:<span class="number">0</span>] addr;</span><br><span class="line">    <span class="keyword">output</span>[<span class="number">31</span>:<span class="number">0</span>] data;</span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">        @(<span class="keyword">posedge</span> pclk_i)</span><br><span class="line">        paddr_i   = addr;</span><br><span class="line">        psel_i    = <span class="number">1</span>;</span><br><span class="line">        penable_i = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        @(<span class="keyword">posedge</span> pclk_i)</span><br><span class="line">        penable_i = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        @(<span class="keyword">posedge</span> pclk_i)</span><br><span class="line">        psel_i    = <span class="number">0</span>;</span><br><span class="line">        penable_i = <span class="number">0</span>;</span><br><span class="line">        data = prdata_o;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endtask</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="comment">//==    main test</span></span><br><span class="line"><span class="comment">//==========================================================================</span></span><br><span class="line"><span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">wait</span>(prst_n_i);</span><br><span class="line">    <span class="built_in">$display</span>(<span class="string">&quot;\nAPB test begin! @%t\n&quot;</span>,<span class="built_in">$time</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">repeat</span>(<span class="number">10</span>) @(<span class="keyword">negedge</span> pclk_i);</span><br><span class="line">    apb_wr(<span class="number">16&#x27;h0000</span>, <span class="number">32&#x27;h31</span>);</span><br><span class="line">    apb_wr(<span class="number">16&#x27;h0004</span>, <span class="number">32&#x27;h1</span>);</span><br><span class="line"> </span><br><span class="line">    apb_rd(<span class="number">16&#x27;h0008</span>, rdata);</span><br><span class="line">    <span class="keyword">repeat</span>(<span class="number">10</span>) @(<span class="keyword">negedge</span> pclk_i);</span><br><span class="line">    <span class="built_in">$display</span>(<span class="string">&quot;\nAPB test end! @%t\n&quot;</span>,<span class="built_in">$time</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">$finish</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-4-仿真结果"><a href="#5-4-仿真结果" class="headerlink" title="5.4 仿真结果"></a><strong>5.4 仿真结果</strong></h3><p>如果有 Verdi 可以用 VCS&#x2F;IRUN 等编译工具对这些代码进行编译，生成 fsdb 文件给 Verdi 用。这里还是用以前的老办法，采用 Modelsim 进行仿真，结果如下所示：</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-16.png" loading="lazy"></p>
+<p>从波形中可以看出，两次写和一次读符合 APB 数据手册。根据寄存器写入情况，apb_rf 模块中的相应信号也进行了变化。</p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-17.png" loading="lazy"></p>
+<p>参考资料：</p>
+<p>[1] ARM官方数据手册：<a target="_blank" rel="noopener" href="https://www.arm.com/architecture/system-architectures/amba/amba-specifications">https://www.arm.com/architecture/system-architectures/amba/amba-specifications</a></p>
+<p>[2] 芯王国：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40377195/article/details/124899571">https://blog.csdn.net/weixin_40377195&#x2F;article&#x2F;details&#x2F;124899571</a></p>
+<hr>
+<blockquote>
+<p>原文：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xianyuIC/p/17279209.html">AMBA总线（1）—— APB协议</a>（博客园 · 咸鱼IC）</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer"><div class="passage-end-tag">
+  ------------- 本文结束 <i class="fa fa-paw"></i> 感谢阅读 -------------
+</div>
+
+
+
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wx.png" alt="hyw-zero 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="hyw-zero 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/AMBA/" rel="tag"># AMBA</a>
+              <a href="/tags/APB/" rel="tag"># APB</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/30/python-fund-change-push/" rel="prev" title="python实现基金涨跌幅播报">
+                  <i class="fa fa-angle-left"></i> python实现基金涨跌幅播报
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/04/10/amba-bus-2-ahb/" rel="next" title="AMBA总线（2）—— AHB协议">
+                  AMBA总线（2）—— AHB协议 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MzU4NC8yMDEyMw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">hyw-zero</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">149k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:01</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script src="/js/third-party/comments/livere.js" defer></script>
+<script src="/js/clicklove.js"></script>
+<script src="/js/live2d-autoload.js?v=2"></script>
+
+<div class="sidebar-music" id="sidebar-music">
+  <iframe width="280" height="300" frameborder="no" border="0" marginwidth="0" marginheight="0"
+    src="https://music.163.com/outchain/player?type=0&amp;id=411680085&amp;auto=1&amp;height=430"
+    title="网易云音乐播放器"></iframe>
+</div>
+<script>
+  (function () {
+    var sidebar = document.querySelector('.sidebar');
+    var music = document.getElementById('sidebar-music');
+    if (!sidebar || !music) return;
+    sidebar.appendChild(music);
+  })();
+</script>
+
+</body>
+</html>
