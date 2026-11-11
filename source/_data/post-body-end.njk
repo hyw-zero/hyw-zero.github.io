@@ -1,0 +1,16 @@
+<div class="passage-end-tag">
+  ------------- 本文结束 <i class="fa fa-paw"></i> 感谢阅读 -------------
+</div>
+
+{% if page.copyright %}
+<div class="post-copyright">
+  <ul>
+    <li><strong>本文标题：</strong><a href="{{ url_for(page.path) }}">{{ page.title }}</a></li>
+    <li><strong>文章作者：</strong>{{ author }}</li>
+    <li><strong>发布时间：</strong>{{ page.date.format('YYYY年MM月DD日 HH:mm') }}</li>
+    <li><strong>最后更新：</strong>{{ page.updated.format('YYYY年MM月DD日 HH:mm') }}</li>
+    <li><strong>原始链接：</strong><a href="{{ url_for(page.path) }}">{{ page.permalink }}</a></li>
+    <li><strong>许可协议：</strong><a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">署名-非商业性使用-禁止演绎 4.0 国际</a>，转载请保留原文链接及作者。</li>
+  </ul>
+</div>
+{% endif %}

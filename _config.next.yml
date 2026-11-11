@@ -1,0 +1,308 @@
+# ===============================================================
+# NexT alternate theme configuration
+# Only the options that differ from the theme defaults are listed.
+# Docs: https://theme-next.js.org/docs/getting-started/configuration
+# ===============================================================
+
+# Schemes
+scheme: Gemini
+# Keep the original light theme (the old site did not use dark mode).
+darkmode: false
+
+# ---------------------------------------------------------------
+# Site Information
+# ---------------------------------------------------------------
+favicon:
+  small: /images/favicon.ico
+  medium: /images/favicon.ico
+  apple_touch_icon: /images/favicon.ico
+  safari_pinned_tab: /images/logo.svg
+
+custom_logo:
+
+creative_commons:
+  license: by-nc-sa
+  size: small
+  sidebar: false
+  post: false
+  language:
+
+# ---------------------------------------------------------------
+# Menu
+# ---------------------------------------------------------------
+menu:
+  home: / || fa fa-home
+  about: /about/ || fa fa-user
+  tags: /tags/ || fa fa-tags
+  categories: /categories/ || fa fa-th
+  archives: /archives/ || fa fa-archive
+
+menu_settings:
+  icons: true
+  badges: false
+
+# ---------------------------------------------------------------
+# Sidebar
+# ---------------------------------------------------------------
+sidebar:
+  position: left
+  width_expanded: 320
+  width_dual_column: 240
+  display: hide
+  padding: 18
+  offset: 12
+
+avatar:
+  url: /uploads/avatar.jpg
+  rounded: false
+  rotated: false
+
+site_state: true
+
+social:
+  GitHub: https://github.com/hyw-zero || fab fa-github
+  E-Mail: mailto:hyw33666@gmail.com || fa fa-envelope
+
+social_icons:
+  enable: true
+  icons_only: true
+  transition: false
+
+toc:
+  enable: true
+  number: false
+  wrap: false
+  expand_all: false
+  max_depth: 6
+
+# ---------------------------------------------------------------
+# Footer
+# ---------------------------------------------------------------
+footer:
+  since: 2019
+  icon:
+    name: fa fa-heart
+    animated: true
+    color: "#ff0000"
+  copyright:
+  powered: false
+  beian:
+    enable: false
+    icp:
+    gongan_id:
+    gongan_num:
+    gongan_icon_url:
+
+# ---------------------------------------------------------------
+# Posts
+# ---------------------------------------------------------------
+excerpt_description: false
+read_more_btn: true
+
+post_meta:
+  item_text: true
+  created_at: true
+  updated_at:
+    enable: true
+    another_day: true
+  categories: true
+
+symbols_count_time:
+  separated_meta: true
+  item_text_total: false
+
+tag_icon: false
+
+reward_settings:
+  enable: true
+  animation: false
+
+reward:
+  wechatpay: /images/wx.png
+  alipay: /images/alipay.png
+
+related_posts:
+  enable: false
+
+post_edit:
+  enable: false
+  url: https://github.com/hyw-zero/hyw-zero.github.io/tree/hexo/source/_posts/
+
+post_navigation: left
+
+# ---------------------------------------------------------------
+# Custom Pages
+# ---------------------------------------------------------------
+tagcloud:
+  min: 12
+  max: 30
+  amount: 200
+  orderby: name
+  order: 1
+
+# ---------------------------------------------------------------
+# Misc
+# ---------------------------------------------------------------
+mobile_layout_economy: false
+
+theme_color:
+  light: "#222"
+  dark: "#222"
+
+codeblock:
+  theme:
+    light: stackoverflow-dark
+    dark: stackoverflow-dark
+  prism:
+    light: prism
+    dark: prism-dark
+  copy_button:
+    enable: false
+  fold:
+    enable: false
+    height: 500
+  language: false
+
+back2top:
+  enable: true
+  sidebar: true
+  scrollpercent: true
+
+reading_progress:
+  enable: false
+
+bookmark:
+  enable: false
+
+github_banner:
+  enable: false
+
+# ---------------------------------------------------------------
+# Fonts
+# ---------------------------------------------------------------
+font:
+  enable: true
+  host: https://fonts.googleapis.com
+  global:
+    external: true
+    family: Lato
+    size:
+  title:
+    external: true
+    family:
+    size:
+  headings:
+    external: true
+    family: Roboto Slab
+    size:
+  posts:
+    external: true
+    family:
+  codes:
+    external: false
+    family:
+
+# ---------------------------------------------------------------
+# SEO
+# ---------------------------------------------------------------
+index_with_subtitle: false
+exturl: false
+
+# ---------------------------------------------------------------
+# Tags
+# ---------------------------------------------------------------
+note:
+  style: simple
+  icons: false
+  light_bg_offset: 0
+
+tabs:
+  sticky: false
+  transition:
+    tabs: false
+    labels: true
+
+pdf:
+  enable: false
+  height: 500px
+
+# ---------------------------------------------------------------
+# Math
+# ---------------------------------------------------------------
+math:
+  every_page: false
+  mathjax:
+    enable: true
+    tags: none
+    display_overflow: scroll
+  katex:
+    enable: false
+    copy_tex: false
+
+# ---------------------------------------------------------------
+# External Libraries
+# ---------------------------------------------------------------
+# Preload main.css and preconnect to the font/CDN origins used by the theme.
+preconnect: true
+
+fancybox: true
+mediumzoom: false
+pangu: false
+
+pace:
+  enable: true
+  color: blue
+  theme: minimal
+
+# ---------------------------------------------------------------
+# Comments
+# ---------------------------------------------------------------
+comments:
+  style: tabs
+  active: livere
+  storage: true
+  lazyload: true
+
+livere_uid: MTAyMC80MzU4NC8yMDEyMw==
+
+# ---------------------------------------------------------------
+# Analytics
+# ---------------------------------------------------------------
+# Universal Analytics (UA-*) stopped collecting data on 2023-07-01.
+# Disabled until a GA4 measurement ID is available.
+google_analytics:
+  tracking_id:
+  only_pageview: false
+
+busuanzi_count:
+  enable: true
+  total_visitors: true
+  total_visitors_icon: fa fa-user
+  total_views: true
+  total_views_icon: fa fa-eye
+  post_views: true
+  post_views_icon: far fa-eye
+
+# ---------------------------------------------------------------
+# Search
+# ---------------------------------------------------------------
+local_search:
+  enable: true
+  top_n_per_article: 1
+  unescape: false
+  preload: false
+
+# ---------------------------------------------------------------
+# Custom files
+# ---------------------------------------------------------------
+custom_file_path:
+  style: source/_data/styles.styl
+  postBodyEnd: source/_data/post-body-end.njk
+  bodyEnd: source/_data/body-end.njk
+
+# ---------------------------------------------------------------
+# CDN
+# ---------------------------------------------------------------
+vendors:
+  internal: local
+  plugins: cdnjs

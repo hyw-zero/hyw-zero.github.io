@@ -22,7 +22,7 @@ windows系统下一般位于
 
 如图所示
 
-![](./github1.png)
+{% asset_img github1.png %}
 
 ### 2.查询Github的两个ip地址
 
@@ -34,15 +34,15 @@ windows系统下一般位于
 
 如下图
 
-![](./github3.png)
+{% asset_img github3.png %}
 
 1.查询github.com的IP地址
 
-![](./github4.png)
+{% asset_img github4.png %}
 
 2.查询github.global.ssl.fastly.net的IP地址
 
-![](./github5.png)
+{% asset_img github5.png %}
 
 ### 3.打开hosts文件
 
@@ -50,13 +50,13 @@ windows系统下一般位于
 
 如图
 
-![](./github2.png)
+{% asset_img github2.png %}
 
 ### 4.刷新DNS缓存
 
 执行cmd命令，如下图
 
-![](./github6.png)
+{% asset_img github6.png %}
 
 输入以下命令
 
@@ -64,7 +64,7 @@ windows系统下一般位于
 
 
 如图
-![](./github.png)
+{% asset_img github.png %}
 
 现在再来试一下 git clone 命令，比以前快多了。
 

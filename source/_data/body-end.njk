@@ -1,0 +1,16 @@
+<script src="/js/clicklove.js"></script>
+<script src="/js/live2d-autoload.js?v=2"></script>
+
+<div class="sidebar-music" id="sidebar-music">
+  <iframe width="280" height="300" frameborder="no" border="0" marginwidth="0" marginheight="0"
+    src="https://music.163.com/outchain/player?type=0&amp;id=411680085&amp;auto=1&amp;height=430"
+    title="网易云音乐播放器"></iframe>
+</div>
+<script>
+  (function () {
+    var sidebar = document.querySelector('.sidebar');
+    var music = document.getElementById('sidebar-music');
+    if (!sidebar || !music) return;
+    sidebar.appendChild(music);
+  })();
+</script>

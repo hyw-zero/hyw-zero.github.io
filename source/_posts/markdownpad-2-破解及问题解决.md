@@ -1,5 +1,4 @@
 ---
-layout: 'n'
 title: markdownpad 2 破解及问题解决
 date: 2019-04-05 18:11:30
 tags: markdown
@@ -10,17 +9,17 @@ copyright: true
 进入[markdownpad官网](http://markdownpad.com) 
 或者 [点击下载markdownpad ](http://markdownpad.com/download/markdownpad2-setup.exe)
 
-![](./markdown1.png)
+{% asset_img markdown1.png %}
 
 ### 2.安装
 
-![](./markdown2.png)
+{% asset_img markdown2.png %}
 
 点击下一步
 
 ### 3.破解
 
-![](./markdown3.png)
+{% asset_img markdown3.png %}
 
 > 
 > 	邮箱：
@@ -34,7 +33,7 @@ copyright: true
 
 因为我们输入语法之后要进行预览，一般会出现无法预览的状态，会在右侧预览窗口出现这个
 
-![](./markdown4.png)
+{% asset_img markdown4.png %}
 
 因为还缺少实时预览的引擎，需要额外安装awesomium引擎。
 [awesomium下载地址](http://markdownpad.com/download/awesomium_v1.6.6_sdk_win.exe) 点击进行下载
