@@ -186,7 +186,7 @@ body {
   background: var(--body-bg-color);
   box-sizing: border-box;
   color: var(--text-color);
-  font-family: Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: Lato, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', sans-serif;
   font-size: 1em;
   line-height: 2;
   min-height: 100%;
@@ -199,7 +199,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Roboto Slab, Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: Roboto Slab, Lato, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', sans-serif;
   font-weight: bold;
   line-height: 1.5;
   margin: 30px 0 15px;
@@ -1078,7 +1078,7 @@ pre code {
   color: var(--brand-hover-color);
 }
 .site-title {
-  font-family: Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: Lato, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', sans-serif;
   font-size: 1.375em;
   font-weight: normal;
   line-height: 1.5;
@@ -1217,7 +1217,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ffff7f;
+    background: #0163ff;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -1811,7 +1811,7 @@ pre code {
   width: 4px;
 }
 .post-body {
-  font-family: Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: Lato, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', sans-serif;
   overflow-wrap: break-word;
 }
 @media (min-width: 1200px) {
@@ -2000,7 +2000,7 @@ pre code {
 }
 .posts-expand .post-meta-container {
   color: #999;
-  font-family: Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: Lato, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', sans-serif;
   font-size: 0.75em;
   margin-top: 3px;
 }
@@ -2864,7 +2864,7 @@ body {
   z-index: 0;
   background: #08101e;
   color: var(--zero-text);
-  font-family: Lato, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', sans-serif;
 }
 body::before {
   position: fixed;
@@ -2913,7 +2913,7 @@ header.header {
 }
 .site-title {
   color: #fff;
-  font-family: 'Roboto Slab', Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: 'Roboto Slab', 'Lato', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', sans-serif;
   font-size: 1.65em;
   font-weight: 800;
   line-height: 1.35;
@@ -3208,7 +3208,7 @@ header.header {
 .posts-expand .post-title {
   margin: 0;
   color: var(--zero-ink);
-  font-family: 'Roboto Slab', Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: 'Roboto Slab', 'Lato', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', sans-serif;
   font-size: 28px;
   font-weight: 700;
   line-height: 1.45;
@@ -3267,7 +3267,7 @@ header.header {
 .post-body h5,
 .post-body h6 {
   color: var(--zero-ink);
-  font-family: 'Roboto Slab', Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: 'Roboto Slab', 'Lato', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', sans-serif;
   letter-spacing: 0.01em;
 }
 .post-body h2,
@@ -3350,7 +3350,7 @@ tt,
 figure.highlight,
 figure.highlight pre,
 figure.highlight .gutter pre {
-  font-family: 'JetBrains Mono', 'Cascadia Code', Consolas, 'Liberation Mono', 'Microsoft YaHei', monospace;
+  font-family: 'JetBrains Mono', 'Cascadia Code', Consolas, 'Liberation Mono', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', monospace;
 }
 .post-body :not(pre) > code {
   margin: 0 2px;
@@ -3974,8 +3974,8 @@ mark.search-keyword {
     margin-bottom: 22px;
   }
   .posts-expand .post-title {
-    font-size: 21px;
-    line-height: 1.4;
+    font-size: 23px;
+    line-height: 1.45;
     text-wrap: balance;
   }
   .post-body {
