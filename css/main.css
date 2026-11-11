@@ -1217,7 +1217,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ecc337;
+    background: #ffff7f;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -4057,7 +4057,7 @@ mark.search-keyword {
     border-radius: 0;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   #waifu {
     right: 0 !important;
     left: auto !important;
@@ -4066,19 +4066,21 @@ mark.search-keyword {
     right: 28px !important;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   #waifu {
-    right: 0 !important;
-    left: auto !important;
+    left: 0 !important;
+    right: auto !important;
   }
+}
+@media (max-width: 767px) {
   #waifu #live2d {
     width: clamp(120px, 40vw, 150px) !important;
     height: clamp(120px, 40vw, 150px) !important;
   }
   #waifu #waifu-tips {
-    right: 6px;
+    right: auto;
     bottom: 100%;
-    left: auto;
+    left: 6px;
     width: 170px;
     min-height: 0;
     margin: 0 0 8px;
