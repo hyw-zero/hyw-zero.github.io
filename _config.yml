@@ -73,6 +73,15 @@ image_optimizer:
   min_bytes: 8192
   concurrency: 4
 
+# PDF library (scripts/pdf-library.js)
+# Put PDF files under source/pdf/; the catalog page at /pdf/ and the online
+# viewer at /pdf/viewer/ are generated automatically.
+pdf_library:
+  enable: true
+  dir: pdf
+  title: PDF 阅读
+  description: 课程讲义、技术手册与学习笔记，支持在线预览和下载。
+
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)

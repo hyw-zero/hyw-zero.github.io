@@ -1,0 +1,5 @@
+# Override NexT translations without touching the theme files.
+# Docs: https://theme-next.js.org/docs/advanced-settings/#customizing-translations
+zh-CN:
+  menu:
+    pdf: PDF 阅读

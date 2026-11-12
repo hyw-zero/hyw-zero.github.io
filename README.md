@@ -24,6 +24,7 @@ ZERO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 - 背景图使用 59KB 的 WebP，首屏更轻
 - Live2D 看板娘、点击爱心、网易云音乐播放器
 - 本地搜索、字数统计、阅读时长、文章目录、相关文章
+- PDF 阅读目录：把文件放进 `source/pdf/`，构建时自动生成目录和在线预览页
 - 文章级版权声明与「本文结束」签名
 
 ## 目录结构
@@ -34,14 +35,17 @@ ZERO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 ├─ _config.next.yml          # NexT 主题配置（菜单、头像、代码块等）
 ├─ package.json              # 依赖与 npm 脚本
 ├─ scripts/
-│  └─ image-optimizer.js     # 构建期图片优化脚本
+│  ├─ image-optimizer.js     # 构建期图片优化脚本
+│  └─ pdf-library.js         # PDF 目录与在线阅读页生成器
 ├─ source/
 │  ├─ _posts/                # 文章（一篇 .md 对应一个同名资源目录）
 │  ├─ _data/
 │  │  ├─ styles.styl         # 自定义样式（深色主题、布局、移动端）
 │  │  ├─ variables.styl      # 字体等 Stylus 变量
+│  │  ├─ languages.yml       # 菜单等文案的翻译覆盖
 │  │  ├─ body-end.njk        # 页面底部注入：Live2D、爱心、音乐播放器
 │  │  └─ post-body-end.njk   # 文章底部注入：版权声明
+│  ├─ pdf/                   # PDF 文件（支持子目录，构建时自动生成目录）
 │  ├─ images/                # 站点图片：背景、微信/支付宝收款码等
 │  ├─ uploads/               # 文章中引用的公共图片
 │  ├─ js/                    # 自定义脚本
@@ -153,6 +157,43 @@ image_optimizer:
 
 想强制重新编码图片时，删除 `.image-cache/` 后重新生成即可。
 
+## PDF 阅读目录
+
+把 PDF 文件放进 `source/pdf/`（支持中文文件名和子目录），重新生成后会自动上线：
+
+- 目录页：`/pdf/`，按文件名排序，显示所在目录与文件大小
+- 阅读页：`/pdf/viewer/?file=...`，使用浏览器内置 PDF 阅读器，支持翻页、缩放、下载
+- 顶部菜单「PDF 阅读」由 `_config.next.yml` 的 `menu.pdf` 控制
+
+```bash
+# 放好文件后
+npx hexo clean
+npx hexo generate
+npx hexo deploy
+```
+
+目录结构示例：
+
+```text
+source/pdf/
+├─ 操作系统讲义.pdf        ->  /pdf/操作系统讲义.pdf
+└─ 课件/
+   └─ 编译原理.pdf         ->  /pdf/课件/编译原理.pdf
+```
+
+> PDF 目录在构建时扫描生成，新增或删除文件后需要重新 `hexo generate`。
+> 桌面浏览器可直接内嵌预览；部分手机浏览器（如 Android Chrome）不支持内嵌 PDF，会转为下载，阅读页仍保留「下载 / 新窗口打开」入口。
+
+配置位于 `_config.yml`：
+
+```yaml
+pdf_library:
+  enable: true
+  dir: pdf
+  title: PDF 阅读
+  description: 课程讲义、技术手册与学习笔记，支持在线预览和下载。
+```
+
 ## 构建与部署
 
 ```bash
@@ -184,10 +225,11 @@ deploy:
 
 | 文件 | 用途 |
 | --- | --- |
-| `_config.yml` | 站点信息、URL、文章目录、图片优化、部署 |
+| `_config.yml` | 站点信息、URL、文章目录、图片优化、PDF 目录、部署 |
 | `_config.next.yml` | NexT 主题：菜单、头像、社交链接、代码高亮、Fancybox、本地搜索 |
-| `source/_data/styles.styl` | 深色配色、文章排版、背景、移动端适配 |
+| `source/_data/styles.styl` | 深色配色、文章排版、背景、PDF 目录样式、移动端适配 |
 | `source/_data/variables.styl` | 字体栈等变量 |
+| `source/_data/languages.yml` | 菜单等文案的翻译覆盖（如「PDF 阅读」） |
 | `source/_data/body-end.njk` | Live2D、点击爱心、音乐播放器注入 |
 | `source/_data/post-body-end.njk` | 文章底部版权声明 |
 | `source/js/live2d-autoload.js` | Live2D 加载逻辑 |
@@ -209,6 +251,9 @@ npx hexo server --static
 
 **`sharp` 安装失败？**
 确认 Node 版本为 20 LTS 及以上，然后重试 `npm install`；必要时执行 `npm rebuild sharp`。
+
+**新增 PDF 后目录里没有？**
+目录页在构建时扫描 `source/pdf/` 生成，放好文件后需要重新 `npx hexo generate`；部署前同样要先生成。文件名会自动作为标题（去掉 `.pdf` 后缀）。
 
 **部署成功但线上还是旧图？**
 GitHub Pages 与浏览器都有缓存，先 `Ctrl + F5` 强制刷新；再确认 `master` 分支已包含最新提交。

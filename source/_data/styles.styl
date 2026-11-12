@@ -1582,3 +1582,239 @@ mark.search-keyword {
     right: 2px !important;
   }
 }
+
+// ---------------------------------------------------------------
+// PDF library
+// ---------------------------------------------------------------
+.post-body:has(.pdf-library),
+.post-body:has(.pdf-viewer) {
+  max-width: 100%;
+}
+
+.pdf-library-summary {
+  margin: 0 0 18px;
+  color: var(--zero-muted);
+  font-size: 14px;
+  letter-spacing: 0.01em;
+}
+
+.pdf-library {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.pdf-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: var(--zero-radius);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.pdf-card:hover {
+  border-color: rgba(245, 158, 11, 0.38);
+  box-shadow: 0 14px 32px rgba(3, 10, 28, 0.12);
+  transform: translateY(-2px);
+}
+
+.pdf-card-heading {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.pdf-card-icon {
+  display: inline-flex;
+  flex: 0 0 42px;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  color: #dc2626;
+  font-size: 20px;
+  background: rgba(220, 38, 38, 0.09);
+  border-radius: 12px;
+}
+
+.pdf-card-title {
+  display: inline-block;
+  color: var(--zero-ink);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  word-break: break-word;
+  border-bottom: 0;
+  transition: color 0.2s ease-in-out;
+}
+
+.pdf-card-title:hover {
+  color: var(--zero-accent-deep);
+  border-bottom: 0;
+}
+
+.pdf-card-meta {
+  margin-top: 4px;
+  color: var(--zero-muted);
+  font-size: 12.5px;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.pdf-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.pdf-card-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 14px;
+  color: var(--zero-accent-deep);
+  font-size: 13px;
+  line-height: 1.4;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.18);
+  border-radius: 999px;
+  transition: color 0.2s ease-in-out, background 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.pdf-card-button:hover {
+  color: #fff;
+  background: var(--zero-gradient);
+  border-color: transparent;
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.2);
+  transform: translateY(-1px);
+}
+
+.pdf-card-button.is-primary {
+  color: #fff;
+  background: var(--zero-gradient);
+  border-color: transparent;
+}
+
+.pdf-card-button.is-primary:hover {
+  box-shadow: 0 10px 24px rgba(249, 115, 22, 0.28);
+}
+
+.pdf-empty {
+  padding: 46px 22px;
+  color: var(--zero-muted);
+  text-align: center;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px dashed rgba(148, 163, 184, 0.4);
+  border-radius: var(--zero-radius);
+}
+
+.pdf-empty > i {
+  color: #dc2626;
+  font-size: 36px;
+  opacity: 0.7;
+}
+
+.pdf-empty p {
+  margin: 10px 0 0;
+  line-height: 1.7;
+}
+
+.pdf-empty code {
+  padding: 2px 6px;
+  color: var(--zero-accent-deep);
+  background: rgba(245, 158, 11, 0.1);
+  border-radius: 6px;
+}
+
+.pdf-viewer-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.pdf-viewer-name {
+  flex: 1 1 220px;
+  min-width: 0;
+  color: var(--zero-ink);
+  font-size: 15px;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.pdf-viewer-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pdf-viewer-frame {
+  display: block;
+  width: 100%;
+  height: calc(100vh - 280px);
+  min-height: 520px;
+  background: #fff;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: var(--zero-radius);
+  box-shadow: 0 16px 36px rgba(3, 10, 28, 0.14);
+}
+
+.pdf-viewer-hint {
+  margin-top: 12px;
+  color: var(--zero-muted);
+  font-size: 13px;
+}
+
+// Beat the generic `.post-body a` link styles.
+.post-body .pdf-library a.pdf-card-title,
+.post-body .pdf-library a.pdf-card-button,
+.post-body .pdf-viewer a.pdf-card-button {
+  border-bottom: 0;
+}
+
+.post-body .pdf-library a.pdf-card-title {
+  color: var(--zero-ink);
+}
+
+.post-body .pdf-library a.pdf-card-title:hover {
+  color: var(--zero-accent-deep);
+}
+
+.post-body .pdf-library a.pdf-card-button,
+.post-body .pdf-viewer a.pdf-card-button {
+  color: var(--zero-accent-deep);
+}
+
+.post-body .pdf-library a.pdf-card-button:hover,
+.post-body .pdf-viewer a.pdf-card-button:hover,
+.post-body .pdf-library a.pdf-card-button.is-primary,
+.post-body .pdf-viewer a.pdf-card-button.is-primary {
+  color: #fff;
+}
+
+body:has(.pdf-viewer) .breadcrumb {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .pdf-library {
+    grid-template-columns: 1fr;
+  }
+
+  .pdf-viewer-frame {
+    height: 72vh;
+    min-height: 420px;
+  }
+
+  .pdf-viewer-name {
+    flex-basis: 100%;
+    order: 3;
+  }
+}
