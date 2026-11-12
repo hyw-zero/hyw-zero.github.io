@@ -35,7 +35,7 @@ menu:
   about: /about/ || fa fa-user
   tags: /tags/ || fa fa-tags
   categories: /categories/ || fa fa-th
-  pdf: /pdf/ || far fa-file-pdf
+  pdf: /pdf/ || fa fa-book
   archives: /archives/ || fa fa-archive
 
 menu_settings:

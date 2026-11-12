@@ -163,7 +163,7 @@ image_optimizer:
 
 - 目录页：`/pdf/`，按文件名排序，显示所在目录与文件大小
 - 阅读页：`/pdf/viewer/?file=...`，使用浏览器内置 PDF 阅读器，支持翻页、缩放、下载
-- 顶部菜单「PDF 阅读」由 `_config.next.yml` 的 `menu.pdf` 控制
+- 顶部菜单「图书」由 `_config.next.yml` 的 `menu.pdf` 控制
 
 ```bash
 # 放好文件后
@@ -229,7 +229,7 @@ deploy:
 | `_config.next.yml` | NexT 主题：菜单、头像、社交链接、代码高亮、Fancybox、本地搜索 |
 | `source/_data/styles.styl` | 深色配色、文章排版、背景、PDF 目录样式、移动端适配 |
 | `source/_data/variables.styl` | 字体栈等变量 |
-| `source/_data/languages.yml` | 菜单等文案的翻译覆盖（如「PDF 阅读」） |
+| `source/_data/languages.yml` | 菜单等文案的翻译覆盖（如「图书」） |
 | `source/_data/body-end.njk` | Live2D、点击爱心、音乐播放器注入 |
 | `source/_data/post-body-end.njk` | 文章底部版权声明 |
 | `source/js/live2d-autoload.js` | Live2D 加载逻辑 |
