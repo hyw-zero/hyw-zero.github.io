@@ -2,18 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://hyw-zero.github.io/2026/11/12/MIPI_CSI_%E9%9B%B6%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/</loc>
+    <loc>https://hyw-zero.github.io/2025/08/06/MIPI_CSI_%E9%9B%B6%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/</loc>
     
-    <lastmod>2026-11-12</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://hyw-zero.github.io/2026/04/24/hello-world/</loc>
-    
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2025-08-05</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -302,6 +293,20 @@
   </url>
   
   <url>
+    <loc>https://hyw-zero.github.io/tags/MIPI/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/tags/MIPI-CSI/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://hyw-zero.github.io/tags/APB/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
@@ -309,14 +314,14 @@
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/AHB/</loc>
+    <loc>https://hyw-zero.github.io/tags/AXI/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/AXI/</loc>
+    <loc>https://hyw-zero.github.io/tags/AHB/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -337,14 +342,14 @@
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/C/</loc>
+    <loc>https://hyw-zero.github.io/tags/%E4%BD%8E%E5%8A%9F%E8%80%97/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/%E4%BD%8E%E5%8A%9F%E8%80%97/</loc>
+    <loc>https://hyw-zero.github.io/tags/C/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -396,6 +401,13 @@
   
   <url>
     <loc>https://hyw-zero.github.io/categories/AMBA/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/categories/protocol/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
