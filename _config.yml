@@ -62,6 +62,17 @@ prismjs:
 marked:
   lazyload: true
 
+# Image optimization (scripts/image-optimizer.js)
+# Generates responsive WebP variants at build time and rewrites <img> tags.
+image_optimizer:
+  enable: true
+  widths: [640, 1280]
+  quality: 82
+  gif_quality: 60
+  min_width: 300
+  min_bytes: 8192
+  concurrency: 4
+
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
