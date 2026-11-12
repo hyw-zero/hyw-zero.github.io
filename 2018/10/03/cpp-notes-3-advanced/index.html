@@ -789,7 +789,7 @@
 <ul>
 <li>并不是在原空间之后续接新空间，而是找更大的内存空间，然后将原数据拷贝新空间，释放原空间</li>
 </ul>
-<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-01.jpg" alt="clip_image122002" loading="lazy"></p>
+<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-01-w492.webp" alt="clip_image122002" loading="lazy" data-src="/uploads/cnblogs/cpp-notes-3-advanced/img-01.jpg" width="492" height="257" decoding="async"></p>
 <ul>
 <li>vector容器的迭代器是支持随机访问的迭代器</li>
 </ul>
@@ -924,11 +924,11 @@
 <li>deque相对而言，对头部的插入删除速度回比vector快</li>
 <li>vector访问元素时的速度会比deque快,这和两者内部实现有关</li>
 </ul>
-<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-02.jpg" alt="clip_image002-1547547642923" loading="lazy"></p>
+<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-02-w510.webp" alt="clip_image002-1547547642923" loading="lazy" data-src="/uploads/cnblogs/cpp-notes-3-advanced/img-02.jpg" width="510" height="308" decoding="async"></p>
 <p>deque内部工作原理:</p>
 <p>deque内部有个<strong>中控器</strong>，维护每段缓冲区中的内容，缓冲区中存放真实数据</p>
 <p>中控器维护的是每个缓冲区的地址，使得使用deque时像一片连续的内存空间</p>
-<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-03.jpg" alt="clip_image002-1547547896341" loading="lazy"></p>
+<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-03-w486.webp" alt="clip_image002-1547547896341" loading="lazy" data-src="/uploads/cnblogs/cpp-notes-3-advanced/img-03.jpg" width="486" height="341" decoding="async"></p>
 <ul>
 <li>deque容器的迭代器也是支持随机访问的</li>
 </ul>
@@ -1067,12 +1067,12 @@
 <p><strong>总结：</strong> 选取不同的容器操作数据，可以提升代码的效率</p>
 </blockquote>
 <h3 id="3-5-stack容器"><a href="#3-5-stack容器" class="headerlink" title="3.5 stack容器"></a>3.5 stack容器</h3><h4 id="3-5-1-stack-基本概念"><a href="#3-5-1-stack-基本概念" class="headerlink" title="3.5.1 stack 基本概念"></a>3.5.1 stack 基本概念</h4><p><strong>概念：</strong>stack是一种<strong>先进后出</strong>(First In Last Out,FILO)的数据结构，它只有一个出口</p>
-<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-04.jpg" alt="clip_image002-1547604555425" loading="lazy"></p>
+<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-04-w406.webp" alt="clip_image002-1547604555425" loading="lazy" data-src="/uploads/cnblogs/cpp-notes-3-advanced/img-04.jpg" width="406" height="377" decoding="async"></p>
 <p>栈中只有顶端的元素才可以被外界使用，因此栈不允许有遍历行为</p>
 <p>栈中进入数据称为  — <strong>入栈</strong>  <code>push</code></p>
 <p>栈中弹出数据称为  — <strong>出栈</strong>  <code>pop</code></p>
 <p>生活中的栈：</p>
-<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-05.png" alt="clip_ima1ge002" loading="lazy"></p>
+<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-05-w411.webp" alt="clip_ima1ge002" loading="lazy" data-src="/uploads/cnblogs/cpp-notes-3-advanced/img-05.png" width="411" height="255" decoding="async"></p>
 <h4 id="3-5-2-stack-常用接口"><a href="#3-5-2-stack-常用接口" class="headerlink" title="3.5.2 stack 常用接口"></a>3.5.2 stack 常用接口</h4><p>功能描述：栈容器常用的对外接口</p>
 <p>构造函数：</p>
 <ul>
@@ -1108,13 +1108,13 @@
 </ul>
 </blockquote>
 <h3 id="3-6-queue-容器"><a href="#3-6-queue-容器" class="headerlink" title="3.6 queue 容器"></a>3.6 queue 容器</h3><h4 id="3-6-1-queue-基本概念"><a href="#3-6-1-queue-基本概念" class="headerlink" title="3.6.1 queue 基本概念"></a>3.6.1 queue 基本概念</h4><p><strong>概念：</strong>Queue是一种<strong>先进先出</strong>(First In First Out,FIFO)的数据结构，它有两个出口</p>
-<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-06.jpg" alt="clip_image002-1547606475892" loading="lazy"></p>
+<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-06-w554.webp" alt="clip_image002-1547606475892" loading="lazy" data-src="/uploads/cnblogs/cpp-notes-3-advanced/img-06.jpg" width="554" height="270" decoding="async"></p>
 <p>队列容器允许从一端新增元素，从另一端移除元素</p>
 <p>队列中只有队头和队尾才可以被外界使用，因此队列不允许有遍历行为</p>
 <p>队列中进数据称为 — <strong>入队</strong>    <code>push</code></p>
 <p>队列中出数据称为 — <strong>出队</strong>    <code>pop</code></p>
 <p>生活中的队列：</p>
-<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-07.png" alt="1547606785041" loading="lazy"></p>
+<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-07-w513.webp" alt="1547606785041" loading="lazy" data-src="/uploads/cnblogs/cpp-notes-3-advanced/img-07.png" width="513" height="385" decoding="async"></p>
 <h4 id="3-6-2-queue-常用接口"><a href="#3-6-2-queue-常用接口" class="headerlink" title="3.6.2 queue 常用接口"></a>3.6.2 queue 常用接口</h4><p>功能描述：栈容器常用的对外接口</p>
 <p>构造函数：</p>
 <ul>
@@ -1156,7 +1156,7 @@
 <p><strong>链表的组成：</strong>链表由一系列<strong>结点</strong>组成</p>
 <p><strong>结点的组成：</strong>一个是存储数据元素的<strong>数据域</strong>，另一个是存储下一个结点地址的<strong>指针域</strong></p>
 <p>STL中的链表是一个双向循环链表</p>
-<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-08.jpg" alt="clip_image002-1547608564071" loading="lazy"></p>
+<p><img src="/uploads/cnblogs/cpp-notes-3-advanced/img-08-w554.webp" alt="clip_image002-1547608564071" loading="lazy" data-src="/uploads/cnblogs/cpp-notes-3-advanced/img-08.jpg" width="554" height="348" decoding="async"></p>
 <p>由于链表的存储方式并不是连续的内存空间，因此链表list中的迭代器只支持前移和后移，属于<strong>双向迭代器</strong></p>
 <p>list的优点：</p>
 <ul>

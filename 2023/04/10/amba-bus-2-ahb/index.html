@@ -342,30 +342,30 @@
     
     <div class="post-body" itemprop="articleBody"><p>前面学习APB总线时，由于内容不多就直接将APB4手册翻译了下。到了AHB总线再这样学习就不好了，一是逐句翻译太累人，二是原文翻译过来划不清重点。因此AHB总线以学习笔记的形式记录下来，但其实大多数也就是手册的翻译和理解。</p>
 <h2 id="1-AHB特点"><a href="#1-AHB特点" class="headerlink" title="1 AHB特点"></a>1 AHB特点</h2><p>AHB协议相比APB协议更加复杂，性能更加优越，手册上也清楚写明了它的特点：高性能、流水线、突发、多主机、分段传输，原文如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-01.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-01-w972.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-01-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-01-w972.webp 972w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-01.png" width="972" height="512" decoding="async"></p>
 <p>注意这是AHB2中的描述，到了AHB-lite和AHB5中，AHB协议本身不再支持多主机操作，也去除了仲裁相关的若干信号，但可通过添加Multi-layer interconnect组件实现多主机功能。也不再支持分段传输Split，去除了HSPLITx信号。因此和APB相比，最大的不同是AHB支持流水线操作和突发操作。</p>
 <h2 id="2-AHB版本变化"><a href="#2-AHB版本变化" class="headerlink" title="2 AHB版本变化"></a>2 AHB版本变化</h2><p>目前AHB协议有AHB2、AHB-lite、AHB5协议，AHB-lite的变化是在AHB2的基础上做了减法，而AHB5的变化是在AHB-lite的基础上做了加法。实际使用时可能不会分得太清，系统中需要某些信号可能就直接加上去了，不需要的可能直接就删除了，并不会太严格的说这是第几代AHB协议。但本着学习的目的，我还是想做下三代AHB协议的对比。</p>
-<h3 id="2-1-AHB信号对比"><a href="#2-1-AHB信号对比" class="headerlink" title="2.1 AHB信号对比"></a>2.1 AHB信号对比</h3><p><img src="/uploads/amba/amba-bus-2-ahb/img-02.png" loading="lazy"></p>
+<h3 id="2-1-AHB信号对比"><a href="#2-1-AHB信号对比" class="headerlink" title="2.1 AHB信号对比"></a>2.1 AHB信号对比</h3><p><img src="/uploads/amba/amba-bus-2-ahb/img-02.png" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-02-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-02.png 1141w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-02.png" width="1141" height="1154" decoding="async"></p>
 <h3 id="2-2-AHB2到AHB-lite"><a href="#2-2-AHB2到AHB-lite" class="headerlink" title="2.2 AHB2到AHB-lite"></a>2.2 AHB2到AHB-lite</h3><p>AHB2到AHB-lite的变化较大，架构都变了。</p>
 <h4 id="（1）AHB2架构"><a href="#（1）AHB2架构" class="headerlink" title="（1）AHB2架构"></a>（1）AHB2架构</h4><p>AHB2架构支持多Master操作，因此架构中有一个Arbiter和三个mux。</p>
 <ul>
 <li>Arbiter用于仲裁哪一个Master占据线权。因此AHB2协议中有一类Arbiter信号，如HBUSREQx、HLOCKx、HGRANTx、HSPLITx、HMASTERLOCK、HMASTER。</li>
 <li>mux是多路选择器，Addr mux和Write Data mux由Arbiter信号来确定选择，而Read mux由Decoder来确定选择。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-03.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-03-w902.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-03-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-03-w902.webp 902w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-03.png" width="902" height="901" decoding="async"></p>
 <h4 id="（2）AHB-lite架构"><a href="#（2）AHB-lite架构" class="headerlink" title="（2）AHB-lite架构"></a>（2）AHB-lite架构</h4><p>AHB-lite在AHB2的基础上进行了简化，去除了Arbiter和其控制的Addr mux、Write mux。原先Arbiter的那些信号也就大多去除了，只留下了HMASTERLOCK信号，该信号作用是指明该主机正在执行锁定顺序的传输。</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-04.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-04-w820.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-04-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-04-w820.webp 820w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-04.png" width="820" height="415" decoding="async"></p>
 <h4 id="（3）多Master的AHB-lite"><a href="#（3）多Master的AHB-lite" class="headerlink" title="（3）多Master的AHB-lite"></a>（3）多Master的AHB-lite</h4><p>AHB-lite架构本身不再支持多主机操作，但不意味着AHB-lite无法实现多Master。协议中提供了多Master操作方案，即添加一个Multi-layer interconnect组件来实现多个Master和Slave的互联。</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-05.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-05-w805.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-05-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-05-w805.webp 805w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-05.png" width="805" height="507" decoding="async"></p>
 <h3 id="2-3-AHB-lite到AHB5"><a href="#2-3-AHB-lite到AHB5" class="headerlink" title="2.3 AHB-lite到AHB5"></a>2.3 AHB-lite到AHB5</h3><p>AHB-lite到AHB5的变化不大，和APB的升级类似，AHB5的升级是为了适应SOC需求，新增了一些信号罢了。详细可以看上面的信号对比表格。</p>
 <h2 id="3-AHB传输"><a href="#3-AHB传输" class="headerlink" title="3 AHB传输"></a>3 AHB传输</h2><h3 id="3-1-AHB基本传输"><a href="#3-1-AHB基本传输" class="headerlink" title="3.1 AHB基本传输"></a>3.1 AHB基本传输</h3><p>AHB基本传输包括2个部分：</p>
 <ul>
 <li>地址相位：持续一个周期；</li>
 <li>数据相位：无反压时持续一个周期，HREADY信号反压时需要维持多个周期。</li>
 </ul>
-<h4 id="（1）无等待传输（无反压）"><a href="#（1）无等待传输（无反压）" class="headerlink" title="（1）无等待传输（无反压）"></a>（1）无等待传输（无反压）</h4><p><img src="/uploads/amba/amba-bus-2-ahb/img-06.png" loading="lazy"></p>
+<h4 id="（1）无等待传输（无反压）"><a href="#（1）无等待传输（无反压）" class="headerlink" title="（1）无等待传输（无反压）"></a>（1）无等待传输（无反压）</h4><p><img src="/uploads/amba/amba-bus-2-ahb/img-06-w831.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-06-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-06-w831.webp 831w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-06.png" width="831" height="669" decoding="async"></p>
 <h4 id="（2）有等待传输（有反压）"><a href="#（2）有等待传输（有反压）" class="headerlink" title="（2）有等待传输（有反压）"></a>（2）有等待传输（有反压）</h4><p>所谓反压就是下游未把HREADY拉高，表示忙碌，因此这笔数据传输不下去，只能维持着，直到HREADY拉高，表示这笔数据传输下去了。在反压时，地址周期需要保持，因此也叫等待传输。</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-07.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-07-w1136.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-07-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-07-w1136.webp 1136w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-07.png" width="1136" height="318" decoding="async"></p>
 <ul>
 <li>A传输和C传输都是0等待周期，地址相位在T1时刻被采样后，T2时刻写数据就有效。</li>
 <li>B传输是1等待周期，地址相位在T2时刻被采样后，T3时刻HREADY为低，这笔传输需要维持住。</li>
@@ -373,20 +373,20 @@
 </ul>
 <p>（AXI协议中新增outstanding功能，无需等待上一笔数据传输完，就可以发下一笔传输的命令）</p>
 <h3 id="3-2-AHB传输类型HTRANS"><a href="#3-2-AHB传输类型HTRANS" class="headerlink" title="3.2 AHB传输类型HTRANS"></a>3.2 AHB传输类型HTRANS</h3><p>AHB传输类型分为4类，由HTRANS[1:0]控制，如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-08.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-08-w1119.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-08-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-08-w1119.webp 1119w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-08.png" width="1119" height="573" decoding="async"></p>
 <p>下图展示了HTRANS的使用：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-09.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-10.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-09-w1062.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-09-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-09-w1062.webp 1062w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-09.png" width="1062" height="378" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-10.png" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-10-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-10-w1280.webp 1280w, /uploads/amba/amba-bus-2-ahb/img-10.png 1394w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-10.png" width="1394" height="302" decoding="async"></p>
 <h3 id="3-3-AHB锁定传输HLOCK"><a href="#3-3-AHB锁定传输HLOCK" class="headerlink" title="3.3 AHB锁定传输HLOCK"></a>3.3 AHB锁定传输HLOCK</h3><p>如果Master需要锁定访问，则它必须置位HMASTLOCK信号，这个信号指示给所有Slave：当前传输不可被打断，必须在任何其他的传输执行之前执行此传输！</p>
 <p>典型的锁定传输用在保持信号的完整性，确保在微处理器SWP指令期间Slave不执行其他操作。下图展示了HMASTLOCK信号在SWP指令中的例子。</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-11.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-11-w772.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-11-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-11-w772.webp 772w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-11.png" width="772" height="326" decoding="async"></p>
 <p><strong>——注意——</strong></p>
 <ul>
 <li>在一个锁定传输后，建议Master插入一拍IDLE传输。</li>
 <li>大部分Slave不必实现HMASTLOCK，因为它们只能按照接收的请求顺序进行传输。但是在包含多个Master的系统中，例如Muli-Port Memory Controller，Slave可以被多个Master访问，则必须实现HMASTLOCK功能。</li>
 </ul>
 <h3 id="3-4-AHB传输大小HSIZE"><a href="#3-4-AHB传输大小HSIZE" class="headerlink" title="3.4 AHB传输大小HSIZE"></a>3.4 AHB传输大小HSIZE</h3><p>HSIZE[2:0]信号指示了一个数据传输的大小，如下表所示：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-12.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-12-w659.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-12-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-12-w659.webp 659w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-12.png" width="659" height="505" decoding="async"></p>
 <p><strong>——注意——</strong></p>
 <ul>
 <li>HSIZE设置的传输大小必须≤数据总线的位宽。例如32位数据总线只能配置为b000、b001、b010。</li>
@@ -394,7 +394,7 @@
 <li>HSIZE信号和HADDR总线保持严格的相同时序，但是在Burst传输期间必须保持常值。</li>
 </ul>
 <h3 id="3-5-AHB突发传输HBURST"><a href="#3-5-AHB突发传输HBURST" class="headerlink" title="3.5 AHB突发传输HBURST"></a>3.5 AHB突发传输HBURST</h3><h4 id="（1）突发类型"><a href="#（1）突发类型" class="headerlink" title="（1）突发类型"></a>（1）突发类型</h4><p>AHB突发传输分为单拍突发、未定长度突发、固定长度突发，固定长度突发包括INCR突发（递增）和WRAP突发（回卷），长度有4拍、8拍和16拍。</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-13.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-13-w823.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-13-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-13-w823.webp 823w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-13.png" width="823" height="537" decoding="async"></p>
 <ul>
 <li><strong>FIXED传输：</strong>所有传输都会写在同一个地址中。主要应用在<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=FIFO&spm=1001.2101.3001.7020">FIFO</a>的传输中，因为FIFO为先入先出，只需要往同一个地址写数据即可。（AXI中存在FIXED传输）</li>
 <li><strong>INCR突发：</strong>访问顺序的位置，并且突发中每拍地址都是前一个地址的递增。</li>
@@ -432,14 +432,14 @@
 </ul>
 </li>
 </ul>
-<h4 id="（3）INCR传输：未定长度"><a href="#（3）INCR传输：未定长度" class="headerlink" title="（3）INCR传输：未定长度"></a>（3）INCR传输：未定长度</h4><p><img src="/uploads/amba/amba-bus-2-ahb/img-14.png" loading="lazy"></p>
+<h4 id="（3）INCR传输：未定长度"><a href="#（3）INCR传输：未定长度" class="headerlink" title="（3）INCR传输：未定长度"></a>（3）INCR传输：未定长度</h4><p><img src="/uploads/amba/amba-bus-2-ahb/img-14-w1216.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-14-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-14-w1216.webp 1216w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-14.png" width="1216" height="626" decoding="async"></p>
 <ul>
 <li>第一个突发是写传输，包括2拍“half-word”传输，起始地址为0x20，地址递增为2。</li>
 <li>第二个突发是读传输，包括3拍“word”传输，起始地址为0x5C，地址递增为4。</li>
 </ul>
-<h4 id="（4）INCR传输：固定长度"><a href="#（4）INCR传输：固定长度" class="headerlink" title="（4）INCR传输：固定长度"></a>（4）INCR传输：固定长度</h4><p><img src="/uploads/amba/amba-bus-2-ahb/img-15.png" loading="lazy"></p>
+<h4 id="（4）INCR传输：固定长度"><a href="#（4）INCR传输：固定长度" class="headerlink" title="（4）INCR传输：固定长度"></a>（4）INCR传输：固定长度</h4><p><img src="/uploads/amba/amba-bus-2-ahb/img-15-w1074.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-15-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-15-w1074.webp 1074w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-15.png" width="1074" height="550" decoding="async"></p>
 <p>这是一个4拍递增的读传输，在第1拍传输插入了1拍等待状态。</p>
-<h4 id="（5）WRAP传输"><a href="#（5）WRAP传输" class="headerlink" title="（5）WRAP传输"></a>（5）WRAP传输</h4><p><img src="/uploads/amba/amba-bus-2-ahb/img-16.png" loading="lazy"></p>
+<h4 id="（5）WRAP传输"><a href="#（5）WRAP传输" class="headerlink" title="（5）WRAP传输"></a>（5）WRAP传输</h4><p><img src="/uploads/amba/amba-bus-2-ahb/img-16-w1077.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-16-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-16-w1077.webp 1077w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-16.png" width="1077" height="549" decoding="async"></p>
 <p>这是一个4拍回卷的写传输，地址在16字节边界回卷，所以在地址0x3C后下一拍地址是0x30。</p>
 <h4 id="（6）突发终止1：BUSY后的突发终止"><a href="#（6）突发终止1：BUSY后的突发终止" class="headerlink" title="（6）突发终止1：BUSY后的突发终止"></a>（6）突发终止1：BUSY后的突发终止</h4><p>在一个burst启动后，当Master需要更多的时间准备下一拍传输时，它可以插入BUSY传输。对于未定义长度的突发类型INCR, Master可以插入BUSY传输，然后再判断没有更多的数据要传输了。在这种情况下, Master可以再发起NONSEQ或者IDLE传输来终止INCR传输。</p>
 <p>协议不允许Master用BUSY传输终止固定长度的突发传输：</p>
@@ -460,9 +460,9 @@
 </li>
 </ul>
 <h3 id="3-6-AHB错误响应HRESP"><a href="#3-6-AHB错误响应HRESP" class="headerlink" title="3.6 AHB错误响应HRESP"></a>3.6 AHB错误响应HRESP</h3><p>在Master开始一个传输之后，Slave控制这个传输的进程，Master不能取消已经开始的传输。当Slave被访问时必须提供响应来指示传输的状态，传输状态由HRESP信号提供。如下表所示：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-17.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-17-w1257.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-17-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-17-w1257.webp 1257w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-17.png" width="1257" height="192" decoding="async"></p>
 <p>完整的传输响应是HRESP和HREADY信号的组合，如下表所示：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-18.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-18-w1257.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-18-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-18-w1257.webp 1257w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-18.png" width="1257" height="117" decoding="async"></p>
 <p>这意味着Slave可以用以下三种方式完成总线传输：</p>
 <ul>
 <li>立即完成传输。</li>
@@ -484,11 +484,11 @@
 </ul>
 <p>因为总线的流水线特性，所以要求这种两个时钟周期的响应机制。当Slave开始发出一个ERROR响应的时候，下一个传输的地址已经发布在总线上,这种两周期响应机制为Master提供了足够的时间通过驱动HTRANS[1:0]为IDLE状态来取消下一拍总线访问。如果Slave需要超过两个时钟周期的时间提供ERROR响应信号，则从传输开始需要额外插入等待状态。此时 HREADY为低电平，响应必须驱动为OKAY。</p>
 <p>一个ERROR 响应的传输如下图所示：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-19.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-20.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-19-w1143.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-19-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-19-w1143.webp 1143w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-19.png" width="1143" height="363" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-20-w1256.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-20-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-20-w1256.webp 1256w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-20.png" width="1256" height="193" decoding="async"></p>
 <p>当 Slave 响应了 ERROR 响应，Master 可以取消掉一个 Burst 中剩余的传输。然而这并不是严格的要求，Master 仍然可以继续 Burst 的剩余传输。</p>
 <h4 id="（4）AHB2的HRESP信号"><a href="#（4）AHB2的HRESP信号" class="headerlink" title="（4）AHB2的HRESP信号"></a>（4）AHB2的HRESP信号</h4><p>AHB-lite和AHB5中的HRESP信号只有1bit，而AHB2中的HRESP信号有2bit，如下表所示：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-21.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-21-w1257.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-21-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-21-w1257.webp 1257w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-21.png" width="1257" height="494" decoding="async"></p>
 <p>AHB-lite和AHB5都取消了仲裁器，平时工作中也没有用过RETRY和SPLIT场景，就不多说了。</p>
 <h2 id="4-AHB特殊概念"><a href="#4-AHB特殊概念" class="headerlink" title="4 AHB特殊概念"></a>4 AHB特殊概念</h2><h3 id="4-1-AHB保护控制HPROT"><a href="#4-1-AHB保护控制HPROT" class="headerlink" title="4.1 AHB保护控制HPROT"></a>4.1 AHB保护控制HPROT</h3><h4 id="（1）AHB2和AHB-lite"><a href="#（1）AHB2和AHB-lite" class="headerlink" title="（1）AHB2和AHB-lite"></a>（1）AHB2和AHB-lite</h4><p>保护控制信号HPROT[3:0]提供总线访问的附加信息，初衷是方便实现多种级别的保护。当总线传输为以下场景时，保护信号可以起到作用：</p>
 <ul>
@@ -497,7 +497,7 @@
 </ul>
 <p>对于带MMU单元的Master，保护信号也可以指示当前访问是否是Cacheable或者Bufferable。</p>
 <p>下表列出了HPROT信号编码：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-22.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-22-w838.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-22-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-22-w838.webp 838w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-22.png" width="838" height="505" decoding="async"></p>
 <p><strong>——注意——</strong></p>
 <p>很多Master不具备产生准确保护信号的能力，如果Master不支持产生精确的保护信号，那么建议：</p>
 <ul>
@@ -509,14 +509,14 @@
 <p><strong>——注意——</strong></p>
 <p>HPROT[3]在之前版本的名称是Cacheable，现在改为Modifiable，但其定义不变。</p>
 <p>HPROT每个位的含义如下表所示：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-23.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-23-w1257.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-23-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-23-w1257.webp 1257w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-23.png" width="1257" height="685" decoding="async"></p>
 <p>下面是关于HPROT保护控制信号的附加信息，以及这些信号如何与不同的内存类型相关。HPROT[6:2]信号与内存类型的对应关系如下表所示。表中未显示的位组合是不允许的。</p>
 <ul>
 <li>“内存类型E”后缀表示允许早期写响应。</li>
 <li>“内存类型En”后缀表示不允许提前写响应，写响应必须来自最终目的地。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-24.png" loading="lazy"></p>
-<h4 id="（3）HPROT-3-0-转HPROT-6-0"><a href="#（3）HPROT-3-0-转HPROT-6-0" class="headerlink" title="（3）HPROT[3:0]转HPROT[6:0]"></a>（3）HPROT[3:0]转HPROT[6:0]</h4><p><img src="/uploads/amba/amba-bus-2-ahb/img-25.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-24-w1162.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-24-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-24-w1162.webp 1162w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-24.png" width="1162" height="532" decoding="async"></p>
+<h4 id="（3）HPROT-3-0-转HPROT-6-0"><a href="#（3）HPROT-3-0-转HPROT-6-0" class="headerlink" title="（3）HPROT[3:0]转HPROT[6:0]"></a>（3）HPROT[3:0]转HPROT[6:0]</h4><p><img src="/uploads/amba/amba-bus-2-ahb/img-25-w1216.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-25-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-25-w1216.webp 1216w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-25.png" width="1216" height="529" decoding="async"></p>
 <h4 id="（4）HPROT-6-0-转HPROT-3-0"><a href="#（4）HPROT-6-0-转HPROT-3-0" class="headerlink" title="（4）HPROT[6:0]转HPROT[3:0]"></a>（4）HPROT[6:0]转HPROT[3:0]</h4><p>当在只包含HPROT[3:0]的系统中使用支持HPROT[6:0]的组件时，可以删除高阶HPROT位。但请注意这种方法会导致Write-through映射到Non-cacheable内存。然而可以使用替代方案，特别是如果提供了额外信息来确定更合适的映射。</p>
 <h3 id="4-2-AHB安全传输Secure"><a href="#4-2-AHB安全传输Secure" class="headerlink" title="4.2 AHB安全传输Secure"></a>4.2 AHB安全传输Secure</h3><p>AHB5定义了Secure_Transfers属性。此属性定义接口是否支持安全传输和非安全传输的概念。如果未定义此属性，则接口不支持安全传输。</p>
 <p>支持安全传输的接口有一个附加信号HNONSEC，注意它的定义是1表示非安全传输。</p>
@@ -539,15 +539,15 @@
 <p>实际工作未遇到过独占传输，我的理解是独占传输a在先读后写的过程中，不允许独占传输b横插一脚（但允许非独占的正常传输），所以称为独占。</p>
 <h3 id="4-4-AHB原子访问Atomicity"><a href="#4-4-AHB原子访问Atomicity" class="headerlink" title="4.4 AHB原子访问Atomicity"></a>4.4 AHB原子访问Atomicity</h3><p>Exclusive还能勉强理解一点点，这个Atomicity是完全理解不了，溜~</p>
 <h2 id="5-数据总线问题"><a href="#5-数据总线问题" class="headerlink" title="5 数据总线问题"></a>5 数据总线问题</h2><h3 id="5-1-大小端传输（Endianness）"><a href="#5-1-大小端传输（Endianness）" class="headerlink" title="5.1 大小端传输（Endianness）"></a>5.1 大小端传输（Endianness）</h3><p>AHB同时小端系统，支持两种大端数据存储方法。AHB5引入了Endian属性来定义支持哪种形式的大端序数据访问。</p>
-<h4 id=""><a href="#" class="headerlink" title=""></a><img src="/uploads/amba/amba-bus-2-ahb/img-26.png" loading="lazy"></h4><h4 id="（1）小端序"><a href="#（1）小端序" class="headerlink" title="（1）小端序"></a>（1）小端序</h4><p>小端序即低位地址存放数据的低位。例如数据32’h1A2B3C4D从地址0x0000开始以小端序存放，读地址时先读0x0000，读到的是数据的低位。如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-27.png" loading="lazy"></p>
+<h4 id=""><a href="#" class="headerlink" title=""></a><img src="/uploads/amba/amba-bus-2-ahb/img-26-w1256.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-26-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-26-w1256.webp 1256w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-26.png" width="1256" height="116" decoding="async"></h4><h4 id="（1）小端序"><a href="#（1）小端序" class="headerlink" title="（1）小端序"></a>（1）小端序</h4><p>小端序即低位地址存放数据的低位。例如数据32’h1A2B3C4D从地址0x0000开始以小端序存放，读地址时先读0x0000，读到的是数据的低位。如下所示：</p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-27.png" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-27-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-27.png 792w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-27.png" width="792" height="124" decoding="async"></p>
 <p>AHB5协议中的解释如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-28.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-28-w1037.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-28-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-28-w1037.webp 1037w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-28.png" width="1037" height="419" decoding="async"></p>
 <h4 id="（2）大端序"><a href="#（2）大端序" class="headerlink" title="（2）大端序"></a>（2）大端序</h4><p>大端序即低位地址存放数据的高位。例如数据32’h1A2B3C4D从地址0x0000开始以大端序存放，读地址时先读0x0000，读到的是数据的高位。这符合人类习惯，大多数传输用的都是这种序列。如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-29.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-29.png" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-29-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-29.png 792w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-29.png" width="792" height="124" decoding="async"></p>
 <p>大端序分为BE8和BE32，这主要体现在数据位宽小于总线位宽的情况上，AHB5的解释表格如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-30.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-31.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-30-w1043.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-30-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-30-w1043.webp 1043w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-30.png" width="1043" height="474" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-31-w1045.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-31-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-31-w1045.webp 1045w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-31.png" width="1045" height="470" decoding="async"></p>
 <h3 id="5-2-宽bus窄数据"><a href="#5-2-宽bus窄数据" class="headerlink" title="5.2 宽bus窄数据"></a>5.2 宽bus窄数据</h3><p>对于比总线宽度更窄的传输，例如32位总线上的16位传输：</p>
 <ul>
 <li>写传输：Master只需要驱动适当的字节通道，Slave从正确的字节通道中选择写入数据。</li>
@@ -556,7 +556,7 @@
 <p><strong>——注意——</strong></p>
 <p>反过来窄bus宽数据一般是不允许的，Master不能访问更窄的bus，除非在Master中包含某种机制来限制Master尝试传输的宽度。当HSIZE表示的宽度大于它所连接的数据总线时，Master绝对不能尝试传输。</p>
 <h3 id="5-2-宽bus窄Slave"><a href="#5-2-宽bus窄Slave" class="headerlink" title="5.2 宽bus窄Slave"></a>5.2 宽bus窄Slave</h3><p>下图显示了如何将最初设计用于32位数据总线的Slave模块，被64位数据总线访问。这只需要添加外部逻辑，而不需要任何内部设计更改，因此该技术适用于硬宏单元。</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-32.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-32-w968.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-32-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-32-w968.webp 968w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-32.png" width="968" height="299" decoding="async"></p>
 <p>对于输出，当将窄bus转换为宽bus时执行以下操作之一：</p>
 <ul>
 <li>如图所示复制宽bus两端的数据。</li>
@@ -564,13 +564,13 @@
 </ul>
 <p>Slave只能接受与它的自然接口一样宽的传输，如果Master尝试传输超出了Slave所能支持的范围，那么Slave器可以使用ERROR传输响应。</p>
 <h3 id="5-3-窄bus宽Slave"><a href="#5-3-窄bus宽Slave" class="headerlink" title="5.3 窄bus宽Slave"></a>5.3 窄bus宽Slave</h3><p>通过使用外部逻辑，预先设计或导入的Slave可以适应更窄的数据总线。下图所示为在窄bus上实现宽Slave。</p>
-<p><img src="/uploads/amba/amba-bus-2-ahb/img-33.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-2-ahb/img-33-w947.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-33-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-33-w947.webp 947w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-33.png" width="947" height="309" decoding="async"></p>
 <h2 id="6-其他一些问题"><a href="#6-其他一些问题" class="headerlink" title="6 其他一些问题"></a>6 其他一些问题</h2><h3 id="6-1-什么是User信号"><a href="#6-1-什么是User信号" class="headerlink" title="6.1 什么是User信号"></a>6.1 什么是User信号</h3><p>AHB5手册的最后一章是User信号，分为HAUSER、HWUSER、HRUSER三组，但协议开头就说：“通常本规范建议不使用User信号。AHB协议没有定义这些信号的功能，如果两个组件以不兼容的方式使用相同的User信号，就会导致互操作性问题。”啊这……在章节后面，手册又说道：“建议在互连上包含User信号，但是没有要求在Master或Slave上包含它们。该规范建议互连组件包括对User信号的支持，以便它们可以在Master和Slave之间传递。用户User信号的宽度是实现自定义的，对于每个通道可以是不同的。”</p>
 <p>User信号其实就是用户自定义的信号，但又想随着总线往下传。AHB本身不是必须包含User信号，内部没有设计User传递的时序，如果用户贸然用，那需要重新设计这部分时序了。因此手册建议互联上用，事实上很多Bus IP都支持添加一些User信号，使得Master的一些额外信息可以顺利随着AMBA时序传递给Slave。这些额外信息是项目上自定义的，可以是Master编号、QoS值、特殊标识符等。</p>
 <h3 id="6-2-消失的Split传输"><a href="#6-2-消失的Split传输" class="headerlink" title="6.2 消失的Split传输"></a>6.2 消失的Split传输</h3><p>Split传输存在于AHB2中，其含义是根据Slave的响应来分离Master的操作，从而给Slave提供地址和合适的数据，提高了总线的总体使用率。当传输产生时，如果Slave认为传输的执行将占据大量的时钟周期，那么Slave记录MasterID号（HMASTER），发出一个SPLIT响应，该信号提示Arbiter降低此Master的优先权，移交总线给其他Master，避免占着茅坑不拉屎的情况。直到Slave表示它准备好了数据，可以完成传输，Slave就根据MasterID号用HSPLITx断言适当的位，Arbiter就再授权给该Master，Master则再尝试发起访问，结束这次Split传输。</p>
 <p>由于这种情况比较少见，后续的AHB协议又删除了Arbiter模块，不再支持多Master操作，因此Split传输也就消失了。</p>
 <h3 id="6-3-HREADYIN作用"><a href="#6-3-HREADYIN作用" class="headerlink" title="6.3 HREADYIN作用"></a>6.3 HREADYIN作用</h3><p>不管是AHB2还是AHB-lite&#x2F;AHB5，Slave都需要向上游返回HREADYOUT（AHB2中信号名是HREADY）。AHB的传输分为地址相位和数据相位，HREADYOUT信号是Slave用来对数据相位的扩展。Slave在忙碌时，比如说还在处理上一笔数据或者准备下一笔数据，那么表明Slave还没有完全准备好下一笔传输，于是就拉低HREADYOUT信号告知上游：“搞不赢了，你再坚持会儿！”由此上游数据就要扩展，即保持住，直到Slave准备好这次的传输，HREADYOUT拉高，上游数据才算真正到达Slave端，也就不需要继续保持数据了。而到了AHB-lite&#x2F;AHB5中，Slave除了向上游mux发出HREADYOUT信号，自己还会接收到mux返回的HREADYIN信号，如下所示。</p>
-<p> <img src="/uploads/amba/amba-bus-2-ahb/img-34.png" loading="lazy"></p>
+<p> <img src="/uploads/amba/amba-bus-2-ahb/img-34-w883.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-34-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-34-w883.webp 883w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-34.png" width="883" height="602" decoding="async"></p>
 <p><strong>（1）单Slave情况</strong></p>
 <p>单Slave情况包括两种，一是系统本身就一个Slave，二是系统本身有多个Slave，但传输是连续对同一个Slave进行突发读写。单Slave情况下的HREADYIN并无意义，Slave的HREADYIN收到的就是自己发出的HREADYOUT。</p>
 <p><strong>（2）多Slave情况</strong></p>

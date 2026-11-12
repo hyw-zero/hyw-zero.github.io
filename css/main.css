@@ -1217,7 +1217,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #0163ff;
+    background: #f4eee8;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -2872,7 +2872,7 @@ body::before {
   z-index: -1;
   content: '';
   pointer-events: none;
-  background-image: linear-gradient(180deg, rgba(7,13,26,0.42) 0%, rgba(7,13,26,0.68) 52%, rgba(5,9,19,0.86) 100%), url("/images/bg.jpg");
+  background-image: linear-gradient(180deg, rgba(7,13,26,0.42) 0%, rgba(7,13,26,0.68) 52%, rgba(5,9,19,0.86) 100%), url("/images/bg.webp");
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;

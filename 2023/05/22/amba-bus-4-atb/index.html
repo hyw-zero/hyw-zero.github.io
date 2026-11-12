@@ -337,7 +337,7 @@
 </ul>
 <p>ATB是一种公共总线，跟踪组件使用它在跟踪系统中以数据不可知的格式传递跟踪数据。ATB协议定义了总线行为，接口信号根据其功能命名。ATB与关联组件的一般关系如图所示。</p>
 <p><img src="/uploads/amba/amba-bus-4-atb/img-01.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-4-atb/img-02.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-02-w1186.webp" loading="lazy" srcset="/uploads/amba/amba-bus-4-atb/img-02-w640.webp 640w, /uploads/amba/amba-bus-4-atb/img-02-w1186.webp 1186w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-4-atb/img-02.png" width="1186" height="258" decoding="async"></p>
 <p>跟踪系统包括：</p>
 <ul>
 <li>至少一个数据跟踪源，例如ETM或HTM。</li>
@@ -349,18 +349,18 @@
 <li>将刷新请求向上传递到其连接的跟踪源。</li>
 <li>确保只有在所有连接的跟踪源已确认完成后，它才确认刷新完成。</li>
 </ul>
-<h2 id="2-信号描述"><a href="#2-信号描述" class="headerlink" title="2 信号描述"></a>2 信号描述</h2><p><img src="/uploads/amba/amba-bus-4-atb/img-03.png" loading="lazy"></p>
+<h2 id="2-信号描述"><a href="#2-信号描述" class="headerlink" title="2 信号描述"></a>2 信号描述</h2><p><img src="/uploads/amba/amba-bus-4-atb/img-03.png" loading="lazy" srcset="/uploads/amba/amba-bus-4-atb/img-03-w640.webp 640w, /uploads/amba/amba-bus-4-atb/img-03-w1280.webp 1280w, /uploads/amba/amba-bus-4-atb/img-03.png 1695w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-4-atb/img-03.png" width="1695" height="592" decoding="async"></p>
 <h2 id="3-数据流控制"><a href="#3-数据流控制" class="headerlink" title="3 数据流控制"></a>3 数据流控制</h2><h3 id="3-1-关于流控"><a href="#3-1-关于流控" class="headerlink" title="3.1 关于流控"></a>3.1 关于流控</h3><p>这种机制是一种双向流控制，使Master和Slave能够控制数据和控制信息移动的速率。</p>
 <ul>
 <li>主机拉高ATVALID信号表示何时数据或控制信息可用，必须保持住，直到ATREADY信号为高。</li>
 <li>从机拉高ATREADY信号表示可以接受数据或控制信息。</li>
 </ul>
 <p>数据传输只发生在ATVALID和ATREADY都为1时，且能在一个周期中为每个数据项分配特定的ID来识别流。</p>
-<p><img src="/uploads/amba/amba-bus-4-atb/img-04.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-04-w844.webp" loading="lazy" srcset="/uploads/amba/amba-bus-4-atb/img-04-w640.webp 640w, /uploads/amba/amba-bus-4-atb/img-04-w844.webp 844w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-4-atb/img-04.png" width="844" height="709" decoding="async"></p>
 <h3 id="3-2-流控波形"><a href="#3-2-流控波形" class="headerlink" title="3.2 流控波形"></a>3.2 流控波形</h3><p>相关波形如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-4-atb/img-05.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-05-w552.webp" loading="lazy" data-src="/uploads/amba/amba-bus-4-atb/img-05.png" width="552" height="183" decoding="async"></p>
 <p>波形解析如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-4-atb/img-06.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-06-w493.webp" loading="lazy" data-src="/uploads/amba/amba-bus-4-atb/img-06.png" width="493" height="279" decoding="async"></p>
 <p>如果从机不能保证它在断言ATVALID的同一周期内能够响应ATREADY，那么建议从机实现足够的内部缓冲，必须足以存储一个或多个跟踪周期。当缓冲区中有空间可用时，即使ATVALID没有拉高，从机也可以拉高ATREADY。</p>
 <h3 id="3-3-主机和从机无法响应"><a href="#3-3-主机和从机无法响应" class="headerlink" title="3.3 主机和从机无法响应"></a>3.3 主机和从机无法响应</h3><p><strong>（1）从机无法响应</strong></p>
 <p>如果ATB从机无法响应，那么它必须驱动ATREADY为1和AFVALID为0。例如：</p>
@@ -380,7 +380,7 @@
 <h2 id="4-ATB信号说明"><a href="#4-ATB信号说明" class="headerlink" title="4 ATB信号说明"></a>4 ATB信号说明</h2><h3 id="4-1-ATDATA和ATBYTES"><a href="#4-1-ATDATA和ATBYTES" class="headerlink" title="4.1 ATDATA和ATBYTES"></a>4.1 ATDATA和ATBYTES</h3><p>ATBYTES[m:0]和ATDATA[n:0]，它们的关系如下所示：</p>
 <p>  <em><strong>m&#x3D;log2(n+1)-4</strong></em>  </p>
 <p>下表更直接地表明了它们之间的关系：</p>
-<p><img src="/uploads/amba/amba-bus-4-atb/img-07.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-07-w425.webp" loading="lazy" data-src="/uploads/amba/amba-bus-4-atb/img-07.png" width="425" height="301" decoding="async"></p>
 <h3 id="4-2-ATIDs"><a href="#4-2-ATIDs" class="headerlink" title="4.2 ATIDs"></a>4.2 ATIDs</h3><p>跟踪数据项使用单独的ID生成，大多数源使用单个的静态ID，这些单独的ID可以提供：</p>
 <ul>
 <li>区分不同源的跟踪。</li>
@@ -411,7 +411,7 @@
 <p><strong>注意：</strong>这与AXI接口中按ID信号排序的要求不同，在AXI接口中，顺序只在具有相同ID的事务之间保留。</p>
 <h3 id="4-3-Flush"><a href="#4-3-Flush" class="headerlink" title="4.3 Flush"></a><strong>4.3 Flush</strong></h3><p>跟踪数据项的缓冲特性意味着：随着周期的进展，通常有必要从缓冲区中删除剩余数据，为新数据做准备。从缓冲区中删除数据的过程称为flushing（刷新）。在典型的跟踪源中，在“要跟踪的事件发生”和“该事件的跟踪生成”之间有固定的时间和pipeline阶段数量，例如由处理器执行的指令。</p>
 <p>跟踪生成示例如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-4-atb/img-08.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-08-w1151.webp" loading="lazy" srcset="/uploads/amba/amba-bus-4-atb/img-08-w640.webp 640w, /uploads/amba/amba-bus-4-atb/img-08-w1151.webp 1151w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-4-atb/img-08.png" width="1151" height="333" decoding="async"></p>
 <p>生成跟踪数据项时将其写入FIFO，数据从FIFO输出，每次由一个完整的数据字组成。ATDATA总线的宽度定义了数据字的大小。理论上，跟踪生成和输出之间的时间段是无限的，因为FIFO可能永远不会接收到足够的跟踪数据来填充整个输出数据字。生成和输出之间可能延长delay的一个例子是，跟踪源保留输出，直到它有一个完整的跟踪数据字可用于输出。在一个只有当整个数据字可用时才输出数据的系统中，有各种情况可能需要刷新缓冲区：</p>
 <ul>
 <li><strong>系统或系统的一部分即将下电或时钟即将停止。</strong></li>
@@ -430,17 +430,17 @@
 <li>实现时，必须确保ATB信号在ATCLK的上升沿上采样，AFVALID信号保持拉高状态，直到AFREADY拉低。</li>
 </ul>
 <p>下图是ATB刷新的例子：</p>
-<p><img src="/uploads/amba/amba-bus-4-atb/img-09.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-09-w1173.webp" loading="lazy" srcset="/uploads/amba/amba-bus-4-atb/img-09-w640.webp 640w, /uploads/amba/amba-bus-4-atb/img-09-w1173.webp 1173w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-4-atb/img-09.png" width="1173" height="365" decoding="async"></p>
 <p>生成的所有跟踪在AFVALID拉高时开始输出，拉高AFREADY。拉高AFREADY并不表明FIFO是空的。在拉高AFVALID之后生成的跟踪存储在FIFO中，然后在拉高AFREADY之后输出此跟踪。当拉高AFVALID时，发送器必须立即开始输出缓冲的跟踪。</p>
 <p>当发送方拉高AFREADY时如果不需要额外的刷新，则接收方必须在下一个周期中拉低AFVALID。</p>
 <p>当拉高AFVALID时，变送器必须在“第一次拉高AFVALID的周期上缓冲的输出数据后”的一个周期拉高AFREADY，也就是说它必须在输出“AFVALID拉高要求它刷新的最后一个数据”后的一个周期拉高AFREADY。</p>
-<p><img src="/uploads/amba/amba-bus-4-atb/img-10.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-10-w694.webp" loading="lazy" srcset="/uploads/amba/amba-bus-4-atb/img-10-w640.webp 640w, /uploads/amba/amba-bus-4-atb/img-10-w694.webp 694w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-4-atb/img-10.png" width="694" height="349" decoding="async"></p>
 <p><strong>不在本地存储跟踪源的行为</strong></p>
 <p>如果发射器接口是一个不存储任何本地跟踪的跟踪源，下表显示了它如何控制AFREADY。</p>
 <p><img src="/uploads/amba/amba-bus-4-atb/img-11.png" loading="lazy"></p>
 <p>下图显示了没有在本地存储任何跟踪的发送器的AFREADY控制：</p>
-<p><img src="/uploads/amba/amba-bus-4-atb/img-12.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-4-atb/img-13.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-12-w1272.webp" loading="lazy" srcset="/uploads/amba/amba-bus-4-atb/img-12-w640.webp 640w, /uploads/amba/amba-bus-4-atb/img-12-w1272.webp 1272w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-4-atb/img-12.png" width="1272" height="450" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-13-w897.webp" loading="lazy" srcset="/uploads/amba/amba-bus-4-atb/img-13-w640.webp 640w, /uploads/amba/amba-bus-4-atb/img-13-w897.webp 897w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-4-atb/img-13.png" width="897" height="348" decoding="async"></p>
 <h3 id="4-4-Trigger（ATB4-5）"><a href="#4-4-Trigger（ATB4-5）" class="headerlink" title="4.4 Trigger（ATB4&#x2F;5）"></a>4.4 Trigger（ATB4&#x2F;5）</h3><p>跟踪触发信号是从跟踪源到跟踪接收器的自己定义的消息。通常可能用于指示发生了重要的情况，并且跟踪捕获应该准备停止。在ATBv1.1（ATB4）中，发送器可以向跟踪触发器发出如下信号：</p>
 <ul>
 <li>“ATID”必须为“0x7D”。</li>
@@ -483,7 +483,7 @@
 <li>False：没有唤醒信号。</li>
 </ul>
 <p>如果未声明Wakeup_Signal，则认为它为False，唤醒信号只能添加到ATB5的接口。</p>
-<p><img src="/uploads/amba/amba-bus-4-atb/img-14.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-4-atb/img-14-w1087.webp" loading="lazy" srcset="/uploads/amba/amba-bus-4-atb/img-14-w640.webp 640w, /uploads/amba/amba-bus-4-atb/img-14-w1087.webp 1087w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-4-atb/img-14.png" width="1087" height="143" decoding="async"></p>
 <p>ATWAKEUP信号的规则是：</p>
 <ul>
 <li>ATWAKEUP与ATCLK是同步的，但更适合于跨时钟域到控制器。</li>

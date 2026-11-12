@@ -402,23 +402,23 @@
 <li>对于具有上下电顺序的外设，时钟控制器发出请求后才会进入低功耗状态，协议提供了请求&#x2F;确认握手信号。</li>
 <li>对于没有上下电顺序的外设，CACTIVE是所需要的唯一的时钟控制信号。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-01.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-01-w1186.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-01-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-01-w1186.webp 1186w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-01.png" width="1186" height="290" decoding="async"></p>
 <h3 id="1-2-低功耗时钟控制"><a href="#1-2-低功耗时钟控制" class="headerlink" title="1.2 低功耗时钟控制"></a>1.2 低功耗时钟控制</h3><p><strong>（1）时钟控制器发起退出低功耗状态</strong></p>
 <ul>
 <li>进入时：时钟控制器拉低CSYSREQ，外设执行下电序列，顺序拉低CACTIVE和CSYSACK。</li>
 <li>退出时：时钟控制器拉高CSYSREQ，外设执行上电序列，顺序拉高CACTIVE和CSYSACK。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-02.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-02-w1256.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-02-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-02-w1256.webp 1256w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-02.png" width="1256" height="320" decoding="async"></p>
 <p>时钟控制器拉低CSYSREQ信号请求进入低功耗状态，但是外设通过保持CACTIVE信号为高来拒绝请求：</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-03.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-03-w753.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-03-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-03-w753.webp 753w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-03.png" width="753" height="247" decoding="async"></p>
 <p><strong>（2）外设发起退出低功耗状态</strong></p>
 <ul>
 <li>进入时：外设拉低CACTIVE，然后时钟控制器拉低CSYSREQ，最后外设拉低CSYSACK。</li>
 <li>退出时：外设拉高CACTIVE，然后时钟控制器拉高CSYSREQ，最后外设拉高CSYSACK。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-05.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-05-w1254.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-05-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-05-w1254.webp 1254w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-05.png" width="1254" height="319" decoding="async"></p>
 <p>外设拉低CACTIVE信号请求进入低功耗状态，但是时钟控制器通过保持CSYSREQ信号为高来拒绝请求：</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-06.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-06-w778.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-06-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-06-w778.webp 778w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-06.png" width="778" height="256" decoding="async"></p>
 <h3 id="1-3-低功耗域的组合外设"><a href="#1-3-低功耗域的组合外设" class="headerlink" title="1.3 低功耗域的组合外设"></a>1.3 低功耗域的组合外设</h3><p>系统时钟控制器可以将多个不同的外设组合到同一个低功耗时钟域中。然后如果遵循以下规则，它可以像处理单个外设一样处理时钟域：</p>
 <ul>
 <li>时钟域CACTIVE信号是时钟域内所有外设CACTIVE信号的逻辑或，这意味着只有当所有外设都指示可以禁用时钟时，系统时钟控制器才能禁用时钟。</li>
@@ -438,7 +438,7 @@
 <p>如果未声明Wakeup_Signals，则认为它为False。信号可以路由到时钟控制器或类似的使电源和时钟连接的组件。唤醒信号必须是无故障的，并且直接从寄存器生成。它们与与之相关的接口是同步的，但适用于跨时钟域到控制器。必须拉高唤醒信号以保证可以接受事务，但是一旦事务正在进行中，则唤醒信号的断言或撤销是实现定义的。协议建议（但不要求）在不需要进一步事务时解除唤醒信号。</p>
 <h2 id="2-Q-Channel"><a href="#2-Q-Channel" class="headerlink" title="2 Q-Channel"></a>2 Q-Channel</h2><h3 id="2-1-Q-Channel-接口规范"><a href="#2-1-Q-Channel-接口规范" class="headerlink" title="2.1 Q-Channel 接口规范"></a>2.1 Q-Channel 接口规范</h3><p>Q-Channel是AXI低功耗接口的发展，在大多数情况下都是向后兼容的。Q-Channel通过使握手机制独立于设备活动指示来简化时钟域交叉。</p>
 <h4 id="2-1-1-Q-Channel信号"><a href="#2-1-1-Q-Channel信号" class="headerlink" title="2.1.1 Q-Channel信号"></a>2.1.1 Q-Channel信号</h4><p>下图显示了设备与时钟或电源控制器之间的信号：</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-07.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-07-w718.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-07-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-07-w718.webp 718w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-07.png" width="718" height="362" decoding="async"></p>
 <p>Q-Channel接口具有以下独立的信号组。</p>
 <p><strong>设备活动指示</strong></p>
 <p>此组包括单个信号QACTIVE，在任何状态下，设备都可以将其驱动为高电平，以指示其有操作要执行。当设备将QACTIVE驱动为低电平时，这是一个提示，而不是保证设备可以接受静止请求。</p>
@@ -459,7 +459,7 @@
 <p>假设所有信号都是异步的。</p>
 <h4 id="2-1-2-Q-Channel握手"><a href="#2-1-2-Q-Channel握手" class="headerlink" title="2.1.2 Q-Channel握手"></a>2.1.2 Q-Channel握手</h4><p>本节描述了Q-Channel接口握手的允许变化。</p>
 <p>已接受的静止请求下图显示了已接受静止请求的握手序列。它包括根据接口语义管理的可选控制器提供的时钟的保证活动。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-08.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-08-w656.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-08-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-08-w656.webp 656w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-08.png" width="656" height="350" decoding="async"></p>
 <p>图中省略了QACTIVE，因为尽管QACTIVE可以作为控制器改变接口状态的激励，但它与握手无关。所有接口状态的改变都可以由控制器单独启动。</p>
 <p>控制器策略和QACTIVE在后文描述了QACTIVE的使用。</p>
 <p>图中所示的过渡是：</p>
@@ -475,7 +475,7 @@
 </ul>
 <p><strong>拒绝静止请求</strong></p>
 <p>下图显示了拒绝静止请求的握手序列。它包括根据接口语义管理的可选控制器提供的时钟的保证活动。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-09.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-09-w680.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-09-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-09-w680.webp 680w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-09.png" width="680" height="352" decoding="async"></p>
 <p>图中所示的过渡是：</p>
 <ul>
 <li>从T1到T2的顺序与接受的静止请求中描述的顺序相同。</li>
@@ -493,14 +493,14 @@
 </ul>
 <p>只有当接口处于Q_STOPPED状态或控制器和设备同时复位时，控制器才能断言设备复位。这与在功率边界处隔离所有信号LOW的建议一致。</p>
 <p>下图显示了在QREQn低的情况下进入Q_STOPPED状态的复位退出序列。在复位取消断言后的某个时间，接口前进到Q_RUN，可能是对QACTIVE断言的响应。然后，它在重新进入静态Q_STOPPED状态之前保持激活一段时间，之后断言复位。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-10.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-10-w786.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-10-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-10-w786.webp 786w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-10.png" width="786" height="379" decoding="async"></p>
 <p>下图显示了在QREQn为HIGH的情况下，复位退出序列进入Q_exit状态。一旦复位被释放，接口就对QREQn HIGH信号作出响应，并前进到Q_RUN。然后，它在重新进入静态Q_STOPPED状态之前保持激活一段时间，之后断言复位。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-11.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-11-w781.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-11-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-11-w781.webp 781w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-11.png" width="781" height="375" decoding="async"></p>
 <p><strong>接口状态</strong></p>
 <p>下表总结了接口状态和设备可用性。如果设备没有实现拒绝机制，那么QDENY被绑定为LOW或不存在，并且前四个状态表示完整的集合。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-12.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-12-w1121.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-12-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-12-w1121.webp 1121w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-12.png" width="1121" height="601" decoding="async"></p>
 <p>下图是根据信号状态和接口状态显示可能的握手序列的状态图。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-13.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-13-w1056.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-13-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-13-w1056.webp 1056w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-13.png" width="1056" height="649" decoding="async"></p>
 <p><strong>握手规则</strong></p>
 <p>握手信号规则包括：</p>
 <ul>
@@ -530,7 +530,7 @@
 <p>一旦QREQn被驱动为LOW，控制器就不必考虑QACTIVE的状态，因为在设备以接受或拒绝响应完成握手之前，QREQn不能被驱动为HIGH。</p>
 <p><strong>QACTIVE策略示例</strong></p>
 <p>下图显示了由QACTIVE上的设备转换引导的控制器策略。当接口处于Q_STOPPED状态时，QACTIVE上的高电平会刺激退出静态。当接口处于Q_RUN状态时，QACTIVE上的LOW电平导致控制器发出静止请求。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-14.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-14-w922.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-14-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-14-w922.webp 922w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-14.png" width="922" height="387" decoding="async"></p>
 <h4 id="2-1-4-信号子集"><a href="#2-1-4-信号子集" class="headerlink" title="2.1.4 信号子集"></a>2.1.4 信号子集</h4><p>本节描述了允许的信号子集。</p>
 <p><strong>未使用接口</strong></p>
 <p>如果设备要运行，未使用的接口必须将QREQn输入绑定为HIGH。系统全权负责通过接口控制之外的方式管理设备的可用性。</p>
@@ -544,9 +544,9 @@
 <h3 id="2-2-奇偶校验扩展"><a href="#2-2-奇偶校验扩展" class="headerlink" title="2.2 奇偶校验扩展"></a>2.2 奇偶校验扩展</h3><p>Q-Channel接口奇偶校验扩展的Q-Channel接口是Q-Channel接口的可选添加，允许检测和缓解接口上的单比特故障。</p>
 <h4 id="2-2-1-奇偶性扩展Q-Channel信号"><a href="#2-2-1-奇偶性扩展Q-Channel信号" class="headerlink" title="2.2.1 奇偶性扩展Q-Channel信号"></a>2.2.1 奇偶性扩展Q-Channel信号</h4><p>在奇偶性扩展的Q-Channel中，标准Q-Channel接口中的每个信号都有一个相关的检查信号。</p>
 <p>下表显示了每个标准Q-Channel信号的检查信号。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-15.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-15-w686.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-15-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-15-w686.webp 686w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-15.png" width="686" height="282" decoding="async"></p>
 <p>每个校验信号为其相关信号提供奇数奇偶校验。下图显示了奇偶扩展Q-Channel的信号方向。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-16.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-16-w752.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-16-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-16-w752.webp 752w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-16.png" width="752" height="393" decoding="async"></p>
 <p>在Q-Channel信号的到达与其相关联的检查信号之间不存在定时要求。然而，到达时间应该由一种实现来限定，以提供用于信号的故障检查的窗口。</p>
 <p>此窗口的大小是实现自定义的。</p>
 <h4 id="2-2-2-奇偶扩展Q-Channel握手"><a href="#2-2-2-奇偶扩展Q-Channel握手" class="headerlink" title="2.2.2 奇偶扩展Q-Channel握手"></a>2.2.2 奇偶扩展Q-Channel握手</h4><p>本节描述奇偶扩展Q-Channel接口握手。</p>
@@ -554,7 +554,7 @@
 <p>然而，这并不是一项要求，仅为了示意图的方便而显示。每个Q-Channel信号及其相关联的检查信号可以在不同的时间改变。直到Q-Channel信号和相关联的检查信号都处于它们所需的状态，Q-Channel状态才会进展。</p>
 <p><strong>接受的静止请求</strong></p>
 <p>下图显示了接受的静止要求的握手序列，然后退出静止。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-17.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-17-w696.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-17-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-17-w696.webp 696w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-17.png" width="696" height="498" decoding="async"></p>
 <p>图中省略了QACTIVE和QACTIVECHK，因为它们独立于握手。这些信号可以作为控制器改变接口状态的激励。然而，所有接口状态的改变都可以由控制器单独启动。</p>
 <p>图中所示的过渡是：</p>
 <ul>
@@ -580,11 +580,11 @@
 <p>下表总结了接口状态和设备可用性。如果设备没有实现拒绝机制，则可以存在或省略QDENY和QDENYCHK。</p>
 <p>如果存在且拒绝未实现，则QDENY必须绑定为LOW，QDENYCHK必须绑定为HIGH。</p>
 <p>如果未实现拒绝，则表中具有QDENY HIGH或QDENYCHK LOW的行是非法的。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-18.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-19.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-20.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-18-w959.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-18-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-18-w959.webp 959w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-18.png" width="959" height="823" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-19-w959.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-19-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-19-w959.webp 959w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-19.png" width="959" height="531" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-20-w960.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-20-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-20-w960.webp 960w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-20.png" width="960" height="524" decoding="async"></p>
 <p>下图是根据信号状态和接口状态显示可能的握手序列的状态图。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-21.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-21-w1084.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-21-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-21-w1084.webp 1084w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-21.png" width="1084" height="823" decoding="async"></p>
 <p><strong>握手规则</strong></p>
 <p>握手规则包括：</p>
 <ul>
@@ -637,7 +637,7 @@
 <p>支持的信号子集与标准Q-Channel的信号子集对齐。在不存在信号的情况下，其相关联的检查信号也被去除。</p>
 <p>如果设备要运行，未使用的设备接口必须具有绑定为HIGH的QREQn和绑定为LOW的QREQCHK。系统全权负责通过接口控制之外的方式管理设备的可用性。</p>
 <h3 id="2-3-Q-Channel实现"><a href="#2-3-Q-Channel实现" class="headerlink" title="2.3  Q-Channel实现"></a>2.3  Q-Channel实现</h3><p>通常，设备和控制器是用异步时钟实现的。这些可以由相同的源时钟驱动，但具有显著的相位差。下图显示了在这种情况下重新同步的建议实现方式。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-22.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-22-w859.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-22-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-22-w859.webp 859w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-22.png" width="859" height="736" decoding="async"></p>
 <p>对于异步Q-Channel实现，建议向实现者提供以下指导：</p>
 <ul>
 <li>使用前，在目的地重新同步所有信号。</li>
@@ -652,7 +652,7 @@
 <h3 id="2-4-奇偶校验保护"><a href="#2-4-奇偶校验保护" class="headerlink" title="2.4 奇偶校验保护"></a>2.4 奇偶校验保护</h3><p>在某些情况下，可能需要连接控制器和设备，其中一个具有奇偶校验保护，另一个没有。以下各节介绍了这些类型连接的集成要求。</p>
 <p>当连接奇偶校验保护和非奇偶校验保护的控制器和设备时，接口没有或有有限的故障保护。</p>
 <h4 id="2-4-1-非奇偶校验连接到奇偶校验"><a href="#2-4-1-非奇偶校验连接到奇偶校验" class="headerlink" title="2.4.1 非奇偶校验连接到奇偶校验"></a>2.4.1 非奇偶校验连接到奇偶校验</h4><p>下图显示了非奇偶校验防护Q-Channel控制器与奇偶校验保护Q-Channel设备之间所需的集成。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-23.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-23-w1105.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-23-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-23-w1105.webp 1105w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-23.png" width="1105" height="691" decoding="async"></p>
 <p>如果奇偶校验保护检查信号是在与标准Q-Channel信号不同的时钟上生成的，则必须额外考虑。如果是这样，则在将这些信号用于图中所示的QACCEPTn和QDENY集成逻辑之前，必须使用设备时钟对其进行重新同步。</p>
 <p><strong>QACTIVE</strong></p>
 <p>设备QACTIVE输出可以直接连接到控制器QACTIVE输入，设备QACTIVECHK输出保持未连接。这可能具有在两个信号在设备侧指示该要求之前在控制器处指示高电平或低电平的效果。</p>
@@ -668,7 +668,7 @@
 <p>仅当QACCEPTn和QACCEPTCHK不同时，可以通过传播QACCEPTn值来提供这种调节。需要寄存器来保持最后的值，因为当在转换中时，无论它们转换到什么值，QACCEPTn和QACCEPTCHK信号都可以是HIGH或LOW。</p>
 <p>对于从奇偶校验保护设备到非奇偶校验保护控制器的QDENY和QDENYCHK信号也必须做出相同的规定。</p>
 <h4 id="2-4-2-奇偶校验连接到非奇偶校验"><a href="#2-4-2-奇偶校验连接到非奇偶校验" class="headerlink" title="2.4.2 奇偶校验连接到非奇偶校验"></a>2.4.2 奇偶校验连接到非奇偶校验</h4><p>下图显示了奇偶校验保护Q-Channel控制器与非奇偶校验防护Q-Channel设备之间所需的集成。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-24.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-24-w1081.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-24-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-24-w1081.webp 1081w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-24.png" width="1081" height="764" decoding="async"></p>
 <p>如果奇偶保护检查信号是在与标准Q-Channel信号不同的时钟上产生的，则必须考虑额外的因素。如果是这样，则在将这些信号用于图中所示的QREQn集成逻辑之前，必须将其重新同步到控制器时钟。</p>
 <p><strong>QREQn</strong></p>
 <p>要求对输入到非奇偶校验保护设备的QREQn进行调节，使得其仅在QREQn和QREQCHK都已更新到新值时才更新。</p>
@@ -680,7 +680,7 @@
 <h4 id="2-5-1-多接口设备中的时钟依赖性"><a href="#2-5-1-多接口设备中的时钟依赖性" class="headerlink" title="2.5.1 多接口设备中的时钟依赖性"></a>2.5.1 多接口设备中的时钟依赖性</h4><p>有些设备可能需要多个Q-Channel和P-Channel接口来管理设备的多个时钟、电源或功能域。具有多个接口的设备的设计和使用必须考虑每个接口的状态之间以及每个接口提供的保证之间的任何依赖性。</p>
 <p>当设备通电时，最常见的依赖性是向设备提供时钟，因为处理任何操作或状态变化都需要时钟。</p>
 <p>下图显示了一个具有两个接口的设备示例。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-25.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-25-w838.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-25-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-25-w838.webp 838w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-25.png" width="838" height="365" decoding="async"></p>
 <p>图中的设备具有Q-Channel时钟控制接口和P-Channel功率控制接口。</p>
 <p>设备的正常功能，标记为功能块f（x），将对QACTIVE的活动提出要求，以确保CLK的可用性，从而可以处理其操作。</p>
 <p>当功能块f（x）不活动时，在CLK不活动且时钟控制接口处于Q_STOPPED的情况下，仍然可以发生使用PREQ和PSTATE的功率状态转换请求。然而，CLK必须是活动的，以便在电源状态转换之前在设备中执行所需的管理操作，并在电源控制接口上用PACCEPT或PDENY进行响应。</p>
@@ -694,14 +694,14 @@
 <p>来自每个设备的Q-Channel接口可以在控制器处合并，也可以在中间功能块处合并为单个接口，然后将其呈现给控制器。</p>
 <p>在所有情况下，解决方案必须在每个设备和控制器或组合功能块之间保留专用且独立的握手接口。这种握手非常重要，因为它可以确保在具有共享时钟的设备之间存在相互依赖关系的情况下，可以避免性能限制或潜在的死锁情况。</p>
 <p>在图中所示的示例中，设备接口连接到控制器内的专用功能块，唯一共享的信号是控制器提供给两个设备的CLK信号。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-26.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-26-w629.webp" loading="lazy" data-src="/uploads/amba/amba-bus-6-low-power/img-26.png" width="629" height="409" decoding="async"></p>
 <h3 id="2-6-Q-Channel向后兼容性"><a href="#2-6-Q-Channel向后兼容性" class="headerlink" title="2.6 Q-Channel向后兼容性"></a>2.6 Q-Channel向后兼容性</h3><p>本节介绍连接映射，以确保与AXI低功率接口设备和控制器的向后兼容性。</p>
 <p>图中显示了不依赖于拒绝机制的支持AXI低功率接口的设备如何直接连接到不存在或绑定LOW QDENY信号的Q-Channel控制器。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-27.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-27-w946.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-27-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-27-w946.webp 946w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-27.png" width="946" height="423" decoding="async"></p>
 <p>下图显示了AXI低功率接口控制器组件如何连接到Q-Channel设备，其中QDENY输出不存在或连接为低电平。在这种情况下，AXI低功率接口控制器不得解释拒绝条件，因为QACTIVE上的活动不受限制。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-28.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-28-w1007.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-28-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-28-w1007.webp 1007w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-28.png" width="1007" height="419" decoding="async"></p>
 <p>对于支持使用拒绝机制的AXI低功耗接口的设备，解决方案仅限于所有接口信号都限制在单个同步时钟域的情况。在这些限制范围内，可以实现生成Q-Channel确认信号的简单适配器组件，如图所示。该组件具有顺序要求，以确保在控制器处进行正确的无故障握手。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-29.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-29-w1036.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-29-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-29-w1036.webp 1036w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-29.png" width="1036" height="421" decoding="async"></p>
 <p>任何其他安排的成功整合都无法保证，需要对时间关系进行个案分析，特别是CACTIVE和CSYSACK之间的时间关系。</p>
 <h2 id="3-P-Channel"><a href="#3-P-Channel" class="headerlink" title="3 P-Channel"></a>3 P-Channel</h2><h3 id="3-1-P-Channel接口规范"><a href="#3-1-P-Channel接口规范" class="headerlink" title="3.1 P-Channel接口规范"></a>3.1 P-Channel接口规范</h3><p>本节描述了控制电源状态转换的P-Channel接口。就本规范而言：</p>
 <p><strong>低功率状态</strong></p>
@@ -717,7 +717,7 @@
 <li>与较低的状态相比，该设备具有更多的功能、性能或状态保持能力。</li>
 </ul>
 <h4 id="3-1-1-P-Channel信号"><a href="#3-1-1-P-Channel信号" class="headerlink" title="3.1.1 P-Channel信号"></a>3.1.1 P-Channel信号</h4><p>下图显示了设备和功率控制器之间的P-Channel信号。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-30.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-30-w713.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-30-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-30-w713.webp 713w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-30.png" width="713" height="430" decoding="async"></p>
 <p>P-Channel接口包括以下信号组。</p>
 <p><strong>设备活动指示</strong></p>
 <p>该组包括N位信号PACTIVE[N-1:0]：</p>
@@ -727,7 +727,7 @@
 </ul>
 <p><strong>握手机制</strong></p>
 <p>此组管理设备电源状态转换。该组具有以下信号：</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-31.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-31-w834.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-31-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-31-w834.webp 834w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-31.png" width="834" height="146" decoding="async"></p>
 <p>PREQ、PACCEPT和PDENY形成了一个握手接口，用于管理和保证安全的状态转换。握手接口具有由控制器驱动的转换请求信号PREQ和由设备驱动的用于指示接受或拒绝请求的确认信号对PACCEPT和PDENY。</p>
 <p>P-Channel规范要求在单个握手转换中只有PACCEPT或PDENY中的一个改变。这确保了接口可以跨异步边界安全地实现。PACCEPT用于接受请求，PDENY用于拒绝请求。</p>
 <p>来自设备的PACCEPT和PDENY信号以及来自控制器的PREQ和PSTATE信号都必须直接由寄存器驱动。PSTATE枚举是由实现定义的。建议使用“电源策略单元规范”中定义的值以实现兼容性。</p>
@@ -737,7 +737,7 @@
 <p>P-Channel接口还具有与设备或设备分区复位的协议关系。对于具有多个复位的设备，此处指定的复位关系用于与设备P-Channel逻辑相关联的复位。在本说明书中，名称RESETn用于表示该复位信号。然而，实际的复位命名和极性不在本规范的范围内，并且不受本规范的限制，前提是遵守所描述的关系。后文设备复位和初始化描述了复位和初始化转换。</p>
 <h4 id="3-1-2-P-Channel握手"><a href="#3-1-2-P-Channel握手" class="headerlink" title="3.1.2 P-Channel握手"></a>3.1.2 P-Channel握手</h4><p>本节描述了P-Channel接口握手的允许变化。</p>
 <p>接受状态转换图中显示了设备接受的从状态A到状态B的转换请求。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-32.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-32-w1082.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-32-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-32-w1082.webp 1082w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-32.png" width="1082" height="514" decoding="async"></p>
 <p>图中省略了PACTIVE，因为尽管PACTIVE可以作为控制器启动转换请求的激励，但它与握手无关。所有转换请求都可以由控制器单独发起。</p>
 <p>图中所示的过渡是：</p>
 <ul>
@@ -764,7 +764,7 @@
 <p><strong>——————</strong></p>
 <p><strong>拒绝状态转换</strong></p>
 <p>下图显示了被设备拒绝的转换请求。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-33.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-33-w1088.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-33-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-33-w1088.webp 1088w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-33.png" width="1088" height="491" decoding="async"></p>
 <p>图中所示的过渡是：</p>
 <ul>
 <li>T0、T1和T2遵循接受状态转换中所述的相同顺序。</li>
@@ -788,7 +788,7 @@
 </ul>
 <p>在复位退出或微调期间对PREQ HIGH进行采样时，设备只有在准备好接收另一个P-Channel请求时才能完成P-Channel转换。设备必须接受在复位出口或微调期间发出的第一个请求。</p>
 <p>下图显示了控制器在发出新转换之前等待直到tinit过期，然后断言复位的情况。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-34.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-34-w1072.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-34-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-34-w1072.webp 1072w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-34.png" width="1072" height="380" decoding="async"></p>
 <p>图中所示的过渡是：</p>
 <ul>
 <li>T0时，接口空闲，设备处于复位状态。</li>
@@ -800,13 +800,13 @@
 <li>在T7，复位被断言。</li>
 </ul>
 <p>图中显示了控制器在复位取消断言之前将PREQ设置为HIGH，然后等待P-Channel转换完成后再发出进一步请求的情况。当第一次转换完成时，即使在很短的时间内完成，设备也保证准备好接收另一个P-Channel请求。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-35.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-35-w1113.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-35-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-35-w1113.webp 1113w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-35.png" width="1113" height="352" decoding="async"></p>
 <p>图中显示了控制器在复位取消断言后设置PREQ HIGH的情况，其PSTATE值与复位取消断言时相同。在发出进一步的请求之前，控制器等待直到P-Channel转换完成。当第一次转换完成时，即使在tnit时间内完成，设备也保证准备好接收另一个P-Channel请求。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-36.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-36-w1108.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-36-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-36-w1108.webp 1108w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-36.png" width="1108" height="355" decoding="async"></p>
 <p><strong>多电源状态转换</strong></p>
 <p>P-Channel接口可用于在多个电源状态之间转换，而无需通过公共操作状态。</p>
 <p>图中显示了P-Channel接口如何从状态A转换到状态B，然后再转换到状态C，而不必返回到状态A。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-37.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-37-w1008.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-37-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-37-w1008.webp 1008w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-37.png" width="1008" height="416" decoding="async"></p>
 <p>图中所示的过渡是：</p>
 <ul>
 <li>在T0，接口处于P_STABLE状态。</li>
@@ -815,9 +815,9 @@
 </ul>
 <p><strong>接口状态</strong></p>
 <p>下表显示了接口状态。如果设备没有实现拒绝机制，则PDENY被绑定为LOW或不存在，并且前五个状态构成完整集合。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-38.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-38-w1152.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-38-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-38-w1152.webp 1152w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-38.png" width="1152" height="626" decoding="async"></p>
 <p>下图是根据每个状态变化的信号状态和接口状态显示可能的握手序列的状态图。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-39.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-39-w1160.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-39-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-39-w1160.webp 1160w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-39.png" width="1160" height="637" decoding="async"></p>
 <p><strong>握手规则</strong></p>
 <p>握手信号规则为：</p>
 <ul>
@@ -863,7 +863,7 @@
 <p>另请参阅PACTIVE用法。</p>
 <p><strong>控制器策略和PACTIVE</strong></p>
 <p>图中显示了基于不断变化的PACTIVE值的设备主导的功率转换示例。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-40.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-40-w1184.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-40-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-40-w1184.webp 1184w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-40.png" width="1184" height="459" decoding="async"></p>
 <p>在这个例子中，PACTIVE比特被映射到如下的功率状态：</p>
 <ul>
 <li>PACTIVE[2]：状态C</li>
@@ -911,9 +911,9 @@
 <h3 id="3-2-奇偶校验扩展P-Channel接口"><a href="#3-2-奇偶校验扩展P-Channel接口" class="headerlink" title="3.2 奇偶校验扩展P-Channel接口"></a>3.2 奇偶校验扩展P-Channel接口</h3><p>奇偶校验扩展P-Channel接口是对P-Channel接口的补充，允许检测和减轻接口上的单比特故障。</p>
 <h4 id="3-2-1-奇偶扩展P-Channel信号"><a href="#3-2-1-奇偶扩展P-Channel信号" class="headerlink" title="3.2.1 奇偶扩展P-Channel信号"></a>3.2.1 奇偶扩展P-Channel信号</h4><p>在奇偶扩展P-Channel中，标准P-Channel接口中的每个信号都有一个相关的校验信号。</p>
 <p>下表显示了每个标准P-Channel信号的检查信号。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-41.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-41-w688.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-41-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-41-w688.webp 688w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-41.png" width="688" height="331" decoding="async"></p>
 <p>每个校验信号为其相关信号提供奇数奇偶校验。PSTATECHK是一个比特，而与PSTATE的宽度无关。每比特PACTIVE有一比特PACTIVECHK。下图显示了奇偶校验扩展P-Channel的信号方向。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-42.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-42-w835.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-42-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-42-w835.webp 835w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-42.png" width="835" height="563" decoding="async"></p>
 <p>该协议要求当在设备上检测到PREQ或PREQCHK的变化时，PSTATE和PSTATECHK都是稳定的。</p>
 <p>在P-Channel信号的到达与其相关联的检查信号之间不存在定时要求。然而，到达时间应该由一种实现来限定，以提供用于信号的故障检查的窗口。</p>
 <p>此窗口的大小是实现自定义的。</p>
@@ -922,7 +922,7 @@
 <p>然而，这并不是一项要求，仅为了示意图的方便而显示。直到P-Channel信号和相关的检查信号都处于其所需状态，P-Channel状态才会进展。</p>
 <p><strong>接受的状态转换</strong></p>
 <p>下图显示了接受的转换请求的握手序列。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-43.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-43-w920.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-43-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-43-w920.webp 920w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-43.png" width="920" height="579" decoding="async"></p>
 <p>图中省略了PACTIVE和PACTIVECHK，因为它们独立于握手。这些信号可以作为控制器改变接口状态的激励。然而，所有接口状态的改变都可以由控制器单独启动。有关更多信息，请参阅PACTIVE操作。</p>
 <p>这里显示的PSTATE编码是示例，用于说明PSTATE和PSTATECHK之间的关系。</p>
 <p>图中所示的过渡是：</p>
@@ -944,12 +944,12 @@
 <p>下表总结了接口状态和设备可用性。</p>
 <p>如果设备没有实现拒绝机制，则可以存在或省略PDENY和PDENYCHK信号。如果存在且拒绝未实现，则PDENY必须绑定为LOW，PDENYCHK必须绑定为HIGH。</p>
 <p>如果未实现拒绝，则表中PDENY HIGH或PDENYCHK LOW的行是非法的。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-44.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-45.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-46.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-47.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-44-w1139.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-44-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-44-w1139.webp 1139w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-44.png" width="1139" height="529" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-45-w1139.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-45-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-45-w1139.webp 1139w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-45.png" width="1139" height="764" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-46-w1140.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-46-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-46-w1140.webp 1140w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-46.png" width="1140" height="302" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-47-w1139.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-47-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-47-w1139.webp 1139w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-47.png" width="1139" height="657" decoding="async"></p>
 <p>下图是一个状态图，显示了根据信号状态和接口状态可能的握手序列。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-48.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-48-w1151.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-48-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-48-w1151.webp 1151w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-48.png" width="1151" height="642" decoding="async"></p>
 <p><strong>握手规则</strong></p>
 <p>握手规则是：</p>
 <ul>
@@ -1026,7 +1026,7 @@
 <p><strong>PDENY省略</strong></p>
 <p>不要求拒绝转换请求的设备可以省略PDENY和PDENYCHK。在这种情况下，PDENY必须在控制器处被绑定为LOW，而PDENYCHK必须被绑定为HIGH。</p>
 <h3 id="3-3-P-Channel实现"><a href="#3-3-P-Channel实现" class="headerlink" title="3.3 P-Channel实现"></a>3.3 P-Channel实现</h3><p>通常，设备和控制器是用异步时钟实现的。下图显示了在这种情况下重新同步的建议实施方式。此图未显示复位取消断言时捕获PSTATE的机制。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-49.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-49-w752.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-49-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-49-w752.webp 752w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-49.png" width="752" height="903" decoding="async"></p>
 <p>对于异步P-Channel实现，建议向实现者提供以下指导：</p>
 <ul>
 <li>在使用前重新同步所有信号，但目的地的PSTATE除外。</li>
@@ -1048,7 +1048,7 @@
 <p>实现器可以对PSTATE信号施加最大延迟时序约束，以确保它在PREQ同步之前到达其捕获寄存器。</p>
 <p>如果PSTATE需要额外的时间裕度，则在设置所需PSTATE值和设置PREQ HIGH之间的控制器上添加时钟周期。</p>
 <p>图中显示了一个示例，其中在PREQ被驱动为HIGH之前设置PSTATE。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-50.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-50-w1138.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-50-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-50-w1138.webp 1138w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-50.png" width="1138" height="434" decoding="async"></p>
 <p>在T2，PSTATE被设置为下一状态所需的值。然后存在延迟，直到当PREQ被断言时的T3。</p>
 <p><strong>——注意——</strong></p>
 <p>电源控制器可以执行预转换操作，直到PREQ设置为HIGH，因为设备在采样PREQ HIGH之前不得采取任何操作。</p>
@@ -1057,7 +1057,7 @@
 <h3 id="3-4-奇偶校验保护连接到非奇偶校验"><a href="#3-4-奇偶校验保护连接到非奇偶校验" class="headerlink" title="3.4 奇偶校验保护连接到非奇偶校验"></a>3.4 奇偶校验保护连接到非奇偶校验</h3><p>在某些情况下，可能需要连接控制器和设备，其中一个具有奇偶校验保护，而另一个没有。以下各节介绍了这些类型连接的集成要求。</p>
 <p>当连接奇偶校验保护和非奇偶校验保护的控制器和设备时，接口没有或有有限的故障保护。</p>
 <h4 id="3-4-1-非奇偶校验连接到奇偶校验保护"><a href="#3-4-1-非奇偶校验连接到奇偶校验保护" class="headerlink" title="3.4.1 非奇偶校验连接到奇偶校验保护"></a>3.4.1 非奇偶校验连接到奇偶校验保护</h4><p>下图显示了非奇偶校验保护P-Channel控制器与奇偶校验保护的P-Channel设备之间所需的集成。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-51.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-51-w1091.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-51-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-51-w1091.webp 1091w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-51.png" width="1091" height="838" decoding="async"></p>
 <p>如果奇偶校验保护检查信号是在与标准P-Channel信号不同的时钟上生成的，则必须额外考虑。如果是这样，这些信号在用于PACCEPT和PDENY集成逻辑之前必须与设备时钟重新同步，如图所示。</p>
 <p><strong>PACTIVE</strong></p>
 <p>每个PACTIVE位必须单独调节，因为每个都是功率模式要求的独立指示。每个设备PACTIVE输出位可以直接连接到相应的控制器PACTIVE输入位，并且相应的设备PACTIVECHK输出位不连接。</p>
@@ -1074,7 +1074,7 @@
 <p>只有当PACCEPT和PACCEPTCHK不同时，才能通过传播PACCEPT值来提供这种调节。需要寄存器来保持最后一个值，因为在转换中PACCEPT和PACCEPTCHK信号可以都是HIGH或都是LOW，而不管它们转换到什么值。</p>
 <p>对于从奇偶校验保护设备到非奇偶校验保护控制器的PDENY和PDENYCHK信号也必须做出相同的规定。</p>
 <h4 id="3-4-2-奇偶校验保护连接到非奇偶校验"><a href="#3-4-2-奇偶校验保护连接到非奇偶校验" class="headerlink" title="3.4.2 奇偶校验保护连接到非奇偶校验"></a>3.4.2 奇偶校验保护连接到非奇偶校验</h4><p>下图显示了奇偶校验保护的P-Channel控制器与非奇偶校验保护P-Channel设备之间所需的集成。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-52.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-52-w1102.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-52-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-52-w1102.webp 1102w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-52.png" width="1102" height="819" decoding="async"></p>
 <p>如果奇偶校验保护检查信号是在与标准P-Channel信号不同的时钟上生成的，则必须额外考虑。如果是这样，则在将这些信号用于图中所示的PREQ集成逻辑之前，必须使用控制器时钟对其进行重新同步。</p>
 <p><strong>PSTATE</strong></p>
 <p>PSTATE值应直接连接。PREQ上的条件可确保握手以正确的顺序进行。</p>
@@ -1091,19 +1091,19 @@
 <li>在支持嵌套子电源域的父电源域内。</li>
 </ul>
 <p>图中显示了一个简单的示例，其中跨两个设备的三个电源域。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-53.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-53-w899.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-53-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-53-w899.webp 899w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-53.png" width="899" height="607" decoding="async"></p>
 <p>在图中，设备0完全位于一个电源域中，而设备1包含两个电源域。每个功率域都有一个P-Channel接口，并且在所有情况下，P-Channel控制逻辑都包含在该功率域中。</p>
 <p>在这种安排中，每个功率域只能在具有相应P-Channel响应的状态之间进行转换，如果该域中的逻辑功能当时可用的话。这样的设备不能从没有可操作逻辑的状态使用PACTIVE来创建唤醒信号。在这种状态下，系统负责唤醒信号。</p>
 <p>由于至少需要一些逻辑功能来响应P-Channel请求，因此这种安排不能支持仅RAM的电源域。</p>
 <p>图中显示了具有多个电源域的设备示例，其中主域和两个辅助域之间存在父子关系。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-54.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-54-w1047.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-54-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-54-w1047.webp 1047w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-54.png" width="1047" height="498" decoding="async"></p>
 <p>在图中，电源域0是父域，与子电源域、电源域1和电源域2具有先开后关的关系。所有P-Channel接口逻辑和控制逻辑均位于电源域0内。</p>
 <p>在这种情况下，设备能力可以包括父域检测和代表次级功率域使用PACTIVE的唤醒条件的信号，以引起向更高状态的转换。例如，这可以实现对次级功率域的机会主义功率状态控制，否则可能很复杂或不可能在系统级实现。</p>
 <p>次级电源域也可以在没有任何可操作逻辑的情况下在任一状态下的接口上的状态之间转换。此示例既可以支持在不同级别的非操作电源状态之间增加状态管理灵活性，也可以支持使用不包含逻辑功能的域，例如仅RAM的电源域。</p>
 <h4 id="3-5-2-PACTIVE用法示例"><a href="#3-5-2-PACTIVE用法示例" class="headerlink" title="3.5.2 PACTIVE用法示例"></a>3.5.2 PACTIVE用法示例</h4><p>图中显示了设备电源状态和支持转换的示例。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-55.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-55-w713.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-55-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-55-w713.webp 713w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-55.png" width="713" height="388" decoding="async"></p>
 <p>表中显示了设备的电源状态和相关的P-Channel行为。</p>
-<p><img src="/uploads/amba/amba-bus-6-low-power/img-56.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-6-low-power/img-56-w983.webp" loading="lazy" srcset="/uploads/amba/amba-bus-6-low-power/img-56-w640.webp 640w, /uploads/amba/amba-bus-6-low-power/img-56-w983.webp 983w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-6-low-power/img-56.png" width="983" height="265" decoding="async"></p>
 <p>PACTIVE[0]表示OFF状态。它可以被设备省略，因为这是当所有其他比特都为低时的隐含的最小状态要求。如果支持作为输入，则应在控制器处将其连接为LOW。</p>
 <p>如果PACTIVE[2]为HIGH，则设备正在请求ON状态。</p>
 <p>如果在设备处于ON状态时，PACTIVE[2]转变为LOW，但PACTIVE[1]为HIGH，则该设备请求将RETENTION状态作为最小状态。控制器可以根据其配置选择保持在ON状态或请求转换到RETENTION状态。</p>

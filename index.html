@@ -488,8 +488,8 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>前面博客《<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xianyuIC/p/17372573.html">AMBA总线（3）—— AXI协议</a>》大致过了一遍 AXI3 和 AXI4 协议，对于 AXI5 部分没有研究。本篇博客翻译一下 AXI5 中的新 feature，参考文档是《AMBA5 AXI and ACE Protocol Specification》。</p>
-<p><img src="/uploads/amba/amba-bus-5-axi5/img-01.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-5-axi5/img-02.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-5-axi5/img-01-w1092.webp" loading="lazy" srcset="/uploads/amba/amba-bus-5-axi5/img-01-w640.webp 640w, /uploads/amba/amba-bus-5-axi5/img-01-w1092.webp 1092w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-5-axi5/img-01.png" width="1092" height="772" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-5-axi5/img-02-w1092.webp" loading="lazy" srcset="/uploads/amba/amba-bus-5-axi5/img-02-w640.webp 640w, /uploads/amba/amba-bus-5-axi5/img-02-w1092.webp 1092w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-5-axi5/img-02.png" width="1092" height="775" decoding="async"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/01/01/amba-bus-5-axi5/#more" rel="contents">
@@ -916,7 +916,7 @@
 <li><strong>不能读写同时传输，因为其读写地址是共用的。（AHB也不能读写同时传输）</strong></li>
 <li><strong>不能仲裁，因为是单主多从协议。典型的APB协议包括唯一的APB桥作为Master，而所有的APB模块都是APB slave。</strong></li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-1-apb/img-01.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-01-w1227.webp" loading="lazy" srcset="/uploads/amba/amba-bus-1-apb/img-01-w640.webp 640w, /uploads/amba/amba-bus-1-apb/img-01-w1227.webp 1227w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-1-apb/img-01.png" width="1227" height="386" decoding="async"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/04/02/amba-bus-1-apb/#more" rel="contents">
@@ -1019,7 +1019,7 @@
           <p>最近玩基金，上班期间看支付宝估值太麻烦，于是花点时间用Python做了个基金涨跌幅播报,</p>
 <p>主要使用 ServerChan 和 钉钉群机器人进行推送  </p>
 <p> <a target="_blank" rel="noopener" href="https://github.com/hyw-zero/fund_report.git">源码地址</a></p>
-<h2 id="1-实现原理"><a href="#1-实现原理" class="headerlink" title="1.实现原理"></a>1.实现原理</h2><p><img src="/uploads/cnblogs/python-fund-change-push/img-01.png" alt="image-20210829195623893" loading="lazy"></p>
+<h2 id="1-实现原理"><a href="#1-实现原理" class="headerlink" title="1.实现原理"></a>1.实现原理</h2><p><img src="/uploads/cnblogs/python-fund-change-push/img-01-w1138.webp" alt="image-20210829195623893" loading="lazy" srcset="/uploads/cnblogs/python-fund-change-push/img-01-w640.webp 640w, /uploads/cnblogs/python-fund-change-push/img-01-w1138.webp 1138w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/cnblogs/python-fund-change-push/img-01.png" width="1138" height="255" decoding="async"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/08/30/python-fund-change-push/#more" rel="contents">
@@ -1120,7 +1120,7 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>ARM 公司推出了 AMBA 系列总线，一直迭代至今，不断丰富扩展内容，常用的 AMBA 协议各个版本的变化如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-0-introduction/img-01.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-0-introduction/img-01.png" loading="lazy" srcset="/uploads/amba/amba-bus-0-introduction/img-01-w640.webp 640w, /uploads/amba/amba-bus-0-introduction/img-01-w1280.webp 1280w, /uploads/amba/amba-bus-0-introduction/img-01.png 1428w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-0-introduction/img-01.png" width="1428" height="654" decoding="async"></p>
 <p>在我刚入职时，指导人让我前 2 个星期什么都不用干，甚至不用登陆 Linux 系统，就在电脑上硬看 APB、AHB、AXI 数据手册。那时我连基本的握手、互联的概念都没有，看完后虽有收获，但非常流于表面。现在工作了一小段时间，打算再看一遍 AMBA 数据手册，希望把边边角角都给扫到。</p>
           <!--noindex-->
             <div class="post-button">
@@ -1226,7 +1226,7 @@
 <li><p><strong>比较类排序</strong>：通过比较来决定元素间的相对次序，由于其时间复杂度不能突破O(nlogn)，因此也称为非线性时间比较类排序。</p>
 </li>
 <li><p><strong>非比较类排序</strong>：不通过比较来决定元素间的相对次序，它可以突破基于比较排序的时间下界，以线性时间运行，因此也称为线性时间非比较类排序。 </p>
-<p><img src="/uploads/cnblogs/top-10-sorting-algorithms/img-01.png" alt="sort" loading="lazy"></p>
+<p><img src="/uploads/cnblogs/top-10-sorting-algorithms/img-01.png" alt="sort" loading="lazy" srcset="/uploads/cnblogs/top-10-sorting-algorithms/img-01-w640.webp 640w, /uploads/cnblogs/top-10-sorting-algorithms/img-01-w1280.webp 1280w, /uploads/cnblogs/top-10-sorting-algorithms/img-01.png 1372w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/cnblogs/top-10-sorting-algorithms/img-01.png" width="1372" height="1090" decoding="async"></p>
 </li>
 </ul>
 <h2 id="时间，空间复杂度比较"><a href="#时间，空间复杂度比较" class="headerlink" title="时间，空间复杂度比较"></a>时间，空间复杂度比较</h2><table>

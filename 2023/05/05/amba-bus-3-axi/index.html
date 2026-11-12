@@ -368,12 +368,12 @@
 <li>Slave使用READY信号来显示它何时可以接受信息。</li>
 <li>读数据通道和写数据通道还包括LAST信号，以指示事务中最后数据项的传输。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-01.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-02.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-01-w789.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-01-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-01-w789.webp 789w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-01.png" width="789" height="471" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-02-w789.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-02-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-02-w789.webp 789w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-02.png" width="789" height="306" decoding="async"></p>
 <p>五个通道的特点如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-03.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-03.png" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-03-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-03-w1280.webp 1280w, /uploads/amba/amba-bus-3-axi/img-03.png 1397w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-03.png" width="1397" height="425" decoding="async"></p>
 <p>一个典型的系统由许多Master和Slave组成，通过某种形式的互连连接在一起，如下图所示。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-04.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-04-w732.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-04-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-04-w732.webp 732w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-04.png" width="732" height="169" decoding="async"></p>
 <p><strong>Register slices</strong></p>
 <p>每个AXI通道只在一个方向上传输信息，并且该体系结构不需要通道之间有任何固定的关系。这意味着Register slices几乎可以在任何通道的任何点插入，代价是额外的延迟周期。</p>
 <p>注意：Register slice的使用会造成：</p>
@@ -396,7 +396,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="2-AXI信号列表"><a href="#2-AXI信号列表" class="headerlink" title="2 AXI信号列表"></a>2 AXI信号列表</h2><p><img src="/uploads/amba/amba-bus-3-axi/img-05.png" loading="lazy"></p>
+<h2 id="2-AXI信号列表"><a href="#2-AXI信号列表" class="headerlink" title="2 AXI信号列表"></a>2 AXI信号列表</h2><p><img src="/uploads/amba/amba-bus-3-axi/img-05.png" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-05-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-05-w1280.webp 1280w, /uploads/amba/amba-bus-3-axi/img-05.png 2528w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-05.png" width="2528" height="3171" decoding="async"></p>
 <h2 id="3-AXI握手机制"><a href="#3-AXI握手机制" class="headerlink" title="3 AXI握手机制"></a>3 AXI握手机制</h2><p>本章描述了在单个Master和Slave之间的基本AXI协议事务需求。</p>
 <h3 id="3-1-握手过程"><a href="#3-1-握手过程" class="headerlink" title="3.1 握手过程"></a>3.1 握手过程</h3><p>所有五个事务通道，都使用相同的VALID&#x2F;READY握手过程来传输地址、数据和控制信息。这种双向流控制机制意味着Master和Slave都可以控制信息的移动速率。传输只发生在VALID和READY信号都是1的时候。</p>
 <ul>
@@ -405,12 +405,12 @@
 </ul>
 <p><strong>（1）VALID等READY</strong></p>
 <p>注意，源端拉高VALID后必须保持住，直到终端拉高READY，在T3时刻完成握手。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-06.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-06-w591.webp" loading="lazy" data-src="/uploads/amba/amba-bus-3-axi/img-06.png" width="591" height="303" decoding="async"></p>
 <p><strong>（2）READY等VALID</strong></p>
 <p>注意，终端拉高READY后可以取消拉高，不必一直保持到完成握手。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-07.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-07-w589.webp" loading="lazy" data-src="/uploads/amba/amba-bus-3-axi/img-07.png" width="589" height="306" decoding="async"></p>
 <p><strong>（3）VALID和READY同时</strong></p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-08.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-08-w587.webp" loading="lazy" data-src="/uploads/amba/amba-bus-3-axi/img-08.png" width="587" height="300" decoding="async"></p>
 <h3 id="3-2-握手依赖"><a href="#3-2-握手依赖" class="headerlink" title="3.2 握手依赖"></a>3.2 握手依赖</h3><p>握手依赖包括不同通道之间的依赖关系、以及同一通道中不同信号之间的依赖关系。首先记住一点：VALID和READY之间没有依赖关系，谁先谁后都可以，但是源端拉高VALID后必须保持住，直到终端拉高READY。</p>
 <p>下面给出握手依赖关系，单箭头指向表示不依赖，双箭头指向的信号必须依赖前者。</p>
 <p><strong>（1）AXI读事务</strong></p>
@@ -418,21 +418,21 @@
 <li>必须先有读地址，再有读数据。</li>
 <li>从机发送突发传输中的最后一拍读传输时，必须拉高RLAST。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-09.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-09-w558.webp" loading="lazy" data-src="/uploads/amba/amba-bus-3-axi/img-09.png" width="558" height="179" decoding="async"></p>
 <p><strong>（2）AXI3写事务</strong></p>
 <ul>
 <li>可以先有写数据，再有写地址。</li>
 <li>必须先有写数据，再有写响应。</li>
 <li>主机发送突发传输中的最后一拍写传输时，必须拉高WLAST。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-10.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-10-w945.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-10-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-10-w945.webp 945w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-10.png" width="945" height="222" decoding="async"></p>
 <p><strong>（3）AXI4写事务</strong></p>
 <ul>
 <li>可以先有写数据，再有写地址。</li>
 <li>必须先有写地址和写数据，再有写响应。（与AXI3不同）</li>
 <li>主机发送突发传输中的最后一拍写传输时，必须拉高WLAST。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-11.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-11-w786.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-11-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-11-w786.webp 786w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-11.png" width="786" height="283" decoding="async"></p>
 <h3 id="3-3-遗留问题"><a href="#3-3-遗留问题" class="headerlink" title="3.3 遗留问题"></a>3.3 遗留问题</h3><p>上面写道，接受所有写数据并在接受地址之前提供写响应的AXI3 Slave与AXI4不兼容。将一个AXI3遗留Slave转换为AXI4需要添加一个Wrapper，以确保在Slave接受了适当的地址之后才提供返回的写响应。</p>
 <p>注意：强烈建议任何新的AXI3 Slave实现都包含这个额外的依赖项。</p>
 <p>任何AXI3 Master 都符合AXI4写响应要求。</p>
@@ -458,12 +458,12 @@
 <p>在AXI4&#x2F;5中，具有INCR突发类型和长度大于16的事务可以转换为多个较小的突发，即使事务属性表明该事务是不可修改的。（请参阅关于CACHE内存属性的更改。）这种情况下，生成的突发必须保留与原始交易相同的事务特征，但是注意这些事务的突发长度被减少了，突发地址也被适当地调整了。</p>
 <p><strong>注意：</strong>为了实现AXI3兼容性或者保证QoS性能，需要能够将较长的突发分解为多个较短的突发。</p>
 <h3 id="4-2-AxSIZE"><a href="#4-2-AxSIZE" class="headerlink" title="4.2 AxSIZE"></a>4.2 AxSIZE</h3><p>AxSIZE表示突发大小，即在突发中每次数据传输的byte数。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-12.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-12-w399.webp" loading="lazy" data-src="/uploads/amba/amba-bus-3-axi/img-12.png" width="399" height="470" decoding="async"></p>
 <p>如果AXI总线大于突发大小，AXI接口必须从传输地址中确定：每次传输使用数据总线的哪个字节通道。（参见后面《AXI读写结构》。）</p>
 <p>AxSIZE表示的数据宽度不能超过有效的数据总线宽度，例如awsize&#x3D;1，表示每次传输16bit，这也意味着有效的数据总线宽度是16，那么即便wdata位宽是32bit，wstrb也不能是诸如“1001”，而只能是”0000，0001，0010，0011，0100，0110，0100，1000，1100“等组合。</p>
 <p>实际上，AXI4 尽管支持同一beat内的稀疏传输，即wstrb里的1不要求连续，但是实际从机实现困难，一般会拆开，还有就是这个1必须出现在 awsize 规定的总线宽度内。</p>
 <h3 id="4-3-AxBURST"><a href="#4-3-AxBURST" class="headerlink" title="4.3 AxBURST"></a>4.3 AxBURST</h3><p>AXI协议定义了3种突发类型。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-13.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-13-w359.webp" loading="lazy" data-src="/uploads/amba/amba-bus-3-axi/img-13.png" width="359" height="266" decoding="async"></p>
 <p><strong>（1）FIXED</strong></p>
 <ul>
 <li>该地址在每次传输中都是相同的。</li>
@@ -490,10 +490,10 @@
 </li>
 <li>对于写事务，Slave为整个突发事务中发出单个响应信号，而不是为突发事务中的每个数据传输。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-14.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-14-w1186.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-14-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-14-w1186.webp 1186w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-14.png" width="1186" height="538" decoding="async"></p>
 <p><strong>注意：</strong>协议规定即使报告了错误，也必须执行所需数量的数据传输。例如Slave要求了8个读传输，但Slave有错误情况，也必须执行8个数据传输，每个都有一个错误响应。如果Slave给出一个错误响应，不会取消突发的剩余部分。</p>
 <h3 id="4-5-AxCACHE"><a href="#4-5-AxCACHE" class="headerlink" title="4.5 AxCACHE"></a>4.5 AxCACHE</h3><p><strong>（1）AXI3内存属性</strong></p>
-<p><strong><img src="/uploads/amba/amba-bus-3-axi/img-15.png" loading="lazy"></strong></p>
+<p><strong><img src="/uploads/amba/amba-bus-3-axi/img-15-w1257.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-15-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-15-w1257.webp 1257w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-15.png" width="1257" height="534" decoding="async"></strong></p>
 <p><strong>（2）AXI4&#x2F;5内存属性</strong></p>
 <p>AXI4&#x2F;5内存属性进行了以下更改：</p>
 <ul>
@@ -501,12 +501,12 @@
 <li>排序需求是为Non-modifiable事务定义的。</li>
 <li>Read-allocate和Write-allocate的含义被更新。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-16.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-17.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-16.png" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-16-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-16.png 1200w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-16.png" width="1200" height="863" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-17.png" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-17-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-17.png 1201w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-17.png" width="1201" height="734" decoding="async"></p>
 <p>更多详细描述见原版AXI4&#x2F;5数据手册。</p>
 <p><strong>（3）Memory类型</strong></p>
 <p>AxCACHE还可以编码来标识内存类型，AXI3和AXI4&#x2F;5对此略有不同。下表显示了首选的AXI4&#x2F;5值，括号中是合法的AXI3值。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-18.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-18-w752.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-18-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-18-w752.webp 752w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-18.png" width="752" height="614" decoding="async"></p>
 <p><strong>注意：</strong></p>
 <ul>
 <li>相同的存储器类型可以在读通道和写通道上具有不同的编码。</li>
@@ -523,12 +523,12 @@
 </ul>
 <p>强烈建议任何新的AXI3设计都实现AXI4&#x2F;5需求。对于AxCACHE位名和内存类型名，AXI4&#x2F;5需要使用新的术语。AXI3组件可以使用AXI3或AXI4&#x2F;5名称。</p>
 <h3 id="4-6-AxPROT"><a href="#4-6-AxPROT" class="headerlink" title="4.6 AxPROT"></a>4.6 AxPROT</h3><p>AXI提供访问权限的信号，可用于防止非法交易。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-19.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-19-w1186.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-19-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-19-w1186.webp 1186w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-19.png" width="1186" height="326" decoding="async"></p>
 <h3 id="4-7-AxLOCK"><a href="#4-7-AxLOCK" class="headerlink" title="4.7 AxLOCK"></a>4.7 AxLOCK</h3><p>AxLOCK信号涉及到原子访问的相关特性，AxLOCK代表的事务类型有Exclusive独占访问和Locked锁定访问。AXI4&#x2F;5不再支持锁定访问，因为大多数组件不需要锁定事务，且这对互联复杂性和QoS都有影响。</p>
 <p><strong>（1）AXI3原子访问</strong></p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-20.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-20-w352.webp" loading="lazy" data-src="/uploads/amba/amba-bus-3-axi/img-20.png" width="352" height="244" decoding="async"></p>
 <p><strong>（2）AXI4&#x2F;5原子访问</strong></p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-21.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-21-w305.webp" loading="lazy" data-src="/uploads/amba/amba-bus-3-axi/img-21.png" width="305" height="151" decoding="async"></p>
 <p><strong>（3）遗留问题</strong></p>
 <p>AXI3的锁定事务转换到AXI4时，按照以下方式进行转换：</p>
 <ul>
@@ -543,7 +543,7 @@
 <li>Slave需要响应合适的BID或RID，以对应从Master接收到的ID。</li>
 </ul>
 <p>5个事务通道都有自己的事务ID，如下表所示：</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-22.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-22-w482.webp" loading="lazy" data-src="/uploads/amba/amba-bus-3-axi/img-22.png" width="482" height="292" decoding="async"></p>
 <p>Master可以使用AWID和ARID事务ID来指示其排序需求。传输排序规则如下：</p>
 <ul>
 <li>来自不同Master的事务没有排序限制，它们可以以任何顺序完成。</li>
@@ -555,14 +555,14 @@
 </ul>
 <p><strong>注意：</strong>AXI互联通过扩展事务ID值，可以不担心多Master发出相同ID值，因为互联可以附加ID上去，使得每个Master使用的ID值是唯一的，也因此造成Slave的ID比Master更宽。RID和BID返回给Master时，互联将移除掉附加ID。</p>
 <h3 id="5-2-Outstanding超前传输"><a href="#5-2-Outstanding超前传输" class="headerlink" title="5.2 Outstanding超前传输"></a>5.2 Outstanding超前传输</h3><p>AHB和AXI都支持突发传输，但AXI还支持Outstanding超前传输，这便是AXI总线能够实现高性能传输的原因之一。Outstanding传输是指Master发出命令后，不必等待数据全写完或者全读回就可以发起下一笔命令。Outstanding深度是指Master发出的正在进行的命令数量，显然这需要Master和Slave准备更大的buffer来保存这些命令信息。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-23.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-23.png" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-23-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-23-w1280.webp 1280w, /uploads/amba/amba-bus-3-axi/img-23.png 1426w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-23.png" width="1426" height="930" decoding="async"></p>
 <h3 id="5-3-Out-of-order乱序传输"><a href="#5-3-Out-of-order乱序传输" class="headerlink" title="5.3 Out-of-order乱序传输"></a>5.3 Out-of-order乱序传输</h3><p>AXI拥有事务ID，因此支持Out-of-order乱序传输，Out-of-order传输是指后发送的命令对应的<strong>响应</strong>可以先回来，注意必须是不同ID之间，相同ID之间不能乱序传输数据。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-24.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-24.png" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-24-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-24-w1280.webp 1280w, /uploads/amba/amba-bus-3-axi/img-24.png 1428w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-24.png" width="1428" height="891" decoding="async"></p>
 <p>乱序传输存在读数据重排序深度的问题，读数据重排序深度是指Slave中可以重排序的暂挂地址的数量。按顺序处理所有事务的Slave的读数据重排序深度为1。读数据重排序深度是一个静态值，必须由Slave的设计者指定。</p>
 <p><strong>注意：</strong>没有一种机制可以让Master确定Slave的读数据重排序深度。（所以发的太多会造成反压）</p>
 <h3 id="5-4-Interleaving交错传输"><a href="#5-4-Interleaving交错传输" class="headerlink" title="5.4 Interleaving交错传输"></a>5.4 Interleaving交错传输</h3><p>AXI拥有事务ID，因此支持Interleaving交错传输，Interleaving传输是指不同命令的<strong>数据</strong>之间可以插队重排，注意必须是不同ID之间，相同ID之间不能交错传输数据。</p>
 <p><strong>注意：</strong>对于支持写数据交错的Slave，它接收每个事务的第一个数据项的顺序必须与它接收事务地址的顺序相同。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-25.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-25.png" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-25-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-25-w1280.webp 1280w, /uploads/amba/amba-bus-3-axi/img-25.png 1426w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-25.png" width="1426" height="891" decoding="async"></p>
 <p>与读数据重排序深度类似的，有写数据交错深度，写数据交错深度是指一个Slave可以接收交错数据的地址数。</p>
 <p><strong>注意：</strong>没有一种机制可以让Master确定Slave是否支持写数据交错。（做BUS的人应该事先知晓）</p>
 <p><strong>AXI4&#x2F;5取消了WID</strong></p>
@@ -573,18 +573,18 @@
 <li>任何AXI3 Slave都可以接受非交错的写数据，因此对AXI3 Slave不存在遗留问题。</li>
 </ul>
 <p>最后，再来个大图吧：</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-26.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-26.png" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-26-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-26-w1280.webp 1280w, /uploads/amba/amba-bus-3-axi/img-26.png 2873w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-26.png" width="2873" height="1701" decoding="async"></p>
 <h2 id="6-AXI读写结构"><a href="#6-AXI读写结构" class="headerlink" title="6 AXI读写结构"></a>6 AXI读写结构</h2><h3 id="6-1-WSTRB写选通"><a href="#6-1-WSTRB写选通" class="headerlink" title="6.1 WSTRB写选通"></a>6.1 WSTRB写选通</h3><p>写选通信号WSTRB允许在写数据总线上进行稀疏数据传输。每个写选通信号对应写数据总线上的一个字节。当写选通断言时，表示写数据总线上对应的字节通道中包含将被更新到memory的有效信息。写数据总线上每 8 位具有一个写选通位，因此 WSTRB[n]对应WDATA[(8n)+7 : (8n)]。下图展示了一个 64bit 数据总线上的这种关系。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-27.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-27-w1207.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-27-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-27-w1207.webp 1207w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-27.png" width="1207" height="83" decoding="async"></p>
 <p>Master必须确保只有包含有效数据的字节通道，其对应的写选通信号才会被拉高。当WVALID为0时，WSTRB可以取任何值，尽管建议它们要么被驱动为0，要么保持在之前的值。</p>
 <h3 id="6-2-窄带传输"><a href="#6-2-窄带传输" class="headerlink" title="6.2 窄带传输"></a>6.2 窄带传输</h3><p>当Master发起一个传输，其数据宽度小于数据总线宽度时，由地址和控制信息决定传输使用哪些字节通道，在INCR或WRAP突发中，突发的每拍（beat）使用不同的字节通道WSTRB。在FIXED突发中，每拍使用相同的字节通道。</p>
 <p>下图带阴影的单元格表示没有传输的字节。</p>
 <p><strong>（1）案例1：32bit总线传8bit数据</strong></p>
 <p>下图表示这笔传输的突发有5个传输，传输的起始地址为0，每次传输8位，在32位总线上进行，突发类型为INCR。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-28.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-28-w684.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-28-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-28-w684.webp 684w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-28.png" width="684" height="291" decoding="async"></p>
 <p><strong>（2）案例2：64bit总线传32bit数据</strong></p>
 <p>下图表示这笔传输的突发有3次传输，起始地址为4，每次传输为32位，在64位总线上进行。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-29.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-29-w1114.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-29-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-29-w1114.webp 1114w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-29.png" width="1114" height="214" decoding="async"></p>
 <h3 id="6-3-字节不变性"><a href="#6-3-字节不变性" class="headerlink" title="6.3 字节不变性"></a>6.3 字节不变性</h3><p>为了在单个内存空间中访问混合端序（mixed-endian）的数据结构，AXI协议使用字节不变的端序模式。字节不变端序意思是：一个传输到给定地址的字节，会在相同的数据总线信号线上，向相同的地址位置传送一个数据的 8-bits。</p>
 <ul>
 <li><p>只有一种传输宽度的组件必须将其字节通道连接到数据总线中合适的字节通道上。</p>
@@ -604,7 +604,7 @@
 <li>其他数据字节按重要程度递减的顺序定位。</li>
 </ul>
 <p>（操作时读写地址顺序是ABCD，因此先执行[31:24]位的数据0x0A，顺序执行到[7:0]的数据0x0D）</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-30.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-30-w804.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-30-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-30-w804.webp 804w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-30.png" width="804" height="280" decoding="async"></p>
 <p><strong>（2）案例2：小端传输</strong></p>
 <p>下图显示了一个小端“字节不变性”的例子。在这个结构中：</p>
 <ul>
@@ -613,10 +613,10 @@
 <li>其他数据字节按重要性递增的顺序排列。</li>
 </ul>
 <p>（操作时读写地址顺序是DCBA，因此先执行[7:0]的数据0x0D，顺序执行到[31:24]位的数据0x0A）</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-31.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-31-w805.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-31-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-31-w805.webp 805w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-31.png" width="805" height="280" decoding="async"></p>
 <p><strong>（3）案例3：混合传输</strong></p>
 <p>“字节不变性”确保大端和小端结构可以在单个内存空间中共存而不会损坏。下图显示了一个需要“字节不变性”访问的例子，其报头字段使用小端序，而有效负载使用大端序。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-32.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-32-w713.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-32-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-32-w713.webp 713w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-32.png" width="713" height="359" decoding="async"></p>
 <p>在这个结构中，Data items是一个两字节的小端序元素，这意味着它的最低地址是它的LSB。“字节不变性”的使用确保了负载的大端位访问不会破坏小端位元素。</p>
 <h3 id="6-4-非对齐传输"><a href="#6-4-非对齐传输" class="headerlink" title="6.4 非对齐传输"></a>6.4 非对齐传输</h3><p>AXI协议使用基于突发的寻址，意思是每个事物都包含若干个数据传输。通常来说每个数据传输都会对齐到传输大小。例如一个 32-bit 宽的传输通常会对齐到 4-byte 边界。但是在某些时候会期望在非对齐的地址开始一个突发。</p>
 <p>AXI支持不对齐传输，对于任何由大于1byte的数据传输组成的突发，访问的第一个byte可能与自然地址边界不对齐。例如起始字节地址为0x1002的32bit数据包，就没有与自然的32bit地址边界对齐。Master可以：</p>
@@ -627,14 +627,14 @@
 <p><strong>注意：</strong>Slave不需要根据来自Master的任何对齐信息采取特殊的操作。</p>
 <p><strong>（1）案例1：32bit地址传32bit数据</strong></p>
 <p>图中的每一行表示一次传输，阴影单元格表示未传输的字节。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-33.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-33-w691.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-33-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-33-w691.webp 691w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-33.png" width="691" height="1088" decoding="async"></p>
 <p><strong>（2）案例2：64bit地址传32bit数据</strong></p>
 <p>图中的每一行表示一次传输，阴影单元格表示未传输的字节。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-34.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-34-w1009.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-34-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-34-w1009.webp 1009w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-34.png" width="1009" height="818" decoding="async"></p>
 <p><strong>（3）案例3：WRAP对齐传输</strong></p>
 <p>下图显示了在64位总线上具有对齐的32位传输的WRAP突发的示例。</p>
 <p>图中的每一行表示一次传输，阴影单元格表示未传输的字节。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-35.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-35-w1007.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-35-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-35-w1007.webp 1007w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-35.png" width="1007" height="238" decoding="async"></p>
 <p><strong>个人理解：</strong></p>
 <p>非对齐传输和窄带传输的处理方式差不多，都可以先往前填数据，使得变成对齐传输，再利用WSTRB选通信号去掉前面填的数据，从而实现AXI数据传输。实际上，AXI4 尽管支持同一beat内的稀疏传输，即wstrb里的1不要求连续，但是实际从机实现困难，一般会拆开。还有就是这个1必须出现在 awsize 规定的总线宽度内。</p>
 <h2 id="7-AXI低功耗信号"><a href="#7-AXI低功耗信号" class="headerlink" title="7 AXI低功耗信号"></a>7 AXI低功耗信号</h2><p>低功耗接口是AXI协议的可选扩展，针对两种不同类型的外设：</p>
@@ -647,23 +647,23 @@
 <li>对于具有上下电顺序的外设，时钟控制器发出请求后才会进入低功耗状态，协议提供了请求&#x2F;确认握手信号。</li>
 <li>对于没有上下电顺序的外设，CACTIVE是所需要的唯一的时钟控制信号。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-36.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-36-w1186.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-36-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-36-w1186.webp 1186w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-36.png" width="1186" height="290" decoding="async"></p>
 <h3 id="7-2-低功耗时钟控制"><a href="#7-2-低功耗时钟控制" class="headerlink" title="7.2 低功耗时钟控制"></a>7.2 低功耗时钟控制</h3><p><strong>（1）时钟控制器发起退出低功耗状态</strong></p>
 <ul>
 <li>进入时：时钟控制器拉低CSYSREQ，外设执行下电序列，顺序拉低CACTIVE和CSYSACK。</li>
 <li>退出时：时钟控制器拉高CSYSREQ，外设执行上电序列，顺序拉高CACTIVE和CSYSACK。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-37.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-37-w1256.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-37-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-37-w1256.webp 1256w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-37.png" width="1256" height="320" decoding="async"></p>
 <p>时钟控制器拉低CSYSREQ信号请求进入低功耗状态，但是外设通过保持CACTIVE信号为高来拒绝请求：</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-38.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-38-w753.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-38-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-38-w753.webp 753w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-38.png" width="753" height="247" decoding="async"></p>
 <p><strong>（2）外设发起退出低功耗状态</strong></p>
 <ul>
 <li>进入时：外设拉低CACTIVE，然后时钟控制器拉低CSYSREQ，最后外设拉低CSYSACK。</li>
 <li>退出时：外设拉高CACTIVE，然后时钟控制器拉高CSYSREQ，最后外设拉高CSYSACK。</li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-40.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-40-w1254.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-40-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-40-w1254.webp 1254w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-40.png" width="1254" height="319" decoding="async"></p>
 <p>外设拉低CACTIVE信号请求进入低功耗状态，但是时钟控制器通过保持CSYSREQ信号为高来拒绝请求：</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-41.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-41-w778.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-41-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-41-w778.webp 778w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-41.png" width="778" height="256" decoding="async"></p>
 <h3 id="7-3-低功耗域的组合外设"><a href="#7-3-低功耗域的组合外设" class="headerlink" title="7.3 低功耗域的组合外设"></a>7.3 低功耗域的组合外设</h3><p>系统时钟控制器可以将多个不同的外设组合到同一个低功耗时钟域中。然后如果遵循以下规则，它可以像处理单个外设一样处理时钟域：</p>
 <ul>
 <li>时钟域CACTIVE信号是时钟域内所有外设CACTIVE信号的逻辑或，这意味着只有当所有外设都指示可以禁用时钟时，系统时钟控制器才能禁用时钟。</li>
@@ -726,9 +726,9 @@
 <p>在实现User信号时，并不要求在所有通道上都支持用户信号。也就是说，设计决策每个通道是否包括User信号是独立的。建议在互连中包含User信号，但是不要求在Master或Slave包含它们。建议互连组件包括对User信号的支持，以便它们可以在Master和Slave之间传递。User信号的宽度是可定义的，对于每个通道可以是不同的。</p>
 <p>User信号其实就是用户自定义的信号，但又想随着总线往下传。AXI4本身不是必须包含User信号，内部没有设计User传递的时序，如果用户贸然用，那需要重新设计这部分时序了。因此手册建议互联上用，事实上很多Bus IP都支持添加一些User信号，使得Master的一些额外信息可以顺利随着AMBA时序传递给Slave。这些额外信息是项目上自定义的，可以是Master编号、QoS值、特殊标识符等。</p>
 <h2 id="9-AXI5新增特性"><a href="#9-AXI5新增特性" class="headerlink" title="9 AXI5新增特性"></a>9 AXI5新增特性</h2><p>2020年，ARM推出了AMBA AXI5协议，将Master改名为Manager，Slave改名为Subordinate。AXI5继承了AXI4协议，同时又增加了许多新的特性。实际工作中未用到AXI5，故仅贴出AXI5的新特性。</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-42.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-43.png" loading="lazy"></p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-44.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-42-w1092.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-42-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-42-w1092.webp 1092w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-42.png" width="1092" height="772" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-43-w1092.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-43-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-43-w1092.webp 1092w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-43.png" width="1092" height="775" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-44-w1092.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-44-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-44-w1092.webp 1092w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-44.png" width="1092" height="271" decoding="async"></p>
 <h2 id="10-AXI-Lite"><a href="#10-AXI-Lite" class="headerlink" title="10 AXI-Lite"></a>10 AXI-Lite</h2><p>AXI-Lite是AXI协议的简化版，主要用于寄存器的配置。</p>
 <h3 id="10-1-AXI4-Lite"><a href="#10-1-AXI4-Lite" class="headerlink" title="10.1 AXI4-Lite"></a>10.1 AXI4-Lite</h3><p>AXI4-Lite操作的关键功能是：</p>
 <ul>
@@ -740,7 +740,7 @@
 <p>简化了这么多，AXI4-Lite的信号列表就只剩下这些了：</p>
 <p><img src="/uploads/amba/amba-bus-3-axi/img-45.png" loading="lazy"></p>
 <h3 id="10-2-AXI5-Lite"><a href="#10-2-AXI5-Lite" class="headerlink" title="10.2 AXI5-Lite"></a>10.2 AXI5-Lite</h3><p>AXI5-Lite协议稍稍做了升级，AXI5-Lite的数据位宽不固定，且支持响应的重排序。它们的对比如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-3-axi/img-46.png" loading="lazy"></p>
+<p><img src="/uploads/amba/amba-bus-3-axi/img-46-w842.webp" loading="lazy" srcset="/uploads/amba/amba-bus-3-axi/img-46-w640.webp 640w, /uploads/amba/amba-bus-3-axi/img-46-w842.webp 842w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-3-axi/img-46.png" width="842" height="821" decoding="async"></p>
 <h2 id="11-AXI-Stream"><a href="#11-AXI-Stream" class="headerlink" title="11 AXI-Stream"></a>11 AXI-Stream</h2><p>AXI-Stream也是AXI协议的简化版，主要用于高速的大数据量传输，例如Xilinx的ZYNQ异构系统中、视频数据处理等。</p>
 <h3 id="11-1-AXI4-Stream"><a href="#11-1-AXI4-Stream" class="headerlink" title="11.1 AXI4-Stream"></a>11.1 AXI4-Stream</h3><p>AXI-Stream协议被用作连接希望交换数据的组件的标准接口，是一种点对点协议。</p>
 <p>AXI-Stream可用于连接生成数据的单个Master和单个Slave，也可以使用互联来连接大量的Master和Slave组件。</p>
