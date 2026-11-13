@@ -288,8 +288,8 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2019/02/06/qt-multithreading/" itemprop="url">
-            <span itemprop="name">Qt 学习笔记之多线程</span>
+          <a class="post-title-link" href="/2019/02/06/qt-database-operations/" itemprop="url">
+            <span itemprop="name">Qt学习笔记之数据库操作</span>
           </a>
       </div>
 
@@ -308,8 +308,8 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2019/02/06/qt-database-operations/" itemprop="url">
-            <span itemprop="name">Qt学习笔记之数据库操作</span>
+          <a class="post-title-link" href="/2019/02/06/qt-multithreading/" itemprop="url">
+            <span itemprop="name">Qt 学习笔记之多线程</span>
           </a>
       </div>
 
@@ -407,10 +407,17 @@
 <script src="/js/clicklove.js"></script>
 <script src="/js/live2d-autoload.js?v=2"></script>
 
+<link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
+<script src="/lib/aplayer/APlayer.min.js"></script>
+
 <div class="sidebar-music" id="sidebar-music">
-  <iframe width="280" height="300" frameborder="no" border="0" marginwidth="0" marginheight="0"
-    src="https://music.163.com/outchain/player?type=0&amp;id=411680085&amp;auto=1&amp;height=430"
-    title="网易云音乐播放器"></iframe>
+  <div class="sidebar-music-head">
+    <span class="sidebar-music-brand"><i class="fa fa-headphones"></i> NEMO FM</span>
+    <button type="button" class="sidebar-music-status" id="nemo-music-status" aria-live="polite">连接中</button>
+  </div>
+  <div class="nemo-player" id="nemo-player">
+    <div class="nemo-player-loading">正在连接音乐源…</div>
+  </div>
 </div>
 <script>
   (function () {
@@ -420,6 +427,7 @@
     sidebar.appendChild(music);
   })();
 </script>
+<script src="/js/nemo-player.js?v=1"></script>
 
 </body>
 </html>

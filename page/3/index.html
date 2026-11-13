@@ -228,7 +228,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hyw-zero.github.io/2019/02/06/qt-database-operations/">
+    <link itemprop="mainEntityOfPage" href="https://hyw-zero.github.io/2019/02/06/qt-multithreading/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -246,7 +246,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/02/06/qt-database-operations/" class="post-title-link" itemprop="url">Qt学习笔记之数据库操作</a>
+          <a href="/2019/02/06/qt-multithreading/" class="post-title-link" itemprop="url">Qt 学习笔记之多线程</a>
         </h2>
 
         <div class="post-meta-container">
@@ -276,14 +276,14 @@
         <i class="far fa-file-lines"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4.3k</span>
+      <span>2.7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>16 分钟</span>
+      <span>10 分钟</span>
     </span>
 </div>
 
@@ -294,10 +294,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="1-数据库操作"><a href="#1-数据库操作" class="headerlink" title="1 数据库操作"></a>1 数据库操作</h2><p><strong>Qt</strong> <strong>使用QSqlDatabase表示一个数据库连接。</strong>更底层上，Qt 使用驱动（drivers）来与不同的数据库 API 进行交互。Qt 桌面版本提供了如下几种驱动：</p>
+          <h2 id="1-多线程"><a href="#1-多线程" class="headerlink" title="1. 多线程"></a>1. 多线程</h2><p>通常情况下，应用程序都是在一个线程中执行操作。 但是，当调用一个耗时操作（例如，大批量I&#x2F;O或大量矩阵变换等CPU密集操作）时，用户界面常常会冻结。而使用多线程可以解决这一问题。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/02/06/qt-database-operations/#more" rel="contents">
+              <a class="btn" href="/2019/02/06/qt-multithreading/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -903,10 +903,17 @@
 <script src="/js/clicklove.js"></script>
 <script src="/js/live2d-autoload.js?v=2"></script>
 
+<link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
+<script src="/lib/aplayer/APlayer.min.js"></script>
+
 <div class="sidebar-music" id="sidebar-music">
-  <iframe width="280" height="300" frameborder="no" border="0" marginwidth="0" marginheight="0"
-    src="https://music.163.com/outchain/player?type=0&amp;id=411680085&amp;auto=1&amp;height=430"
-    title="网易云音乐播放器"></iframe>
+  <div class="sidebar-music-head">
+    <span class="sidebar-music-brand"><i class="fa fa-headphones"></i> NEMO FM</span>
+    <button type="button" class="sidebar-music-status" id="nemo-music-status" aria-live="polite">连接中</button>
+  </div>
+  <div class="nemo-player" id="nemo-player">
+    <div class="nemo-player-loading">正在连接音乐源…</div>
+  </div>
 </div>
 <script>
   (function () {
@@ -916,6 +923,7 @@
     sidebar.appendChild(music);
   })();
 </script>
+<script src="/js/nemo-player.js?v=1"></script>
 
 </body>
 </html>
