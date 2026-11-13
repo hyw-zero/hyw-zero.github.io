@@ -28,12 +28,12 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux基本命令行及vim基本使用教程">
 <meta property="og:url" content="https://hyw-zero.github.io/2019/04/04/linux%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%8Avim%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
-<meta property="og:site_name" content="ZERO">
+<meta property="og:site_name" content="NEMO">
 <meta property="og:description" content="一．Linux命令一.Linux基本命令Linux下的命令有几千条，但真正在实际开发中运用的就只有那些。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-04-03T22:11:59.000Z">
 <meta property="article:modified_time" content="2019-04-03T22:11:59.000Z">
-<meta property="article:author" content="hyw-zero">
+<meta property="article:author" content="nemo">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
 
@@ -44,7 +44,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hyw-zero.github.io/2019/04/04/linux%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%8Avim%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/","path":"2019/04/04/linux基本命令行及vim基本使用教程/","title":"linux基本命令行及vim基本使用教程"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>linux基本命令行及vim基本使用教程 | ZERO</title>
+<title>linux基本命令行及vim基本使用教程 | NEMO</title>
   
 
 
@@ -101,7 +101,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">ZERO</p>
+      <p class="site-title">NEMO</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">keep  learning, be  curious !</p>
@@ -173,10 +173,10 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="hyw-zero"
+    <img class="site-author-image" itemprop="image" alt="nemo"
       src="/uploads/avatar.jpg">
-  <p class="site-author-name" itemprop="name">hyw-zero</p>
-  <div class="site-description" itemprop="description">ZERO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。</div>
+  <p class="site-author-name" itemprop="name">nemo</p>
+  <div class="site-description" itemprop="description">NEMO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。</div>
 </div>
 <div class="site-state-wrap animated">
   <nav class="site-state">
@@ -236,16 +236,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="hyw-zero">
+      <meta itemprop="name" content="nemo">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZERO">
-      <meta itemprop="description" content="ZERO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。">
+      <meta itemprop="name" content="NEMO">
+      <meta itemprop="description" content="NEMO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="linux基本命令行及vim基本使用教程 | ZERO">
+      <meta itemprop="name" content="linux基本命令行及vim基本使用教程 | NEMO">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -278,14 +278,14 @@
         <i class="far fa-file-lines"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>3.6k</span>
+      <span>3.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>13 分钟</span>
+      <span>14 分钟</span>
     </span>
 </div>
 
@@ -309,9 +309,13 @@
 <pre><code>ifconfig
 </code></pre>
 <p>5.压缩与解压</p>
-<pre><code>压缩: tar –zcvf  filename.tar.gz dirname
-解压：tar –zxvf filename.tar.gz
-</code></pre>
+<p>Linux 下最常用的是 <code>tar</code> + <code>gzip</code>：<code>-c</code> 创建归档，<code>-x</code> 解压，<code>-z</code> 使用 gzip，<code>-v</code> 显示过程，<code>-f</code> 指定文件名（后面必须紧跟包名）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 压缩目录</span></span><br><span class="line">tar -czvf filename.tar.gz <span class="built_in">dirname</span>/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压</span></span><br><span class="line">tar -xzvf filename.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压到指定目录（目录需已存在）</span></span><br><span class="line">tar -xzvf filename.tar.gz -C /target</span><br></pre></td></tr></table></figure>
+
+<p>和 Windows 交换文件时更常用 <code>zip</code> &#x2F; <code>unzip</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 递归压缩目录</span></span><br><span class="line">zip -r filename.zip <span class="built_in">dirname</span>/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压到指定目录</span></span><br><span class="line">unzip filename.zip -d /target</span><br></pre></td></tr></table></figure>
+
+<p>更完整的格式对照和常见问题见：<a href="/2018/12/04/linux-compress-commands/" title="Linux 压缩与解压命令">Linux 压缩与解压命令</a>。</p>
 <p>6.linux系统常用apt(Advanced Package Tool)高级软件工具来安装软件</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install xxx     安装软件。</span><br><span class="line"><span class="built_in">sudo</span> apt-get update         更新软件列表。</span><br><span class="line"><span class="built_in">sudo</span> apt-get upgrade       更新已安装软件。</span><br><span class="line"><span class="built_in">sudo</span> apt-get remove xxx   删除软件。</span><br></pre></td></tr></table></figure>
 <h3 id="二-Linux-文件与目录管理常用命令"><a href="#二-Linux-文件与目录管理常用命令" class="headerlink" title="二.Linux 文件与目录管理常用命令"></a>二.Linux 文件与目录管理常用命令</h3><p>  Linux的目录结构为树状结构，最顶级的目录为根目录 &#x2F;。<br>其他目录通过挂载可以将它们添加到树中，通过解除挂载可以移除它们。</p>
@@ -335,7 +339,7 @@
 <p>（2）ls (列出目录)</p>
 <pre><code>语法：
 	[root@w ~] ls [-aAdfFhilnrRSt] 目录名称
-	[root@w ~] ls [--color={never,auto,always}] 目录名称
+	[root@w ~] ls [--color=&#123;never,auto,always&#125;] 目录名称
 	[root@w ~] ls [--full-time] 目录名称
 选项与参数：
 	-a ：全部的文件，连同隐藏档( 开头为 . 的文件) 一起列出来(常用)
@@ -641,7 +645,7 @@ P         //粘贴剪切板里的内容在光标前
 <div class="post-copyright">
   <ul>
     <li><strong>本文标题：</strong><a href="/2019/04/04/linux%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%8Avim%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">linux基本命令行及vim基本使用教程</a></li>
-    <li><strong>文章作者：</strong>hyw-zero</li>
+    <li><strong>文章作者：</strong>nemo</li>
     <li><strong>发布时间：</strong>2019年04月03日 22:11</li>
     <li><strong>最后更新：</strong>2019年04月03日 22:11</li>
     <li><strong>原始链接：</strong><a href="/2019/04/04/linux%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%8Avim%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">https://hyw-zero.github.io/2019/04/04/linux%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%8Avim%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</a></li>
@@ -657,11 +661,11 @@ P         //粘贴剪切板里的内容在光标前
   </button>
   <div class="post-reward">
       <div>
-        <img src="/images/wx.png" alt="hyw-zero 微信">
+        <img src="/images/wx.png" alt="nemo 微信">
         <span>微信</span>
       </div>
       <div>
-        <img src="/images/alipay.png" alt="hyw-zero 支付宝">
+        <img src="/images/alipay.png" alt="nemo 支付宝">
         <span>支付宝</span>
       </div>
 
@@ -708,20 +712,20 @@ P         //粘贴剪切板里的内容在光标前
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
-    <span class="author" itemprop="copyrightHolder">hyw-zero</span>
+    <span class="author" itemprop="copyrightHolder">nemo</span>
   </div>
 <div class="wordcount">
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">159k</span>
+    <span title="站点总字数">161k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">9:39</span>
+    <span title="站点阅读时长">9:44</span>
   </span>
 </div>
 <div class="busuanzi-count">

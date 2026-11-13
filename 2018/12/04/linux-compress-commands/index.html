@@ -24,16 +24,16 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"hyw-zero.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"hide","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"stackoverflow-dark","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":null,"activeClass":"livere"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="1.压缩命令123456tar-c: 建立压缩档案-x：解压-t：查看内容-r：向压缩归档文件末尾追加文件-u：更新原压缩包中的文件">
+    <meta name="description" content="Linux 里的“压缩包”通常由两步组成：先用 tar 把多个文件打包，再用 gzip、bzip2 或 xz 压缩；zip、7z、rar 则把打包和压缩合成了一条命令。 本文整理日常最常用的压缩&#x2F;解压命令、格式对照表和常见坑，命令均在 GNU&#x2F;Linux 下测试。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux命令(压缩)">
+<meta property="og:title" content="Linux 压缩与解压命令">
 <meta property="og:url" content="https://hyw-zero.github.io/2018/12/04/linux-compress-commands/index.html">
-<meta property="og:site_name" content="ZERO">
-<meta property="og:description" content="1.压缩命令123456tar-c: 建立压缩档案-x：解压-t：查看内容-r：向压缩归档文件末尾追加文件-u：更新原压缩包中的文件">
+<meta property="og:site_name" content="NEMO">
+<meta property="og:description" content="Linux 里的“压缩包”通常由两步组成：先用 tar 把多个文件打包，再用 gzip、bzip2 或 xz 压缩；zip、7z、rar 则把打包和压缩合成了一条命令。 本文整理日常最常用的压缩&#x2F;解压命令、格式对照表和常见坑，命令均在 GNU&#x2F;Linux 下测试。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-12-03T21:31:57.000Z">
 <meta property="article:modified_time" content="2018-12-03T21:31:57.000Z">
-<meta property="article:author" content="hyw-zero">
+<meta property="article:author" content="nemo">
 <meta property="article:tag" content="Linux压缩命令">
 <meta name="twitter:card" content="summary">
 
@@ -41,10 +41,10 @@
 <link rel="canonical" href="https://hyw-zero.github.io/2018/12/04/linux-compress-commands/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hyw-zero.github.io/2018/12/04/linux-compress-commands/","path":"2018/12/04/linux-compress-commands/","title":"linux命令(压缩)"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hyw-zero.github.io/2018/12/04/linux-compress-commands/","path":"2018/12/04/linux-compress-commands/","title":"Linux 压缩与解压命令"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>linux命令(压缩) | ZERO</title>
+<title>Linux 压缩与解压命令 | NEMO</title>
   
 
 
@@ -101,7 +101,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">ZERO</p>
+      <p class="site-title">NEMO</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">keep  learning, be  curious !</p>
@@ -167,16 +167,16 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="nav-text">1.压缩命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93"><span class="nav-text">1.1 压缩命令总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="nav-text">2.解压缩命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E8%A7%A3%E5%8E%8B%E7%BC%A9%E6%80%BB%E7%BB%93"><span class="nav-text">2.1解压缩总结</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%85%88%E5%88%86%E6%B8%85%EF%BC%9A%E6%89%93%E5%8C%85%E4%B8%8E%E5%8E%8B%E7%BC%A9"><span class="nav-text">1. 先分清：打包与压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-tar%EF%BC%9A%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7"><span class="nav-text">2. tar：最常用的打包工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E4%BA%94%E4%B8%AA%E4%BA%92%E6%96%A5%E6%93%8D%E4%BD%9C"><span class="nav-text">2.1 五个互斥操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%B8%B8%E7%94%A8%E9%80%89%E9%A1%B9"><span class="nav-text">2.2 常用选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%B8%B8%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-text">2.3 常用示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%85%B3%E4%BA%8E%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="nav-text">2.4 关于绝对路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%8D%95%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%EF%BC%9Agzip%E3%80%81bzip2%E3%80%81xz"><span class="nav-text">3. 单文件压缩：gzip、bzip2、xz</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-gzip"><span class="nav-text">3.1 gzip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-bzip2"><span class="nav-text">3.2 bzip2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-xz"><span class="nav-text">3.3 xz</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-zip-unzip%EF%BC%9A%E5%92%8C-Windows-%E4%BA%A4%E6%8D%A2%E6%96%87%E4%BB%B6"><span class="nav-text">4. zip &#x2F; unzip：和 Windows 交换文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-7z-%E4%B8%8E-rar%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="nav-text">5. 7z 与 rar（可选）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%A0%BC%E5%BC%8F%E5%AF%B9%E7%85%A7%E8%A1%A8"><span class="nav-text">6. 格式对照表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E5%B8%B8%E8%A7%81%E5%9D%91"><span class="nav-text">7. 常见坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E4%B8%80%E9%A1%B5%E9%80%9F%E6%9F%A5"><span class="nav-text">8. 一页速查</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="hyw-zero"
+    <img class="site-author-image" itemprop="image" alt="nemo"
       src="/uploads/avatar.jpg">
-  <p class="site-author-name" itemprop="name">hyw-zero</p>
-  <div class="site-description" itemprop="description">ZERO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。</div>
+  <p class="site-author-name" itemprop="name">nemo</p>
+  <div class="site-description" itemprop="description">NEMO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。</div>
 </div>
 <div class="site-state-wrap animated">
   <nav class="site-state">
@@ -236,21 +236,21 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="hyw-zero">
+      <meta itemprop="name" content="nemo">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZERO">
-      <meta itemprop="description" content="ZERO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。">
+      <meta itemprop="name" content="NEMO">
+      <meta itemprop="description" content="NEMO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="linux命令(压缩) | ZERO">
+      <meta itemprop="name" content="Linux 压缩与解压命令 | NEMO">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          linux命令(压缩)
+          Linux 压缩与解压命令
         </h1>
 
         <div class="post-meta-container">
@@ -287,14 +287,14 @@
         <i class="far fa-file-lines"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>580</span>
+      <span>1.7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>6 分钟</span>
     </span>
 </div>
 
@@ -304,65 +304,146 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="1-压缩命令"><a href="#1-压缩命令" class="headerlink" title="1.压缩命令"></a>1.压缩命令</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tar</span><br><span class="line">-c: 建立压缩档案</span><br><span class="line">-x：解压</span><br><span class="line">-t：查看内容</span><br><span class="line">-r：向压缩归档文件末尾追加文件</span><br><span class="line">-u：更新原压缩包中的文件</span><br></pre></td></tr></table></figure>
- <span id="more"></span>
+    <div class="post-body" itemprop="articleBody"><p>Linux 里的“压缩包”通常由两步组成：先用 <code>tar</code> 把多个文件<strong>打包</strong>，再用 <code>gzip</code>、<code>bzip2</code> 或 <code>xz</code> <strong>压缩</strong>；<code>zip</code>、<code>7z</code>、<code>rar</code> 则把打包和压缩合成了一条命令。</p>
+<p>本文整理日常最常用的压缩&#x2F;解压命令、格式对照表和常见坑，命令均在 GNU&#x2F;Linux 下测试。</p>
+<span id="more"></span>
 
-<p>这五个是独立的命令，压缩解压都要用到其中一个，可以和别的命令连用但只能用其中一个。下面的参数是根据需要在压缩或解压档案时可选的。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-z：有gzip属性的</span><br><span class="line">-j：有bz2属性的</span><br><span class="line">-Z：有compress属性的</span><br><span class="line">-v：显示所有过程</span><br><span class="line">-O：将文件解开到标准输出</span><br></pre></td></tr></table></figure>
-<p>下面的参数-f是必须的</p>
-<p><code>-f:  使用档案名字，切记，这个参数是最后一个参数，后面只能接档案名。</code></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">tar  -cf  all.tar  *.jpg    <span class="comment">#将.jpg的文件打成一个名为all.tar的包。</span></span><br><span class="line">							<span class="comment">#-c是表示产生新的包，</span></span><br><span class="line">							<span class="comment">#-f指定包的文件名。</span></span><br><span class="line"></span><br><span class="line">tar  -rf  all.tar  *.gif   <span class="comment">#将所有.gif的文件增加到all.tar的包里面去。</span></span><br><span class="line"> 							<span class="comment">#-r是表示增加文件的意思。 </span></span><br><span class="line"></span><br><span class="line">tar  -uf  all.tar logo.gif <span class="comment">#更新原来tar包all.tar中logo.gif文件</span></span><br><span class="line">							<span class="comment">#-u  是表示更新文件的意思。 </span></span><br><span class="line"></span><br><span class="line">tar -tf all.tar  			<span class="comment">#列出all.tar包中所有文件，</span></span><br><span class="line">							<span class="comment">#-t是列出文件的意思 </span></span><br><span class="line"></span><br><span class="line">tar -xf all.tar 			<span class="comment">#解出all.tar包中所有文件，</span></span><br><span class="line">							<span class="comment">#-x是解开的意思 </span></span><br></pre></td></tr></table></figure>
-<h3 id="1-1-压缩命令总结"><a href="#1-1-压缩命令总结" class="headerlink" title="1.1 压缩命令总结"></a>1.1 压缩命令总结</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tar -cvf jpg.tar *.jpg      <span class="comment"># 将目录里所有jpg文件打包成tar.jpg </span></span><br><span class="line">tar -czf jpg.tar.gz *.jpg   <span class="comment">#将目录里所有jpg文件打包成jpg.tar后，并且将其用gzip压缩，命名为jpg.tar.gz</span></span><br><span class="line">tar -cjf jpg.tar.bz2 *.jpg  <span class="comment">#将目录里所有jpg文件打包成jpg.tar后，并且将其用bzip2压缩，命名jpg.tar.bz2</span></span><br><span class="line">tar -cZf jpg.tar.Z *.jpg    <span class="comment">#将目录里所有jpg文件打包成jpg.tar后，并且将其用compress压缩，命名为jpg.tar.Z</span></span><br><span class="line">rar a jpg.rar *.jpg     	<span class="comment">#rar格式的压缩，需要先下载rar for [Linux](http://lib.csdn.net/base/linux)</span></span><br><span class="line">zip jpg.zip *.jpg 			<span class="comment">#zip格式的压缩，需要先下载zip for [linux](http://lib.csdn.net/base/linux)</span></span><br></pre></td></tr></table></figure>
+<h2 id="1-先分清：打包与压缩"><a href="#1-先分清：打包与压缩" class="headerlink" title="1. 先分清：打包与压缩"></a>1. 先分清：打包与压缩</h2><ul>
+<li><code>tar</code>：只打包，不压缩；加上 <code>-z</code>&#x2F;<code>-j</code>&#x2F;<code>-J</code> 后会调用对应的压缩器，常见后缀 <code>.tar</code>、<code>.tar.gz</code>、<code>.tar.xz</code>。</li>
+<li><code>gzip</code> &#x2F; <code>bzip2</code> &#x2F; <code>xz</code>：压缩单个文件，通常配合 tar 使用，后缀 <code>.gz</code>、<code>.bz2</code>、<code>.xz</code>。</li>
+<li><code>zip</code>：打包 + 压缩，跨平台常用，后缀 <code>.zip</code>。</li>
+<li><code>7z</code>：压缩率高，支持多种格式，后缀 <code>.7z</code>。</li>
+<li><code>rar</code>：商业格式，Linux 需额外安装，后缀 <code>.rar</code>。</li>
+</ul>
+<blockquote>
+<p>已经压缩过的图片、音频、视频（jpg&#x2F;png&#x2F;mp3&#x2F;mp4）再用 gzip 压缩，体积通常不会明显变小。</p>
+</blockquote>
+<h2 id="2-tar：最常用的打包工具"><a href="#2-tar：最常用的打包工具" class="headerlink" title="2. tar：最常用的打包工具"></a>2. tar：最常用的打包工具</h2><h3 id="2-1-五个互斥操作"><a href="#2-1-五个互斥操作" class="headerlink" title="2.1 五个互斥操作"></a>2.1 五个互斥操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tar -cf archive.tar <span class="built_in">dir</span>/    <span class="comment"># -c 创建归档</span></span><br><span class="line">tar -xf archive.tar         <span class="comment"># -x 解开归档</span></span><br><span class="line">tar -tf archive.tar         <span class="comment"># -t 查看内容，不解压</span></span><br><span class="line">tar -rf archive.tar file    <span class="comment"># -r 向未压缩的 tar 包追加文件</span></span><br><span class="line">tar -uf archive.tar file    <span class="comment"># -u 更新包内已有文件</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="2-解压缩命令"><a href="#2-解压缩命令" class="headerlink" title="2.解压缩命令"></a>2.解压缩命令</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tar    –xvf   file.tar         <span class="comment">#解压 tar包</span></span><br><span class="line">tar   -xzvf   file.tar.gz      <span class="comment">#解压tar.gz</span></span><br><span class="line">tar   -xjvf    file.tar.bz2    <span class="comment">#解压 tar.bz2</span></span><br><span class="line">tar   –xZvf  file.tar.Z        <span class="comment">#解压tar.Z</span></span><br><span class="line">unrar  e     file.rar          <span class="comment">#解压rar</span></span><br><span class="line">unzip           file.zip       <span class="comment">#解压zip</span></span><br></pre></td></tr></table></figure>
-<h3 id="2-1解压缩总结"><a href="#2-1解压缩总结" class="headerlink" title="2.1解压缩总结"></a>2.1解压缩总结</h3><table>
+<p><code>-c</code>、<code>-x</code>、<code>-t</code>、<code>-r</code>、<code>-u</code> 一次只能用其中一个。</p>
+<h3 id="2-2-常用选项"><a href="#2-2-常用选项" class="headerlink" title="2.2 常用选项"></a>2.2 常用选项</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-z    <span class="comment"># 用 gzip 压缩/解压（.tar.gz / .tgz）</span></span><br><span class="line">-j    <span class="comment"># 用 bzip2 压缩/解压（.tar.bz2）</span></span><br><span class="line">-J    <span class="comment"># 用 xz 压缩/解压（.tar.xz）</span></span><br><span class="line">-v    <span class="comment"># 显示处理过程</span></span><br><span class="line">-f    <span class="comment"># 指定归档文件名，后面必须紧跟文件名</span></span><br><span class="line">-C    <span class="comment"># 指定工作目录（创建或解压时切换目录）</span></span><br><span class="line">-p    <span class="comment"># 解压时保留权限</span></span><br><span class="line">--exclude=PATTERN   <span class="comment"># 排除匹配的文件</span></span><br></pre></td></tr></table></figure>
+
+<p>组合写法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -czvf project.tar.gz project/       <span class="comment"># 创建 gzip 压缩包</span></span><br><span class="line">tar -xzvf project.tar.gz                <span class="comment"># 解压 gzip 压缩包</span></span><br><span class="line">tar -tzvf project.tar.gz                <span class="comment"># 查看 gzip 压缩包内容</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>-f</code> 后面一定接归档文件名，所以通常把它放在选项最后：<code>tar -czf backup.tar.gz dir/</code>。写成 <code>tar -czf dir/ backup.tar.gz</code> 会把目录当成包名。</p>
+</blockquote>
+<h3 id="2-3-常用示例"><a href="#2-3-常用示例" class="headerlink" title="2.3 常用示例"></a>2.3 常用示例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打包并压缩整个目录</span></span><br><span class="line">tar -czf project-2026-11-13.tar.gz project/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 排除 .git、node_modules、缓存目录</span></span><br><span class="line">tar -czf project.tar.gz \</span><br><span class="line">  --exclude=<span class="string">&#x27;project/.git&#x27;</span> \</span><br><span class="line">  --exclude=<span class="string">&#x27;project/node_modules&#x27;</span> \</span><br><span class="line">  --exclude=<span class="string">&#x27;project/.cache&#x27;</span> \</span><br><span class="line">  project/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压到指定目录（目录需已存在）</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /opt/app</span><br><span class="line"><span class="built_in">sudo</span> tar -xzf project.tar.gz -C /opt/app</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只查看包内文件，不解压</span></span><br><span class="line">tar -tzf project.tar.gz | less</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只解压其中一个文件</span></span><br><span class="line">tar -xzf project.tar.gz project/config/app.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去掉最外层目录再解压</span></span><br><span class="line">tar -xzf project.tar.gz --strip-components=1 -C /opt/app</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压前先测试归档是否完整</span></span><br><span class="line">tar -tzf project.tar.gz &gt; /dev/null &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;archive OK&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>GNU tar 解压时通常能自动识别压缩格式，<code>tar -xf archive.tar.gz</code> 也能用；但创建时仍需显式写 <code>-z</code>&#x2F;<code>-j</code>&#x2F;<code>-J</code>。</p>
+<h3 id="2-4-关于绝对路径"><a href="#2-4-关于绝对路径" class="headerlink" title="2.4 关于绝对路径"></a>2.4 关于绝对路径</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -czf etc-backup.tar.gz /etc   <span class="comment"># 会提示 Removing leading &#x27;/&#x27;，包内是 etc/...</span></span><br></pre></td></tr></table></figure>
+
+<p>建议先 <code>cd</code> 到目标目录的父目录，或用 <code>-C</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -czf etc-backup.tar.gz -C / etc</span><br></pre></td></tr></table></figure>
+
+<p>这样包内路径是 <code>etc/...</code>，解压时不会覆盖系统的 <code>/etc</code>，除非你明确用 <code>-C /</code>。</p>
+<h2 id="3-单文件压缩：gzip、bzip2、xz"><a href="#3-单文件压缩：gzip、bzip2、xz" class="headerlink" title="3. 单文件压缩：gzip、bzip2、xz"></a>3. 单文件压缩：gzip、bzip2、xz</h2><h3 id="3-1-gzip"><a href="#3-1-gzip" class="headerlink" title="3.1 gzip"></a>3.1 gzip</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gzip access.log              <span class="comment"># 生成 access.log.gz，并删除原文件</span></span><br><span class="line">gzip -k access.log           <span class="comment"># 保留原文件</span></span><br><span class="line">gzip -9 access.log           <span class="comment"># 最高压缩级别（1 最快，9 最小）</span></span><br><span class="line">gzip -d access.log.gz        <span class="comment"># 解压，等价于 gunzip access.log.gz</span></span><br><span class="line">gzip -l access.log.gz        <span class="comment"># 查看压缩前后大小</span></span><br><span class="line">gzip -t access.log.gz        <span class="comment"># 测试压缩包完整性</span></span><br><span class="line">zcat access.log.gz           <span class="comment"># 不解压直接查看内容</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-bzip2"><a href="#3-2-bzip2" class="headerlink" title="3.2 bzip2"></a>3.2 bzip2</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bzip2 data.txt               <span class="comment"># 生成 data.txt.bz2</span></span><br><span class="line">bzip2 -k data.txt            <span class="comment"># 保留原文件</span></span><br><span class="line">bzip2 -9 -k data.txt         <span class="comment"># 最高压缩级别</span></span><br><span class="line">bzip2 -d data.txt.bz2        <span class="comment"># 解压，等价于 bunzip2</span></span><br><span class="line">bzcat data.txt.bz2           <span class="comment"># 直接查看内容</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-xz"><a href="#3-3-xz" class="headerlink" title="3.3 xz"></a>3.3 xz</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xz data.txt                  <span class="comment"># 生成 data.txt.xz</span></span><br><span class="line">xz -k data.txt               <span class="comment"># 保留原文件</span></span><br><span class="line">xz -9 -T0 data.txt           <span class="comment"># 最高级别，使用全部 CPU 核心</span></span><br><span class="line">xz -d data.txt.xz            <span class="comment"># 解压，等价于 unxz</span></span><br><span class="line">xzcat data.txt.xz            <span class="comment"># 直接查看内容</span></span><br></pre></td></tr></table></figure>
+
+<p>压缩率通常是 <code>xz &gt; bzip2 &gt; gzip</code>，速度则相反。日常备份用 <code>gzip</code> 最省事，追求体积用 <code>xz</code>。</p>
+<h2 id="4-zip-unzip：和-Windows-交换文件"><a href="#4-zip-unzip：和-Windows-交换文件" class="headerlink" title="4. zip &#x2F; unzip：和 Windows 交换文件"></a>4. zip &#x2F; unzip：和 Windows 交换文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 递归压缩目录</span></span><br><span class="line">zip -r project.zip project/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 压缩多个文件</span></span><br><span class="line">zip docs.zip a.txt b.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 排除文件</span></span><br><span class="line">zip -r project.zip project/ -x <span class="string">&#x27;project/.git/*&#x27;</span> <span class="string">&#x27;project/node_modules/*&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 最高压缩级别</span></span><br><span class="line">zip -9 -r project.zip project/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出内容</span></span><br><span class="line">unzip -l project.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试完整性</span></span><br><span class="line">unzip -t project.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压到指定目录</span></span><br><span class="line">unzip project.zip -d /tmp/project</span><br><span class="line"></span><br><span class="line"><span class="comment"># 覆盖已有文件 / 从不覆盖</span></span><br><span class="line">unzip -o project.zip</span><br><span class="line">unzip -n project.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密（会交互式输入密码）</span></span><br><span class="line">zip -e -r secret.zip secret/</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Windows 上创建的 zip 若中文文件名乱码，可尝试 <code>unzip -O GBK file.zip</code>；如果当前 <code>unzip</code> 不支持 <code>-O</code>，用 <code>7z x file.zip</code> 或 <code>bsdtar -xf file.zip</code> 解压。</p>
+</blockquote>
+<h2 id="5-7z-与-rar（可选）"><a href="#5-7z-与-rar（可选）" class="headerlink" title="5. 7z 与 rar（可选）"></a>5. 7z 与 rar（可选）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 7z：压缩率通常优于 zip</span></span><br><span class="line">7z a backup.7z project/</span><br><span class="line">7z a -mx=9 backup.7z project/       <span class="comment"># 最高压缩级别</span></span><br><span class="line">7z x backup.7z -o/tmp/backup        <span class="comment"># 解压到指定目录，-o 后不要加空格</span></span><br><span class="line">7z l backup.7z                      <span class="comment"># 查看内容</span></span><br><span class="line">7z t backup.7z                      <span class="comment"># 测试完整性</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># rar：需要安装 rar / unrar</span></span><br><span class="line">rar a backup.rar project/</span><br><span class="line">unrar x backup.rar                  <span class="comment"># 保留目录结构</span></span><br><span class="line">unrar e backup.rar                  <span class="comment"># 所有文件解压到当前目录</span></span><br><span class="line">unrar l backup.rar                  <span class="comment"># 查看内容</span></span><br></pre></td></tr></table></figure>
+
+<p>安装命令（Debian&#x2F;Ubuntu）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install p7zip-full unzip zip</span><br><span class="line"><span class="comment"># rar 为非自由软件，需要从官方源或 multiverse 仓库安装</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-格式对照表"><a href="#6-格式对照表" class="headerlink" title="6. 格式对照表"></a>6. 格式对照表</h2><blockquote>
+<p>手机屏幕较窄时，表格可以左右滑动查看。</p>
+</blockquote>
+<table>
 <thead>
 <tr>
-<th align="center">压缩类型</th>
-<th align="center">解压命令</th>
+<th>格式</th>
+<th>压缩</th>
+<th>解压</th>
+<th>查看内容</th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center">*.tar</td>
-<td align="center">用 tar –xvf   解压</td>
+<td><code>.tar</code></td>
+<td><code>tar -cvf a.tar dir/</code></td>
+<td><code>tar -xvf a.tar</code></td>
+<td><code>tar -tvf a.tar</code></td>
 </tr>
 <tr>
-<td align="center">*.gz</td>
-<td align="center">用 gzip -d 或gunzip 解压</td>
+<td><code>.tar.gz</code> &#x2F; <code>.tgz</code></td>
+<td><code>tar -czvf a.tar.gz dir/</code></td>
+<td><code>tar -xzvf a.tar.gz</code></td>
+<td><code>tar -tzvf a.tar.gz</code></td>
 </tr>
 <tr>
-<td align="center">*.tar.gz和 *.tgz</td>
-<td align="center">用 tar –xzf 解压</td>
+<td><code>.tar.bz2</code> &#x2F; <code>.tbz2</code></td>
+<td><code>tar -cjvf a.tar.bz2 dir/</code></td>
+<td><code>tar -xjvf a.tar.bz2</code></td>
+<td><code>tar -tjvf a.tar.bz2</code></td>
 </tr>
 <tr>
-<td align="center">*.bz2</td>
-<td align="center">用 bzip2 -d或bunzip2 解压</td>
+<td><code>.tar.xz</code> &#x2F; <code>.txz</code></td>
+<td><code>tar -cJvf a.tar.xz dir/</code></td>
+<td><code>tar -xJvf a.tar.xz</code></td>
+<td><code>tar -tJvf a.tar.xz</code></td>
 </tr>
 <tr>
-<td align="center">*.tar.bz2</td>
-<td align="center">用tar –xjf 解压</td>
+<td><code>.gz</code></td>
+<td><code>gzip file</code></td>
+<td><code>gzip -d file.gz</code></td>
+<td><code>zcat file.gz</code></td>
 </tr>
 <tr>
-<td align="center">*.Z</td>
-<td align="center">用 uncompress 解压</td>
+<td><code>.bz2</code></td>
+<td><code>bzip2 file</code></td>
+<td><code>bzip2 -d file.bz2</code></td>
+<td><code>bzcat file.bz2</code></td>
 </tr>
 <tr>
-<td align="center">*.tar.Z</td>
-<td align="center">用tar –xZf 解压</td>
+<td><code>.xz</code></td>
+<td><code>xz file</code></td>
+<td><code>xz -d file.xz</code></td>
+<td><code>xzcat file.xz</code></td>
 </tr>
 <tr>
-<td align="center">*.rar</td>
-<td align="center">用 unrar e解压</td>
+<td><code>.zip</code></td>
+<td><code>zip -r a.zip dir/</code></td>
+<td><code>unzip a.zip</code></td>
+<td><code>unzip -l a.zip</code></td>
 </tr>
 <tr>
-<td align="center">*.zip</td>
-<td align="center">用 unzip 解压</td>
+<td><code>.7z</code></td>
+<td><code>7z a a.7z dir/</code></td>
+<td><code>7z x a.7z</code></td>
+<td><code>7z l a.7z</code></td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="center"></td>
+<td><code>.rar</code></td>
+<td><code>rar a a.rar dir/</code></td>
+<td><code>unrar x a.rar</code></td>
+<td><code>unrar l a.rar</code></td>
 </tr>
 </tbody></table>
+<h2 id="7-常见坑"><a href="#7-常见坑" class="headerlink" title="7. 常见坑"></a>7. 常见坑</h2><ol>
+<li><strong><code>-f</code> 的位置</strong>：<code>tar -czf backup.tar.gz dir/</code> 正确；<code>tar -czf dir/ backup.tar.gz</code> 会把 <code>dir/</code> 当成归档名。</li>
+<li><strong>复制网页命令时把 <code>-</code> 变成了 <code>–</code></strong>：中文网页里常见 en dash，终端会报错，重新手打一次即可。</li>
+<li><strong><code>gzip</code> 默认删除原文件</strong>：需要保留就加 <code>-k</code>，或先备份。</li>
+<li><strong>压缩已压缩文件</strong>：对 jpg、mp4、zip 等再压缩收益很低，直接 <code>tar</code> 打包即可。</li>
+<li><strong>解压前先看内容</strong>：<code>tar -tzf</code> &#x2F; <code>unzip -l</code> &#x2F; <code>7z l</code> 可以避免解压出一堆不需要的文件；陌生压缩包不要直接用 root 解压。</li>
+<li><strong>中文文件名乱码</strong>：zip 在 Windows 与 Linux 间传递时最常见，优先用 <code>7z</code>，或尝试 <code>unzip -O GBK</code>。</li>
+<li><strong><code>-r</code> &#x2F; <code>-u</code> 只适用于未压缩的 <code>.tar</code></strong>：对 <code>.tar.gz</code> 追加文件，需要先解压再重新压缩。</li>
+<li><strong>磁盘空间</strong>：压缩和解压都需要额外空间，操作大文件前先 <code>df -h</code> 看一眼。</li>
+<li><strong>权限与属主</strong>：解压系统备份时用 <code>tar -p</code> 保留权限；解压到系统目录时确认 <code>-C</code> 指向正确位置。</li>
+</ol>
+<h2 id="8-一页速查"><a href="#8-一页速查" class="headerlink" title="8. 一页速查"></a>8. 一页速查</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打包压缩</span></span><br><span class="line">tar -czf backup.tar.gz <span class="built_in">dir</span>/</span><br><span class="line"><span class="comment"># 解压</span></span><br><span class="line">tar -xzf backup.tar.gz</span><br><span class="line"><span class="comment"># 查看</span></span><br><span class="line">tar -tzf backup.tar.gz</span><br><span class="line"><span class="comment"># 解压到指定目录</span></span><br><span class="line">tar -xzf backup.tar.gz -C /target</span><br><span class="line"><span class="comment"># zip 压缩目录</span></span><br><span class="line">zip -r backup.zip <span class="built_in">dir</span>/</span><br><span class="line"><span class="comment"># zip 解压</span></span><br><span class="line">unzip backup.zip -d /target</span><br><span class="line"><span class="comment"># 测试压缩包</span></span><br><span class="line">gzip -t backup.tar.gz</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>记住一句话：<strong>tar 负责打包，gzip&#x2F;bzip2&#x2F;xz 负责压缩，zip&#x2F;7z 一条命令全包</strong>。</p>
+</blockquote>
 
     </div>
 
@@ -377,8 +458,8 @@
 
 <div class="post-copyright">
   <ul>
-    <li><strong>本文标题：</strong><a href="/2018/12/04/linux-compress-commands/">linux命令(压缩)</a></li>
-    <li><strong>文章作者：</strong>hyw-zero</li>
+    <li><strong>本文标题：</strong><a href="/2018/12/04/linux-compress-commands/">Linux 压缩与解压命令</a></li>
+    <li><strong>文章作者：</strong>nemo</li>
     <li><strong>发布时间：</strong>2018年12月03日 21:31</li>
     <li><strong>最后更新：</strong>2018年12月03日 21:31</li>
     <li><strong>原始链接：</strong><a href="/2018/12/04/linux-compress-commands/">https://hyw-zero.github.io/2018/12/04/linux-compress-commands/</a></li>
@@ -394,11 +475,11 @@
   </button>
   <div class="post-reward">
       <div>
-        <img src="/images/wx.png" alt="hyw-zero 微信">
+        <img src="/images/wx.png" alt="nemo 微信">
         <span>微信</span>
       </div>
       <div>
-        <img src="/images/alipay.png" alt="hyw-zero 支付宝">
+        <img src="/images/alipay.png" alt="nemo 支付宝">
         <span>支付宝</span>
       </div>
 
@@ -445,20 +526,20 @@
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
-    <span class="author" itemprop="copyrightHolder">hyw-zero</span>
+    <span class="author" itemprop="copyrightHolder">nemo</span>
   </div>
 <div class="wordcount">
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">159k</span>
+    <span title="站点总字数">161k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">9:39</span>
+    <span title="站点阅读时长">9:44</span>
   </span>
 </div>
 <div class="busuanzi-count">
