@@ -19,10 +19,11 @@ NEMO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 ## 主要特性
 
 - 深色主题、中文排版与响应式布局，移动端重新适配
+- 桌面端加宽内容区，文章正文更宽；首页摘要图片限高，单屏可见更多文章
 - 文章图片自动生成 640px / 原宽两档 WebP，支持 `srcset` 按屏幕取图
 - 原图完整保留，点击图片仍可通过 Fancybox 查看原画质
 - 背景图使用 59KB 的 WebP，首屏更轻
-- Live2D 看板娘、点击爱心、网易云音乐播放器
+- Live2D 看板娘、点击爱心、NEMO FM（APlayer + Meting 在线音乐）
 - 本地搜索、字数统计、阅读时长、文章目录、相关文章
 - PDF 阅读目录：把文件放进 `source/pdf/`，构建时自动生成目录和在线预览页
 - 文章级版权声明与「本文结束」签名
@@ -48,7 +49,8 @@ NEMO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 │  ├─ pdf/                   # PDF 文件（支持子目录，构建时自动生成目录）
 │  ├─ images/                # 站点图片：背景、微信/支付宝收款码等
 │  ├─ uploads/               # 文章中引用的公共图片
-│  ├─ js/                    # 自定义脚本
+│  ├─ lib/aplayer/           # 自托管 APlayer 样式与脚本
+│  ├─ js/                    # 自定义脚本（含 nemo-player.js 音乐播放器）
 │  └─ fonts/                 # 自托管字体（JetBrains Mono）
 ├─ public/                   # 生成结果（已忽略，不提交）
 └─ .image-cache/             # WebP 缓存（已忽略，可安全删除）
@@ -233,6 +235,8 @@ deploy:
 | `source/_data/body-end.njk` | Live2D、点击爱心、音乐播放器注入 |
 | `source/_data/post-body-end.njk` | 文章底部版权声明 |
 | `source/js/live2d-autoload.js` | Live2D 加载逻辑 |
+| `source/js/nemo-player.js` | NEMO FM 播放器：歌单加载、API 回退、错误跳过 |
+| `source/lib/aplayer/` | APlayer 静态资源（本地加载，不依赖 CDN） |
 
 `source/_data/` 下的文件会覆盖主题默认值，升级 NexT 时无需改动 `node_modules`。
 
@@ -254,6 +258,9 @@ npx hexo server --static
 
 **新增 PDF 后目录里没有？**
 目录页在构建时扫描 `source/pdf/` 生成，放好文件后需要重新 `npx hexo generate`；部署前同样要先生成。文件名会自动作为标题（去掉 `.pdf` 后缀）。
+
+**NEMO FM 显示「重试」或无法播放？**
+播放器通过公共 Meting API 读取网易云歌单，接口偶尔会限流。点击右上角「重试」即可；若长期不可用，可在 `source/js/nemo-player.js` 中调整 `SOURCES`（接口顺序）或 `PLAYLIST.id`（歌单 ID）。播放失败的曲目会自动跳过。
 
 **部署成功但线上还是旧图？**
 GitHub Pages 与浏览器都有缓存，先 `Ctrl + F5` 强制刷新；再确认 `master` 分支已包含最新提交。
