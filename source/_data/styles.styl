@@ -1584,6 +1584,21 @@ mark.search-keyword {
 }
 
 // ---------------------------------------------------------------
+// Wide tables on small screens
+// ---------------------------------------------------------------
+@media (max-width: 767px) {
+  .post-body > .table-container {
+    scrollbar-width: thin;
+  }
+
+  .post-body > .table-container > table {
+    width: max-content;
+    max-width: 720px;
+    min-width: 100%;
+  }
+}
+
+// ---------------------------------------------------------------
 // PDF library
 // ---------------------------------------------------------------
 .post-body:has(.pdf-library),

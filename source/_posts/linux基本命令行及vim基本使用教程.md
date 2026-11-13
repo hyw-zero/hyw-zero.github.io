@@ -36,8 +36,30 @@ Linux下的命令有几千条，但真正在实际开发中运用的就只有那
 
 5.压缩与解压
 
-	压缩: tar –zcvf  filename.tar.gz dirname
-	解压：tar –zxvf filename.tar.gz
+Linux 下最常用的是 `tar` + `gzip`：`-c` 创建归档，`-x` 解压，`-z` 使用 gzip，`-v` 显示过程，`-f` 指定文件名（后面必须紧跟包名）。
+
+```bash
+# 压缩目录
+tar -czvf filename.tar.gz dirname/
+
+# 解压
+tar -xzvf filename.tar.gz
+
+# 解压到指定目录（目录需已存在）
+tar -xzvf filename.tar.gz -C /target
+```
+
+和 Windows 交换文件时更常用 `zip` / `unzip`：
+
+```bash
+# 递归压缩目录
+zip -r filename.zip dirname/
+
+# 解压到指定目录
+unzip filename.zip -d /target
+```
+
+更完整的格式对照和常见问题见：{% post_link linux-compress-commands 'Linux 压缩与解压命令' %}。
 
 
 6.linux系统常用apt(Advanced Package Tool)高级软件工具来安装软件
