@@ -1,20 +1,20 @@
 // ================================================================
-// ZERO · Dusk Glass
+// NEMO · Dusk Glass
 // Custom visual layer for NexT 8 / Gemini
 // ================================================================
 
 :root {
-  --zero-ink: #172033;
-  --zero-text: #465268;
-  --zero-muted: #7c8798;
-  --zero-accent: #f59e0b;
-  --zero-accent-deep: #b45309;
-  --zero-accent-soft: rgba(245, 158, 11, 0.1);
-  --zero-gradient: linear-gradient(135deg, #fbbf24 0%, #f97316 58%, #fb7185 100%);
-  --zero-card: rgba(255, 255, 255, 0.9);
-  --zero-card-border: rgba(255, 255, 255, 0.55);
-  --zero-shadow: 0 20px 50px rgba(3, 10, 28, 0.22), 0 2px 8px rgba(3, 10, 28, 0.08);
-  --zero-radius: 20px;
+  --nemo-ink: #172033;
+  --nemo-text: #465268;
+  --nemo-muted: #7c8798;
+  --nemo-accent: #f59e0b;
+  --nemo-accent-deep: #b45309;
+  --nemo-accent-soft: rgba(245, 158, 11, 0.1);
+  --nemo-gradient: linear-gradient(135deg, #fbbf24 0%, #f97316 58%, #fb7185 100%);
+  --nemo-card: rgba(255, 255, 255, 0.9);
+  --nemo-card-border: rgba(255, 255, 255, 0.55);
+  --nemo-shadow: 0 20px 50px rgba(3, 10, 28, 0.22), 0 2px 8px rgba(3, 10, 28, 0.08);
+  --nemo-radius: 20px;
 }
 
 // JetBrains Mono (self-hosted, latin + latin-ext)
@@ -80,7 +80,7 @@ body {
   position: relative;
   z-index: 0;
   background: #08101e;
-  color: var(--zero-text);
+  color: var(--nemo-text);
   font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', sans-serif;
 }
 
@@ -463,18 +463,18 @@ header.header {
 .main-inner > .comments,
 .main-inner .tabs-comment,
 .main-inner .comment-position .comments {
-  background: var(--zero-card);
-  border: 1px solid var(--zero-card-border);
-  border-radius: var(--zero-radius);
-  box-shadow: var(--zero-shadow);
+  background: var(--nemo-card);
+  border: 1px solid var(--nemo-card-border);
+  border-radius: var(--nemo-radius);
+  box-shadow: var(--nemo-shadow);
   -webkit-backdrop-filter: blur(12px) saturate(115%);
   backdrop-filter: blur(12px) saturate(115%);
 }
 
 .main-inner .post-block:not(:first-child):not(:first-child) {
   margin-top: 16px;
-  border-radius: var(--zero-radius);
-  box-shadow: var(--zero-shadow);
+  border-radius: var(--nemo-radius);
+  box-shadow: var(--nemo-shadow);
 }
 
 .main-inner .tabs-comment,
@@ -482,8 +482,8 @@ header.header {
 .main-inner .comment-position .comments,
 .main-inner .pagination {
   margin-top: 16px;
-  border-radius: var(--zero-radius);
-  box-shadow: var(--zero-shadow);
+  border-radius: var(--nemo-radius);
+  box-shadow: var(--nemo-shadow);
 }
 
 // The bundled LiveRe key has expired; hide only its error placeholder so the
@@ -502,7 +502,7 @@ header.header {
 
 .posts-expand .post-title {
   margin: 0;
-  color: var(--zero-ink);
+  color: var(--nemo-ink);
   font-family: 'Roboto Slab', 'Lato', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', sans-serif;
   font-size: 28px;
   font-weight: 700;
@@ -520,7 +520,7 @@ header.header {
 
 .posts-expand .post-title a:hover,
 .posts-expand .post-title-link:hover {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
 }
 
 .posts-expand .post-title::after {
@@ -529,35 +529,35 @@ header.header {
   height: 3px;
   margin: 16px auto 0;
   content: '';
-  background: var(--zero-gradient);
+  background: var(--nemo-gradient);
   border-radius: 3px;
   opacity: 0.9;
 }
 
 .posts-expand .post-meta {
   margin-top: 12px;
-  color: var(--zero-muted);
+  color: var(--nemo-muted);
   font-size: 0.78em;
   letter-spacing: 0.01em;
 }
 
 .posts-expand .post-meta-item-icon {
-  color: var(--zero-accent);
+  color: var(--nemo-accent);
 }
 
 .posts-expand .post-meta a {
-  color: var(--zero-muted);
+  color: var(--nemo-muted);
 }
 
 .posts-expand .post-meta a:hover {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
 }
 
 .post-body {
   max-width: 780px;
   margin-right: auto;
   margin-left: auto;
-  color: var(--zero-text);
+  color: var(--nemo-text);
   line-height: 1.9;
 }
 
@@ -571,7 +571,7 @@ header.header {
 .post-body h4,
 .post-body h5,
 .post-body h6 {
-  color: var(--zero-ink);
+  color: var(--nemo-ink);
   font-family: 'Roboto Slab', 'Lato', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', 'STHeiti', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'Microsoft YaHei', sans-serif;
   letter-spacing: 0.01em;
 }
@@ -599,7 +599,7 @@ header.header {
   margin-right: 10px;
   content: '';
   vertical-align: 0.12em;
-  background: var(--zero-gradient);
+  background: var(--nemo-gradient);
   border-radius: 50%;
 }
 
@@ -612,7 +612,7 @@ header.header {
   padding: 14px 18px;
   color: #5b6576;
   background: rgba(245, 158, 11, 0.055);
-  border-left: 3px solid var(--zero-accent);
+  border-left: 3px solid var(--nemo-accent);
   border-radius: 0 12px 12px 0;
 }
 
@@ -930,7 +930,7 @@ figure.highlight .gutter pre {
   font-size: 13px;
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.07), rgba(99, 102, 241, 0.04));
   border: 1px solid rgba(245, 158, 11, 0.16);
-  border-left: 4px solid var(--zero-accent);
+  border-left: 4px solid var(--nemo-accent);
   border-radius: 14px;
 }
 
@@ -971,7 +971,7 @@ figure.highlight .gutter pre {
 }
 
 .post-copyright a {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
   border-bottom: 0;
 }
 
@@ -993,7 +993,7 @@ figure.highlight .gutter pre {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.04em;
-  background: var(--zero-gradient);
+  background: var(--nemo-gradient);
   border: 0;
   border-radius: 999px;
   box-shadow: 0 10px 24px rgba(249, 115, 22, 0.25);
@@ -1027,7 +1027,7 @@ figure.highlight .gutter pre {
 .post-tags a {
   display: inline-block;
   padding: 5px 13px;
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
   font-size: 12px;
   line-height: 1.45;
   background: rgba(245, 158, 11, 0.09);
@@ -1038,7 +1038,7 @@ figure.highlight .gutter pre {
 
 .post-tags a:hover {
   color: #fff;
-  background: var(--zero-gradient);
+  background: var(--nemo-gradient);
   border-color: transparent;
   transform: translateY(-1px);
 }
@@ -1055,7 +1055,7 @@ figure.highlight .gutter pre {
 }
 
 .post-nav-item a:hover {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
 }
 
 // ---------------------------------------------------------------
@@ -1067,7 +1067,7 @@ figure.highlight .gutter pre {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.04em;
-  background: var(--zero-gradient);
+  background: var(--nemo-gradient);
   border: 0;
   border-radius: 999px;
   box-shadow: 0 10px 24px rgba(249, 115, 22, 0.24);
@@ -1102,14 +1102,14 @@ figure.highlight .gutter pre {
 .pagination .prev:hover,
 .pagination .next:hover,
 .pagination .page-number:hover {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
   background: rgba(245, 158, 11, 0.09);
   border: 0;
 }
 
 .pagination .page-number.current {
   color: #fff;
-  background: var(--zero-gradient);
+  background: var(--nemo-gradient);
   box-shadow: 0 6px 16px rgba(249, 115, 22, 0.24);
 }
 
@@ -1163,12 +1163,12 @@ figure.highlight .gutter pre {
 .posts-collapse .post-content .collection-year .collection-year-count {
   padding: 2px 8px;
   color: #fff;
-  background: var(--zero-gradient);
+  background: var(--nemo-gradient);
   border-radius: 999px;
 }
 
 .posts-collapse .post-content .collection-year::before {
-  background: var(--zero-accent);
+  background: var(--nemo-accent);
 }
 
 .posts-collapse .post-content .post-header {
@@ -1185,7 +1185,7 @@ figure.highlight .gutter pre {
 }
 
 .posts-collapse .post-content .post-header::before {
-  background: var(--zero-accent);
+  background: var(--nemo-accent);
   border-color: #fff;
 }
 
@@ -1199,7 +1199,7 @@ figure.highlight .gutter pre {
 }
 
 .posts-collapse .post-content .post-title a:hover {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
 }
 
 .posts-collapse .post-content .post-meta-container {
@@ -1215,7 +1215,7 @@ figure.highlight .gutter pre {
 
 .tag-cloud-title {
   margin-bottom: 24px;
-  color: var(--zero-muted);
+  color: var(--nemo-muted);
   font-size: 14px;
 }
 
@@ -1231,7 +1231,7 @@ figure.highlight .gutter pre {
   align-items: center;
   margin: 0;
   padding: 7px 17px;
-  color: var(--zero-accent-deep) !important;
+  color: var(--nemo-accent-deep) !important;
   font-size: 14px !important;
   line-height: 1.4;
   background: rgba(245, 158, 11, 0.08);
@@ -1248,7 +1248,7 @@ figure.highlight .gutter pre {
 
 .tag-cloud a:hover {
   color: #fff !important;
-  background: var(--zero-gradient);
+  background: var(--nemo-gradient);
   border-color: transparent;
   box-shadow: 0 8px 20px rgba(249, 115, 22, 0.2);
   transform: translateY(-2px);
@@ -1273,13 +1273,13 @@ figure.highlight .gutter pre {
 }
 
 .category-list .category-list-link {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
   border-bottom: 0;
 }
 
 .category-list .category-list-count {
   margin-left: 5px;
-  color: var(--zero-muted);
+  color: var(--nemo-muted);
 }
 
 // ---------------------------------------------------------------
@@ -1332,7 +1332,7 @@ figure.highlight .gutter pre {
 
 .search-popup .search-icon,
 .search-popup .popup-btn-close {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
 }
 
 .search-popup .popup-btn-close:hover .fa {
@@ -1340,7 +1340,7 @@ figure.highlight .gutter pre {
 }
 
 .search-popup input.search-input {
-  color: var(--zero-ink);
+  color: var(--nemo-ink);
   font-size: 16px;
 }
 
@@ -1353,12 +1353,12 @@ figure.highlight .gutter pre {
 }
 
 .search-popup a.search-result-title {
-  color: var(--zero-ink);
+  color: var(--nemo-ink);
   border-bottom: 0;
 }
 
 .search-popup a.search-result-title:hover {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
 }
 
 .search-popup p.search-result {
@@ -1371,7 +1371,7 @@ figure.highlight .gutter pre {
 }
 
 mark.search-keyword {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
   font-weight: 600;
   background: rgba(245, 158, 11, 0.16);
   border-bottom: 0;
@@ -1382,7 +1382,7 @@ mark.search-keyword {
 // ---------------------------------------------------------------
 @media (min-width: 768px) and (max-width: 991px) {
   :root {
-    --zero-radius: 16px;
+    --nemo-radius: 16px;
   }
 
   .main-inner {
@@ -1404,7 +1404,7 @@ mark.search-keyword {
 
 @media (max-width: 767px) {
   :root {
-    --zero-radius: 14px;
+    --nemo-radius: 14px;
   }
 
   header.header {
@@ -1608,7 +1608,7 @@ mark.search-keyword {
 
 .pdf-library-summary {
   margin: 0 0 18px;
-  color: var(--zero-muted);
+  color: var(--nemo-muted);
   font-size: 14px;
   letter-spacing: 0.01em;
 }
@@ -1627,7 +1627,7 @@ mark.search-keyword {
   padding: 18px;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(148, 163, 184, 0.2);
-  border-radius: var(--zero-radius);
+  border-radius: var(--nemo-radius);
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 
@@ -1658,7 +1658,7 @@ mark.search-keyword {
 
 .pdf-card-title {
   display: inline-block;
-  color: var(--zero-ink);
+  color: var(--nemo-ink);
   font-size: 15px;
   font-weight: 600;
   line-height: 1.45;
@@ -1668,13 +1668,13 @@ mark.search-keyword {
 }
 
 .pdf-card-title:hover {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
   border-bottom: 0;
 }
 
 .pdf-card-meta {
   margin-top: 4px;
-  color: var(--zero-muted);
+  color: var(--nemo-muted);
   font-size: 12.5px;
   line-height: 1.5;
   word-break: break-all;
@@ -1693,7 +1693,7 @@ mark.search-keyword {
   justify-content: center;
   gap: 6px;
   padding: 7px 14px;
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
   font-size: 13px;
   line-height: 1.4;
   background: rgba(245, 158, 11, 0.08);
@@ -1704,7 +1704,7 @@ mark.search-keyword {
 
 .pdf-card-button:hover {
   color: #fff;
-  background: var(--zero-gradient);
+  background: var(--nemo-gradient);
   border-color: transparent;
   box-shadow: 0 8px 20px rgba(249, 115, 22, 0.2);
   transform: translateY(-1px);
@@ -1712,7 +1712,7 @@ mark.search-keyword {
 
 .pdf-card-button.is-primary {
   color: #fff;
-  background: var(--zero-gradient);
+  background: var(--nemo-gradient);
   border-color: transparent;
 }
 
@@ -1722,11 +1722,11 @@ mark.search-keyword {
 
 .pdf-empty {
   padding: 46px 22px;
-  color: var(--zero-muted);
+  color: var(--nemo-muted);
   text-align: center;
   background: rgba(255, 255, 255, 0.55);
   border: 1px dashed rgba(148, 163, 184, 0.4);
-  border-radius: var(--zero-radius);
+  border-radius: var(--nemo-radius);
 }
 
 .pdf-empty > i {
@@ -1742,7 +1742,7 @@ mark.search-keyword {
 
 .pdf-empty code {
   padding: 2px 6px;
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
   background: rgba(245, 158, 11, 0.1);
   border-radius: 6px;
 }
@@ -1758,7 +1758,7 @@ mark.search-keyword {
 .pdf-viewer-name {
   flex: 1 1 220px;
   min-width: 0;
-  color: var(--zero-ink);
+  color: var(--nemo-ink);
   font-size: 15px;
   font-weight: 600;
   word-break: break-all;
@@ -1777,13 +1777,13 @@ mark.search-keyword {
   min-height: 520px;
   background: #fff;
   border: 1px solid rgba(148, 163, 184, 0.24);
-  border-radius: var(--zero-radius);
+  border-radius: var(--nemo-radius);
   box-shadow: 0 16px 36px rgba(3, 10, 28, 0.14);
 }
 
 .pdf-viewer-hint {
   margin-top: 12px;
-  color: var(--zero-muted);
+  color: var(--nemo-muted);
   font-size: 13px;
 }
 
@@ -1795,16 +1795,16 @@ mark.search-keyword {
 }
 
 .post-body .pdf-library a.pdf-card-title {
-  color: var(--zero-ink);
+  color: var(--nemo-ink);
 }
 
 .post-body .pdf-library a.pdf-card-title:hover {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
 }
 
 .post-body .pdf-library a.pdf-card-button,
 .post-body .pdf-viewer a.pdf-card-button {
-  color: var(--zero-accent-deep);
+  color: var(--nemo-accent-deep);
 }
 
 .post-body .pdf-library a.pdf-card-button:hover,

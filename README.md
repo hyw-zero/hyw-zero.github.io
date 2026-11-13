@@ -1,6 +1,6 @@
 # hyw-zero.github.io
 
-ZERO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC 相关的学习笔记。基于 **Hexo + NexT** 构建，部署在 GitHub Pages。
+NEMO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC 相关的学习笔记。基于 **Hexo + NexT** 构建，部署在 GitHub Pages。
 
 - 线上地址：<https://hyw-zero.github.io/>
 - 源码分支：`hexo`（当前分支）

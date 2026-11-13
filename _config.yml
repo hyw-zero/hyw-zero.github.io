@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: ZERO
+title: NEMO
 subtitle: keep  learning, be  curious !
-description: ZERO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。
+description: NEMO 的个人博客，记录编程、Linux、Python、C++ 与前端开发的学习笔记。
 keywords: html&css,apache,JavaScript,Hexo,Python,C语言,linux
-author: hyw-zero
+author: nemo
 language: zh-CN
 timezone: utc
 
