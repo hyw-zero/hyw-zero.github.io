@@ -25,7 +25,7 @@ NEMO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 - 背景图使用 59KB 的 WebP，首屏更轻
 - Live2D 看板娘（本地模型，不依赖外部 CDN）、点击爱心、NEMO FM（APlayer + Meting 在线音乐）
 - 本地搜索、字数统计、阅读时长、文章目录、相关文章
-- PDF 阅读目录：把文件放进 `source/pdf/`，构建时自动生成目录和在线预览页
+- PDF 阅读目录：把文件放进 `source/pdf/`，构建时自动生成目录和在线预览页；目录页用页脚「总访问量」作为密码，前端解锁后显示
 - 文章级版权声明与「本文结束」签名
 
 ## 目录结构
@@ -236,6 +236,7 @@ deploy:
 | `source/_data/body-end.njk` | Live2D、点击爱心、音乐播放器注入 |
 | `source/_data/post-body-end.njk` | 文章底部版权声明 |
 | `source/js/live2d-autoload.js` | Live2D 启动逻辑（本地加载，无外部 CDN） |
+| `source/js/pdf-gate.js` | 图书页密码门禁：读取页脚总访问量并校验 |
 | `source/js/nemo-player.js` | NEMO FM 播放器：歌单加载、API 回退、错误跳过 |
 | `source/lib/aplayer/` | APlayer 静态资源（本地加载，不依赖 CDN） |
 | `source/lib/live2d/` | Live2D 组件、提示语与 Tia 模型（本地加载，不依赖 CDN） |
@@ -260,6 +261,9 @@ npx hexo server --static
 
 **新增 PDF 后目录里没有？**
 目录页在构建时扫描 `source/pdf/` 生成，放好文件后需要重新 `npx hexo generate`；部署前同样要先生成。文件名会自动作为标题（去掉 `.pdf` 后缀）。
+
+**图书页的密码是什么？**
+密码就是页脚「总访问量」当前显示的数字（Busuanzi 站点 PV），每次打开页面会随访问量变化，以页脚当下数字为准。页脚还没加载出来时先稍候，或刷新页面重试。注意：GitHub Pages 是静态托管，这里只是前端访问门禁，PDF 文件本身仍可通过直链访问，不能替代真正的服务端权限控制。
 
 **看板娘不显示或模型空白？**
 看板娘组件与模型都在 `source/lib/live2d/`，不依赖 jsDelivr 或 GitHub Raw。若刚更新过资源，先 `npx hexo clean && npx hexo generate`，再强制刷新浏览器缓存。替换模型时，把模型目录放进 `source/lib/live2d/model/`，同步修改 `source/lib/live2d/model_list.json`，并让 `live2d-autoload.js` 中的 `modelId` 指向对应下标。

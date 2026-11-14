@@ -120,6 +120,38 @@ function renderCatalog(items, baseUrl) {
   ].join('\n');
 }
 
+// The catalog is kept as an encoded payload instead of plain HTML so the
+// links do not show up in page source before the visitor unlocks the gate.
+// This is still a client-side gate: GitHub Pages cannot enforce real access
+// control, and the PDF files themselves remain directly reachable by URL.
+function renderGate(content, count) {
+  const payload = Buffer.from(content, 'utf8').toString('base64');
+
+  return [
+    '<div class="pdf-gate" data-pdf-gate>',
+    '  <section class="pdf-gate-lock" aria-labelledby="pdf-gate-title">',
+    '    <span class="pdf-gate-kicker"><i class="fa fa-lock" aria-hidden="true"></i> NEMO LIBRARY</span>',
+    '    <span class="pdf-gate-icon" aria-hidden="true"><i class="fa fa-book-open"></i></span>',
+    '    <p class="pdf-gate-title" id="pdf-gate-title">图书已加密</p>',
+    `    <p class="pdf-gate-copy">输入页脚「总访问量」里的数字，解锁 ${count} 份资料。</p>`,
+    '    <form class="pdf-gate-form" novalidate>',
+    '      <label class="pdf-gate-label" for="pdf-gate-input">访问量密码</label>',
+    '      <div class="pdf-gate-row">',
+    '        <input class="pdf-gate-input" id="pdf-gate-input" name="password" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="12" autocomplete="off" spellcheck="false" placeholder="输入页脚数字">',
+    '        <button class="pdf-gate-submit" type="submit"><i class="fa fa-unlock-alt" aria-hidden="true"></i><span>解锁</span></button>',
+    '      </div>',
+    '      <p class="pdf-gate-error" role="alert" aria-live="polite"></p>',
+    '    </form>',
+    '    <p class="pdf-gate-hint"><i class="fa fa-eye" aria-hidden="true"></i> 密码会随访问量变化，每次打开请以页脚当前数字为准。</p>',
+    '    <p class="pdf-gate-status" data-state="loading" aria-live="polite"><span class="pdf-gate-dot" aria-hidden="true"></span><span class="pdf-gate-status-text">正在读取页脚访问量…</span></p>',
+    '    <noscript><p class="pdf-gate-noscript">需要启用 JavaScript 才能解锁图书目录。</p></noscript>',
+    '  </section>',
+    '  <div class="pdf-gate-content" hidden></div>',
+    `  <script type="application/octet-stream" class="pdf-gate-payload">${payload}</script>`,
+    '</div>'
+  ].join('\n');
+}
+
 function renderViewer(baseUrl) {
   const base = JSON.stringify(baseUrl);
   return [
@@ -196,7 +228,7 @@ hexo.extend.generator.register('pdf_library', async function () {
         title: config.title,
         description: config.description,
         comments: false,
-        content: renderCatalog(items, baseUrl)
+        content: renderGate(renderCatalog(items, baseUrl), items.length)
       }
     },
     {
