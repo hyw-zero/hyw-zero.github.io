@@ -306,20 +306,6 @@
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/AMBA/</loc>
-    <lastmod>2026-11-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hyw-zero.github.io/tags/%E6%80%BB%E7%BA%BF/</loc>
-    <lastmod>2026-11-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://hyw-zero.github.io/tags/MIPI/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -328,6 +314,20 @@
   
   <url>
     <loc>https://hyw-zero.github.io/tags/MIPI-CSI/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/tags/AMBA/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/tags/%E6%80%BB%E7%BA%BF/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -362,14 +362,14 @@
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/%E4%BD%8E%E5%8A%9F%E8%80%97/</loc>
+    <loc>https://hyw-zero.github.io/tags/AXI5/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/AXI5/</loc>
+    <loc>https://hyw-zero.github.io/tags/%E4%BD%8E%E5%8A%9F%E8%80%97/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -404,14 +404,14 @@
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/markdown/</loc>
+    <loc>https://hyw-zero.github.io/tags/python/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/python/</loc>
+    <loc>https://hyw-zero.github.io/tags/markdown/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -427,14 +427,14 @@
 
   
   <url>
-    <loc>https://hyw-zero.github.io/categories/AMBA/</loc>
+    <loc>https://hyw-zero.github.io/categories/protocol/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/categories/protocol/</loc>
+    <loc>https://hyw-zero.github.io/categories/AMBA/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -448,14 +448,14 @@
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/categories/Linux/</loc>
+    <loc>https://hyw-zero.github.io/categories/%E5%89%91%E6%8C%87offer/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/categories/%E5%89%91%E6%8C%87offer/</loc>
+    <loc>https://hyw-zero.github.io/categories/Linux/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
