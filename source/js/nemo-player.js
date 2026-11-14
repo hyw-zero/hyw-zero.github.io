@@ -189,11 +189,14 @@
     next();
   }
 
-  // The sidebar is a flex column; keeping the player outside .sidebar-inner
-  // makes it stay visible while the widgets/TOC scroll.
+  // Keep the player at the top of the sticky sidebar, directly below the
+  // site menu, so it stays visible while reading and on short screens.
   var sidebar = document.querySelector('.sidebar');
-  if (sidebar && musicEl.parentNode !== sidebar) {
-    sidebar.appendChild(musicEl);
+  if (sidebar) {
+    var sidebarInner = sidebar.querySelector('.sidebar-inner');
+    if (musicEl.parentNode !== sidebar || musicEl.nextElementSibling !== sidebarInner) {
+      sidebar.insertBefore(musicEl, sidebarInner || null);
+    }
   }
 
   load();

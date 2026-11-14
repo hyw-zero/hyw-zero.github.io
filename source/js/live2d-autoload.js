@@ -1,64 +1,61 @@
-// live2d_path 参数建议使用绝对路径
-const live2d_path = "https://fastly.jsdelivr.net/npm/live2d-widgets@0/";
-//const live2d_path = "/live2d-widget/";
+/* NEMO · Live2D mascot bootstrap (fully self-hosted) */
+(function () {
+  'use strict';
 
-// 封装异步加载资源的方法
-function loadExternalResource(url, type) {
-	return new Promise((resolve, reject) => {
-		let tag;
+  if (window.__nemoLive2DLoaded) return;
+  window.__nemoLive2DLoaded = true;
 
-		if (type === "css") {
-			tag = document.createElement("link");
-			tag.rel = "stylesheet";
-			tag.href = url;
-		}
-		else if (type === "js") {
-			tag = document.createElement("script");
-			tag.src = url;
-		}
-		if (tag) {
-			tag.onload = () => resolve(url);
-			tag.onerror = () => reject(url);
-			document.head.appendChild(tag);
-		}
-	});
-}
+  // Everything lives under /lib/live2d/ so the mascot does not depend on
+  // jsDelivr, raw.githubusercontent.com or any other external host.
+  var BASE = '/lib/live2d/';
 
-// 加载 waifu.css live2d.min.js waifu-tips.js（所有屏幕尺寸都显示）
-Promise.all([
-	loadExternalResource(live2d_path + "waifu.css", "css"),
-	loadExternalResource(live2d_path + "live2d.min.js", "js"),
-	loadExternalResource(live2d_path + "waifu-tips.js", "js")
-]).then(() => {
-	// 每次访问都默认展开看板娘；退出按钮仍然有效，只影响当前这次浏览
-	try {
-		localStorage.removeItem("waifu-display");
-	} catch (e) {}
-	// 配置选项的具体用法见 README.md
-	initWidget({
-		waifuPath: live2d_path + "waifu-tips.json",
-		//apiPath: "https://live2d.fghrsh.net/api/",
-		cdnPath: "https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/",
-		tools: ["hitokoto", "asteroids", "switch-model", "switch-texture", "photo", "info", "quit"]
-	});
-});
+  function loadResource(url, type) {
+    return new Promise(function (resolve, reject) {
+      var tag = document.createElement(type === 'css' ? 'link' : 'script');
+      if (type === 'css') {
+        tag.rel = 'stylesheet';
+        tag.href = url;
+      } else {
+        tag.src = url;
+        tag.async = false;
+      }
+      tag.onload = function () { resolve(url); };
+      tag.onerror = function () { reject(new Error('failed: ' + url)); };
+      document.head.appendChild(tag);
+    });
+  }
 
-console.log(`
-  く__,.ヘヽ.        /  ,ー､ 〉
-           ＼ ', !-─‐-i  /  /´
-           ／｀ｰ'       L/／｀ヽ､
-         /   ／,   /|   ,   ,       ',
-       ｲ   / /-‐/  ｉ  L_ ﾊ ヽ!   i
-        ﾚ ﾍ 7ｲ｀ﾄ   ﾚ'ｧ-ﾄ､!ハ|   |
-          !,/7 '0'     ´0iソ|    |
-          |.从"    _     ,,,, / |./    |
-          ﾚ'| i＞.､,,__  _,.イ /   .i   |
-            ﾚ'| | / k_７_/ﾚ'ヽ,  ﾊ.  |
-              | |/i 〈|/   i  ,.ﾍ |  i  |
-             .|/ /  ｉ：    ﾍ!    ＼  |
-              kヽ>､ﾊ    _,.ﾍ､    /､!
-              !'〈//｀Ｔ´', ＼ ｀'7'ｰr'
-              ﾚ'ヽL__|___i,___,ンﾚ|ノ
-                  ﾄ-,/  |___./
-                  'ｰ'    !_,.:
-`);
+  function init() {
+    try {
+      // Always show the mascot on load; the close button still works for
+      // the current page. A single local model keeps the id at 0.
+      localStorage.removeItem('waifu-display');
+      localStorage.setItem('modelId', '0');
+      localStorage.setItem('modelTexturesId', '0');
+    } catch (e) {}
+
+    window.initWidget({
+      waifuPath: BASE + 'waifu-tips.json',
+      cdnPath: BASE,
+      tools: ['hitokoto', 'photo', 'info', 'quit']
+    });
+  }
+
+  function boot() {
+    Promise.all([
+      loadResource(BASE + 'waifu.css?v=1', 'css'),
+      loadResource(BASE + 'live2d.min.js?v=1', 'js')
+    ])
+      .then(function () { return loadResource(BASE + 'waifu-tips.js?v=1', 'js'); })
+      .then(init)
+      .catch(function (error) {
+        console.warn('[NEMO] Live2D could not start:', error && error.message);
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
+  } else {
+    boot();
+  }
+})();

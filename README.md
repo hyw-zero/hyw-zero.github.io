@@ -23,7 +23,7 @@ NEMO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 - 文章图片自动生成 640px / 原宽两档 WebP，支持 `srcset` 按屏幕取图
 - 原图完整保留，点击图片仍可通过 Fancybox 查看原画质
 - 背景图使用 59KB 的 WebP，首屏更轻
-- Live2D 看板娘、点击爱心、NEMO FM（APlayer + Meting 在线音乐）
+- Live2D 看板娘（本地模型，不依赖外部 CDN）、点击爱心、NEMO FM（APlayer + Meting 在线音乐）
 - 本地搜索、字数统计、阅读时长、文章目录、相关文章
 - PDF 阅读目录：把文件放进 `source/pdf/`，构建时自动生成目录和在线预览页
 - 文章级版权声明与「本文结束」签名
@@ -50,6 +50,7 @@ NEMO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 │  ├─ images/                # 站点图片：背景、微信/支付宝收款码等
 │  ├─ uploads/               # 文章中引用的公共图片
 │  ├─ lib/aplayer/           # 自托管 APlayer 样式与脚本
+│  ├─ lib/live2d/            # 自托管 Live2D 组件与模型
 │  ├─ js/                    # 自定义脚本（含 nemo-player.js 音乐播放器）
 │  └─ fonts/                 # 自托管字体（JetBrains Mono）
 ├─ public/                   # 生成结果（已忽略，不提交）
@@ -234,9 +235,10 @@ deploy:
 | `source/_data/languages.yml` | 菜单等文案的翻译覆盖（如「图书」） |
 | `source/_data/body-end.njk` | Live2D、点击爱心、音乐播放器注入 |
 | `source/_data/post-body-end.njk` | 文章底部版权声明 |
-| `source/js/live2d-autoload.js` | Live2D 加载逻辑 |
+| `source/js/live2d-autoload.js` | Live2D 启动逻辑（本地加载，无外部 CDN） |
 | `source/js/nemo-player.js` | NEMO FM 播放器：歌单加载、API 回退、错误跳过 |
 | `source/lib/aplayer/` | APlayer 静态资源（本地加载，不依赖 CDN） |
+| `source/lib/live2d/` | Live2D 组件、提示语与 Tia 模型（本地加载，不依赖 CDN） |
 
 `source/_data/` 下的文件会覆盖主题默认值，升级 NexT 时无需改动 `node_modules`。
 
@@ -258,6 +260,9 @@ npx hexo server --static
 
 **新增 PDF 后目录里没有？**
 目录页在构建时扫描 `source/pdf/` 生成，放好文件后需要重新 `npx hexo generate`；部署前同样要先生成。文件名会自动作为标题（去掉 `.pdf` 后缀）。
+
+**看板娘不显示或模型空白？**
+看板娘组件与模型都在 `source/lib/live2d/`，不依赖 jsDelivr 或 GitHub Raw。若刚更新过资源，先 `npx hexo clean && npx hexo generate`，再强制刷新浏览器缓存。替换模型时，把模型目录放进 `source/lib/live2d/model/`，同步修改 `source/lib/live2d/model_list.json`，并让 `live2d-autoload.js` 中的 `modelId` 指向对应下标。
 
 **NEMO FM 显示「重试」或无法播放？**
 播放器通过公共 Meting API 读取网易云歌单，接口偶尔会限流。点击右上角「重试」即可；若长期不可用，可在 `source/js/nemo-player.js` 中调整 `SOURCES`（接口顺序）或 `PLAYLIST.id`（歌单 ID）。播放失败的曲目会自动跳过。
