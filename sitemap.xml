@@ -341,13 +341,6 @@
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/AHB/</loc>
-    <lastmod>2026-11-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://hyw-zero.github.io/tags/AXI/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -362,6 +355,13 @@
   </url>
   
   <url>
+    <loc>https://hyw-zero.github.io/tags/AHB/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://hyw-zero.github.io/tags/AXI5/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -369,14 +369,14 @@
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/%E4%BD%8E%E5%8A%9F%E8%80%97/</loc>
+    <loc>https://hyw-zero.github.io/tags/C/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/C/</loc>
+    <loc>https://hyw-zero.github.io/tags/%E4%BD%8E%E5%8A%9F%E8%80%97/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -397,6 +397,13 @@
   </url>
   
   <url>
+    <loc>https://hyw-zero.github.io/tags/markdown/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://hyw-zero.github.io/tags/linux/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -405,13 +412,6 @@
   
   <url>
     <loc>https://hyw-zero.github.io/tags/python/</loc>
-    <lastmod>2026-11-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hyw-zero.github.io/tags/markdown/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

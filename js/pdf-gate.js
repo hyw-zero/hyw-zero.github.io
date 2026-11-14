@@ -1,12 +1,8 @@
 /* NEMO · PDF library access gate
  *
- * The password is the site-wide "总访问量" that Busuanzi renders in the
- * footer. The gate reads that same DOM value, so it always matches the
- * number the visitor can see on the page.
- *
- * GitHub Pages is static, so this is a client-side gate rather than real
- * access control. The catalog markup is decoded only after unlocking, which
- * keeps the links out of casual view.
+ * Client-side gate for the private PDF shelf. The catalog is decoded only
+ * after the password check succeeds. GitHub Pages cannot enforce server-side
+ * access control, so the PDF files remain directly reachable by URL.
  */
 (function () {
   'use strict';
@@ -52,14 +48,14 @@
   function waitForPv() {
     sitePv = readSitePv();
     if (sitePv) {
-      setStatus('ready', '访问量已就绪');
+      setStatus('ready', '已就绪');
       return;
     }
     if (Date.now() >= deadline) {
-      setStatus('error', '访问量读取失败，请刷新页面后重试');
+      setStatus('error', '暂时无法解锁，请刷新页面重试');
       return;
     }
-    setStatus('loading', '正在读取页脚访问量…');
+    setStatus('loading', '正在准备…');
     window.setTimeout(waitForPv, 300);
   }
 
@@ -100,16 +96,16 @@
 
     if (!sitePv) sitePv = readSitePv();
     if (!sitePv) {
-      setError('访问量还没加载出来，请稍候再试。');
+      setError('暂时无法验证，请稍后再试。');
       if (Date.now() >= deadline) {
-        setStatus('error', '访问量读取失败，请刷新页面后重试');
+        setStatus('error', '暂时无法解锁，请刷新页面重试');
       }
       return;
     }
 
     var value = normalize(input.value);
     if (!value) {
-      setError('请输入页脚显示的「总访问量」数字。');
+      setError('请输入密码。');
       input.focus();
       return;
     }
@@ -118,7 +114,7 @@
       setError('');
       unlock();
     } else {
-      setError('密码不对，请核对页脚「总访问量」的当前数字。');
+      setError('密码不对，请重试。');
       input.select();
     }
   });

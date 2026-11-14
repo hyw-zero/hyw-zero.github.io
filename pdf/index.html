@@ -245,17 +245,16 @@
     <span class="pdf-gate-kicker"><i class="fa fa-lock" aria-hidden="true"></i> NEMO LIBRARY</span>
     <span class="pdf-gate-icon" aria-hidden="true"><i class="fa fa-book-open"></i></span>
     <p class="pdf-gate-title" id="pdf-gate-title">图书已加密</p>
-    <p class="pdf-gate-copy">输入页脚「总访问量」里的数字，解锁 4 份资料。</p>
+    <p class="pdf-gate-copy">私人书架 · 共 4 份资料</p>
     <form class="pdf-gate-form" novalidate>
-      <label class="pdf-gate-label" for="pdf-gate-input">访问量密码</label>
+      <label class="pdf-gate-label" for="pdf-gate-input">密码</label>
       <div class="pdf-gate-row">
-        <input class="pdf-gate-input" id="pdf-gate-input" name="password" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="12" autocomplete="off" spellcheck="false" placeholder="输入页脚数字">
+        <input class="pdf-gate-input" id="pdf-gate-input" name="password" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="12" autocomplete="off" spellcheck="false" placeholder="输入密码">
         <button class="pdf-gate-submit" type="submit"><i class="fa fa-unlock-alt" aria-hidden="true"></i><span>解锁</span></button>
       </div>
       <p class="pdf-gate-error" role="alert" aria-live="polite"></p>
     </form>
-    <p class="pdf-gate-hint"><i class="fa fa-eye" aria-hidden="true"></i> 密码会随访问量变化，每次打开请以页脚当前数字为准。</p>
-    <p class="pdf-gate-status" data-state="loading" aria-live="polite"><span class="pdf-gate-dot" aria-hidden="true"></span><span class="pdf-gate-status-text">正在读取页脚访问量…</span></p>
+    <p class="pdf-gate-status" data-state="loading" aria-live="polite"><span class="pdf-gate-dot" aria-hidden="true"></span><span class="pdf-gate-status-text">正在准备…</span></p>
     <noscript><p class="pdf-gate-noscript">需要启用 JavaScript 才能解锁图书目录。</p></noscript>
   </section>
   <div class="pdf-gate-content" hidden></div>
@@ -334,7 +333,7 @@
 <script src="/js/third-party/comments/livere.js" defer></script>
 <script src="/js/clicklove.js"></script>
 <script src="/js/live2d-autoload.js?v=4"></script>
-<script src="/js/pdf-gate.js?v=1"></script>
+<script src="/js/pdf-gate.js?v=2"></script>
 
 <link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
 <script src="/lib/aplayer/APlayer.min.js"></script>
@@ -356,7 +355,7 @@
     sidebar.appendChild(music);
   })();
 </script>
-<script src="/js/nemo-player.js?v=1"></script>
+<script src="/js/nemo-player.js?v=2"></script>
 
 </body>
 </html>
