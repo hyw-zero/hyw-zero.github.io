@@ -1552,9 +1552,11 @@ mark.search-keyword {
   }
 }
 
-// Sidebar music player — compact APlayer card at the top of the sticky
-// sidebar, directly below the site menu.
+// Sidebar music player — compact APlayer card at the bottom of the sticky
+// sidebar. The playlist opens upward as a floating panel.
 .sidebar-music {
+  position: relative;
+  z-index: 3;
   box-sizing: border-box;
   flex: 0 0 auto;
   margin: 12px 0 0;
@@ -1664,8 +1666,9 @@ mark.search-keyword {
 
 // APlayer dark skin
 .sidebar-music .aplayer {
+  position: static;
   margin: 0;
-  overflow: hidden;
+  overflow: visible;
   font-family: inherit;
   background: rgba(8, 15, 30, 0.62);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1687,6 +1690,8 @@ mark.search-keyword {
 .sidebar-music .aplayer .aplayer-pic {
   width: 68px;
   height: 68px;
+  overflow: hidden;
+  border-radius: 13px 0 0 13px;
 }
 
 .sidebar-music .aplayer .aplayer-info .aplayer-music {
@@ -1779,8 +1784,40 @@ mark.search-keyword {
   background-color: #0b1324;
 }
 
+// Floating playlist: anchored to the card and opened above it so the
+// sidebar layout never grows and the list stays on screen.
 .sidebar-music .aplayer .aplayer-list {
-  background: rgba(8, 15, 30, 0.5);
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  left: 0;
+  z-index: 30;
+  max-height: 220px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  opacity: 1;
+  background: rgba(8, 15, 30, 0.96);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 14px;
+  box-shadow: 0 22px 48px rgba(3, 10, 28, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
+  backdrop-filter: blur(14px) saturate(125%);
+  transform: translateY(0) scale(1);
+  transform-origin: bottom center;
+  transition: max-height 0.28s ease, opacity 0.22s ease, transform 0.22s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sidebar-music .aplayer .aplayer-list.aplayer-list-hide {
+  max-height: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+  border-color: transparent;
+  box-shadow: none;
+  transform: translateY(6px) scale(0.98);
+}
+
+.sidebar-music .aplayer .aplayer-list ol {
+  max-height: 218px;
 }
 
 .sidebar-music .aplayer .aplayer-list ol li {
@@ -2319,18 +2356,6 @@ mark.search-keyword {
   color: #fca5a5;
   font-size: 12.5px;
   line-height: 1.5;
-}
-
-.pdf-gate-hint {
-  margin: 12px 0 0;
-  color: #7c8aa0;
-  font-size: 12px;
-  line-height: 1.65;
-}
-
-.pdf-gate-hint i {
-  margin-right: 4px;
-  color: rgba(251, 191, 36, 0.7);
 }
 
 .pdf-gate-status {

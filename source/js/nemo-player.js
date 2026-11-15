@@ -189,15 +189,29 @@
     next();
   }
 
-  // Keep the player at the top of the sticky sidebar, directly below the
-  // site menu, so it stays visible while reading and on short screens.
+  // Keep the player at the bottom of the sticky sidebar, as before. The
+  // playlist opens upward from the card so it stays reachable on short
+  // screens instead of stretching the sidebar.
   var sidebar = document.querySelector('.sidebar');
   if (sidebar) {
-    var sidebarInner = sidebar.querySelector('.sidebar-inner');
-    if (musicEl.parentNode !== sidebar || musicEl.nextElementSibling !== sidebarInner) {
-      sidebar.insertBefore(musicEl, sidebarInner || null);
-    }
+    sidebar.appendChild(musicEl);
   }
+
+  function closePlaylist() {
+    var list = mount.querySelector('.aplayer-list');
+    if (!list || list.classList.contains('aplayer-list-hide')) return;
+
+    var menu = mount.querySelector('.aplayer-icon-menu');
+    if (menu) menu.click();
+  }
+
+  document.addEventListener('click', function (event) {
+    if (!musicEl.contains(event.target)) closePlaylist();
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') closePlaylist();
+  });
 
   load();
 })();
