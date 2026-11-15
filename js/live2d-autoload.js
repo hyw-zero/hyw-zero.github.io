@@ -28,7 +28,7 @@
   function init() {
     try {
       // Always show the mascot on load; the close button still works for
-      // the current page. A single local model keeps the id at 0.
+      // the current page. modelId 0 is the default local model.
       localStorage.removeItem('waifu-display');
       localStorage.setItem('modelId', '0');
       localStorage.setItem('modelTexturesId', '0');
@@ -37,7 +37,7 @@
     window.initWidget({
       waifuPath: BASE + 'waifu-tips.json',
       cdnPath: BASE,
-      tools: ['hitokoto', 'photo', 'info', 'quit']
+      tools: ['hitokoto', 'switch-model', 'photo', 'info', 'quit']
     });
   }
 
@@ -46,7 +46,7 @@
       loadResource(BASE + 'waifu.css?v=1', 'css'),
       loadResource(BASE + 'live2d.min.js?v=1', 'js')
     ])
-      .then(function () { return loadResource(BASE + 'waifu-tips.js?v=1', 'js'); })
+      .then(function () { return loadResource(BASE + 'waifu-tips.js?v=2', 'js'); })
       .then(init)
       .catch(function (error) {
         console.warn('[NEMO] Live2D could not start:', error && error.message);

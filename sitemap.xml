@@ -4,7 +4,169 @@
   <url>
     <loc>https://hyw-zero.github.io/lib/live2d/model_list.json</loc>
     
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/bilibili-live/33/textures_order.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/bilibili-live/33/index.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/bilibili-live/22/textures_order.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/bilibili-live/22/index.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/ShizukuTalk/shizuku-48/pose.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/ShizukuTalk/shizuku-48/physics.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/ShizukuTalk/shizuku-48/expressions/f03.exp.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/ShizukuTalk/shizuku-48/expressions/f02.exp.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/ShizukuTalk/shizuku-48/expressions/f04.exp.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/ShizukuTalk/shizuku-48/index.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/ShizukuTalk/shizuku-48/expressions/f01.exp.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/Potion-Maker/Pio/index.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/KantaiCollection/murakumo/physics.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/KantaiCollection/murakumo/expressions/f01.exp.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/KantaiCollection/murakumo/expressions/f04.exp.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/KantaiCollection/murakumo/expressions/f03.exp.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/KantaiCollection/murakumo/expressions/f02.exp.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hyw-zero.github.io/lib/live2d/model/KantaiCollection/murakumo/index.json</loc>
+    
+    <lastmod>2026-11-15</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -362,14 +524,14 @@
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/%E4%BD%8E%E5%8A%9F%E8%80%97/</loc>
+    <loc>https://hyw-zero.github.io/tags/AXI5/</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://hyw-zero.github.io/tags/AXI5/</loc>
+    <loc>https://hyw-zero.github.io/tags/%E4%BD%8E%E5%8A%9F%E8%80%97/</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -390,6 +552,13 @@
   </url>
   
   <url>
+    <loc>https://hyw-zero.github.io/tags/linux/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://hyw-zero.github.io/tags/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -398,13 +567,6 @@
   
   <url>
     <loc>https://hyw-zero.github.io/tags/markdown/</loc>
-    <lastmod>2026-11-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hyw-zero.github.io/tags/linux/</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
