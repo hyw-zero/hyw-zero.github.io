@@ -133,8 +133,6 @@
 
     if (pvAttempts >= MAX_ATTEMPTS && !pvLoading) {
       setStatus('loading', '暂时无法连接，请稍后再试');
-    } else if (elapsed >= 2500) {
-      setStatus('loading', '正在读取访问统计…');
     } else {
       setStatus('loading', '正在准备…');
     }
@@ -179,7 +177,7 @@
 
     if (!sitePv) sitePv = readSitePv();
     if (!sitePv) {
-      setError('正在读取访问统计，请稍候再试。');
+      setError('请稍候再试。');
       if (pvAttempts === 0 && !pvLoading) requestPv();
       return;
     }
