@@ -1553,7 +1553,7 @@ mark.search-keyword {
 }
 
 // Sidebar music player — compact APlayer card at the bottom of the sticky
-// sidebar. The playlist opens upward as a floating panel.
+// sidebar. The playlist drops down from the card as a floating panel.
 .sidebar-music {
   position: relative;
   z-index: 3;
@@ -1784,15 +1784,17 @@ mark.search-keyword {
   background-color: #0b1324;
 }
 
-// Floating playlist: anchored to the card and opened above it so the
-// sidebar layout never grows and the list stays on screen.
+// Floating playlist: anchored to the card and dropped below it so the
+// sidebar layout never grows. The max height is clamped by nemo-player.js
+// to the space left in the viewport, keeping the list reachable on short
+// screens.
 .sidebar-music .aplayer .aplayer-list {
   position: absolute;
+  top: calc(100% + 8px);
   right: 0;
-  bottom: calc(100% + 8px);
   left: 0;
   z-index: 30;
-  max-height: 220px;
+  max-height: var(--nemo-list-max, 220px);
   overflow-x: hidden;
   overflow-y: auto;
   opacity: 1;
@@ -1803,7 +1805,7 @@ mark.search-keyword {
   -webkit-backdrop-filter: blur(14px) saturate(125%);
   backdrop-filter: blur(14px) saturate(125%);
   transform: translateY(0) scale(1);
-  transform-origin: bottom center;
+  transform-origin: top center;
   transition: max-height 0.28s ease, opacity 0.22s ease, transform 0.22s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -1813,11 +1815,11 @@ mark.search-keyword {
   pointer-events: none;
   border-color: transparent;
   box-shadow: none;
-  transform: translateY(6px) scale(0.98);
+  transform: translateY(-6px) scale(0.98);
 }
 
 .sidebar-music .aplayer .aplayer-list ol {
-  max-height: 218px;
+  max-height: calc(var(--nemo-list-max, 220px) - 2px);
 }
 
 .sidebar-music .aplayer .aplayer-list ol li {
