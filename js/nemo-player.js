@@ -117,6 +117,7 @@
     // playlist explicitly so the sidebar card stays compact by default.
     var list = mount.querySelector('.aplayer-list');
     if (list) list.classList.add('aplayer-list-hide');
+    syncListHeight();
 
     var errors = 0;
 
@@ -190,12 +191,53 @@
   }
 
   // Keep the player at the bottom of the sticky sidebar, as before. The
-  // playlist opens upward from the card so it stays reachable on short
-  // screens instead of stretching the sidebar.
+  // playlist drops down from the card; its height is clamped to the space
+  // left below the card so it stays reachable on short screens.
   var sidebar = document.querySelector('.sidebar');
   if (sidebar) {
     sidebar.appendChild(musicEl);
   }
+
+  function syncListHeight() {
+    var rect = musicEl.getBoundingClientRect();
+    var space = Math.round(window.innerHeight - rect.bottom - 20);
+
+    // On the mobile drawer the close button sits at the bottom-left; stop
+    // the list just above it so the button stays usable.
+    var toggle = document.querySelector('.sidebar-toggle');
+    if (toggle) {
+      var toggleRect = toggle.getBoundingClientRect();
+      if (toggleRect.width && toggleRect.height && toggleRect.top > rect.bottom) {
+        space = Math.min(space, Math.round(toggleRect.top - rect.bottom - 12));
+      }
+    }
+
+    space = Math.max(80, Math.min(220, space));
+    musicEl.style.setProperty('--nemo-list-max', space + 'px');
+
+    // APlayer writes listMaxHeight inline, so keep both the container and the
+    // inner list in sync with the actual space below the card.
+    var list = mount.querySelector('.aplayer-list');
+    if (list) list.style.maxHeight = space + 'px';
+    var ol = mount.querySelector('.aplayer-list ol');
+    if (ol) ol.style.maxHeight = Math.max(0, space - 2) + 'px';
+  }
+
+  function listIsOpen() {
+    var list = mount.querySelector('.aplayer-list');
+    return !!(list && !list.classList.contains('aplayer-list-hide'));
+  }
+
+  syncListHeight();
+  window.addEventListener('resize', syncListHeight);
+  window.addEventListener('scroll', function () {
+    if (listIsOpen()) syncListHeight();
+  }, { passive: true });
+
+  mount.addEventListener('click', function (event) {
+    var target = event.target;
+    if (target && target.closest && target.closest('.aplayer-icon-menu')) syncListHeight();
+  }, true);
 
   function closePlaylist() {
     var list = mount.querySelector('.aplayer-list');

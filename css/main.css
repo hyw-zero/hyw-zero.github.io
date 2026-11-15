@@ -1217,7 +1217,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #deff95;
+    background: #349ef0;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -4253,11 +4253,11 @@ mark.search-keyword {
 }
 .sidebar-music .aplayer .aplayer-list {
   position: absolute;
+  top: calc(100% + 8px);
   right: 0;
-  bottom: calc(100% + 8px);
   left: 0;
   z-index: 30;
-  max-height: 220px;
+  max-height: var(--nemo-list-max, 220px);
   overflow-x: hidden;
   overflow-y: auto;
   opacity: 1;
@@ -4268,7 +4268,7 @@ mark.search-keyword {
   -webkit-backdrop-filter: blur(14px) saturate(125%);
   backdrop-filter: blur(14px) saturate(125%);
   transform: translateY(0) scale(1);
-  transform-origin: bottom center;
+  transform-origin: top center;
   transition: max-height 0.28s ease, opacity 0.22s ease, transform 0.22s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .sidebar-music .aplayer .aplayer-list.aplayer-list-hide {
@@ -4277,10 +4277,10 @@ mark.search-keyword {
   pointer-events: none;
   border-color: transparent;
   box-shadow: none;
-  transform: translateY(6px) scale(0.98);
+  transform: translateY(-6px) scale(0.98);
 }
 .sidebar-music .aplayer .aplayer-list ol {
-  max-height: 218px;
+  max-height: calc(var(--nemo-list-max, 220px) - 2px);
 }
 .sidebar-music .aplayer .aplayer-list ol li {
   color: #cbd5e1;

@@ -21,7 +21,10 @@
   if (!form || !input || !content || !payloadEl) return;
 
   var sitePv = '';
-  var deadline = Date.now() + 15000;
+  var pvStarted = Date.now();
+  var pvAttempts = 0;
+  var pvLoading = false;
+  var MAX_ATTEMPTS = 8;
 
   function normalize(value) {
     return String(value || '')
@@ -45,18 +48,98 @@
     input.setAttribute('aria-invalid', message ? 'true' : 'false');
   }
 
-  function waitForPv() {
-    sitePv = readSitePv();
-    if (sitePv) {
-      setStatus('ready', '已就绪');
-      return;
+  function applyPv(value) {
+    var pv = normalize(value);
+    if (!pv) return false;
+    if (sitePv) return true;
+
+    sitePv = pv;
+
+    // If the Busuanzi script failed but the API fallback worked, keep the
+    // footer consistent with the number the gate is now using.
+    var el = document.getElementById('busuanzi_value_site_pv');
+    if (el && !normalize(el.textContent)) el.textContent = pv;
+    var container = document.getElementById('busuanzi_container_site_pv');
+    if (container) container.style.display = 'inline';
+
+    setStatus('ready', '已就绪');
+    return true;
+  }
+
+  // Busuanzi occasionally drops its JSONP request on rapid refreshes. Retry
+  // the same public endpoint directly before giving up, instead of asking
+  // the visitor to refresh the whole page.
+  function requestPv() {
+    if (sitePv || pvLoading || pvAttempts >= MAX_ATTEMPTS) return;
+
+    pvLoading = true;
+    pvAttempts += 1;
+
+    var callback = 'nemoPv' + Date.now().toString(36) + pvAttempts;
+    var script = document.createElement('script');
+    var settled = false;
+    var timer = window.setTimeout(function () {
+      finish();
+    }, 6000);
+
+    function cleanup() {
+      window.clearTimeout(timer);
+      try {
+        delete window[callback];
+      } catch (err) {
+        window[callback] = undefined;
+      }
+      if (script.parentNode) script.parentNode.removeChild(script);
     }
-    if (Date.now() >= deadline) {
-      setStatus('error', '暂时无法解锁，请刷新页面重试');
-      return;
+
+    function finish() {
+      if (settled) return;
+      settled = true;
+      pvLoading = false;
+      cleanup();
+
+      if (sitePv) return;
+
+      if (pvAttempts >= MAX_ATTEMPTS) {
+        setStatus('loading', '暂时无法连接，请稍后再试');
+        return;
+      }
+
+      window.setTimeout(requestPv, Math.min(1000 + pvAttempts * 1000, 5000));
     }
-    setStatus('loading', '正在准备…');
-    window.setTimeout(waitForPv, 300);
+
+    window[callback] = function (data) {
+      if (data && applyPv(data.site_pv)) {
+        settled = true;
+        pvLoading = false;
+        cleanup();
+        return;
+      }
+      finish();
+    };
+
+    script.src = 'https://busuanzi.ibruce.info/busuanzi?jsonpCallback=' + encodeURIComponent(callback) + '&t=' + Date.now();
+    script.async = true;
+    script.onerror = finish;
+    document.head.appendChild(script);
+  }
+
+  function watchPv() {
+    if (sitePv) return;
+    if (applyPv(readSitePv())) return;
+
+    var elapsed = Date.now() - pvStarted;
+    if (elapsed >= 2500 && pvAttempts === 0) requestPv();
+
+    if (pvAttempts >= MAX_ATTEMPTS && !pvLoading) {
+      setStatus('loading', '暂时无法连接，请稍后再试');
+    } else if (elapsed >= 2500) {
+      setStatus('loading', '正在读取访问统计…');
+    } else {
+      setStatus('loading', '正在准备…');
+    }
+
+    window.setTimeout(watchPv, 400);
   }
 
   function decodePayload(text) {
@@ -75,7 +158,7 @@
     try {
       content.innerHTML = decodePayload(payloadEl.textContent.trim());
     } catch (err) {
-      setError('目录读取失败，请刷新页面后重试。');
+      setError('目录读取失败，请稍后再试。');
       return;
     }
 
@@ -96,10 +179,8 @@
 
     if (!sitePv) sitePv = readSitePv();
     if (!sitePv) {
-      setError('暂时无法验证，请稍后再试。');
-      if (Date.now() >= deadline) {
-        setStatus('error', '暂时无法解锁，请刷新页面重试');
-      }
+      setError('正在读取访问统计，请稍候再试。');
+      if (pvAttempts === 0 && !pvLoading) requestPv();
       return;
     }
 
@@ -119,5 +200,15 @@
     }
   });
 
-  waitForPv();
+  if (statusEl) {
+    statusEl.addEventListener('click', function () {
+      if (sitePv) return;
+      pvAttempts = 0;
+      pvStarted = Date.now();
+      setStatus('loading', '正在准备…');
+      requestPv();
+    });
+  }
+
+  watchPv();
 })();
