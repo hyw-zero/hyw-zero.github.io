@@ -255,5 +255,13 @@
     if (event.key === 'Escape') closePlaylist();
   });
 
-  load();
+  function scheduleLoad() {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(load, { timeout: 1800 });
+    } else {
+      window.setTimeout(load, 1000);
+    }
+  }
+
+  scheduleLoad();
 })();

@@ -54,8 +54,18 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot, { once: true });
+    document.addEventListener('DOMContentLoaded', scheduleBoot, { once: true });
   } else {
-    boot();
+    scheduleBoot();
+  }
+
+  // Keep the mascot off the critical path: the model + texture are by far
+  // the heaviest assets on mobile, so start them after the page is idle.
+  function scheduleBoot() {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(boot, { timeout: 2500 });
+    } else {
+      window.setTimeout(boot, 1200);
+    }
   }
 })();
