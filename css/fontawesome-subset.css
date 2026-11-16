@@ -1,6 +1,6 @@
-@font-face{font-family:"Font Awesome 7 Free";font-style:normal;font-weight:900;font-display:swap;src:url("/fonts/fa-solid.woff2?v=73cc4530") format("woff2")}
-@font-face{font-family:"Font Awesome 7 Free";font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/fa-regular.woff2?v=73cc4530") format("woff2")}
-@font-face{font-family:"Font Awesome 7 Brands";font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/fa-brands.woff2?v=73cc4530") format("woff2")}
+@font-face{font-family:"Font Awesome 7 Free";font-style:normal;font-weight:900;font-display:swap;src:url("/fonts/fa-solid.woff2?v=7de13d44") format("woff2")}
+@font-face{font-family:"Font Awesome 7 Free";font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/fa-regular.woff2?v=7de13d44") format("woff2")}
+@font-face{font-family:"Font Awesome 7 Brands";font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/fa-brands.woff2?v=7de13d44") format("woff2")}
 .fa,.fas,.fa-solid{font-family:"Font Awesome 7 Free";font-weight:900}
 .far,.fa-regular{font-family:"Font Awesome 7 Free";font-weight:400}
 .fab,.fa-brands{font-family:"Font Awesome 7 Brands";font-weight:400}
@@ -11,7 +11,14 @@
 .fa-pulse{animation:fa-spin 1s steps(8) infinite}
 .fa-spin{animation:fa-spin 2s linear infinite}
 @keyframes fa-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fa-algolia::before{content:"\f36c"}
+.fa-angle-down::before{content:"\f107"}
+.fa-check-circle::before{content:"\f058"}
+.fa-copy::before{content:"\f0c5"}
+.fa-file-pdf::before{content:"\f1c1"}
+.fa-frown::before{content:"\f119"}
 .fa-search::before{content:"\f002"}
+.fa-times-circle::before{content:"\f057"}
 .fa-ellipsis::before{content:"\f141"}
 .fa-home::before{content:"\f015"}
 .fa-user::before{content:"\f007"}
@@ -19,7 +26,6 @@
 .fa-th::before{content:"\f00a"}
 .fa-book::before{content:"\f02d"}
 .fa-archive::before{content:"\f187"}
-.fa-times-circle::before{content:"\f057"}
 .fa-spinner::before{content:"\f110"}
 .fa-github::before{content:"\f09b"}
 .fa-envelope::before{content:"\f0e0"}
@@ -40,8 +46,3 @@
 .fa-book-open::before{content:"\f518"}
 .fa-unlock-alt::before{content:"\f13e"}
 .fa-arrow-left::before{content:"\f060"}
-.fa-frown::before{content:"\f119"}
-.fa-algolia::before{content:"\f36c"}
-.fa-copy::before{content:"\f0c5"}
-.fa-check-circle::before{content:"\f058"}
-.fa-angle-down::before{content:"\f107"}

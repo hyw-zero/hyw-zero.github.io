@@ -1217,7 +1217,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ff58ed;
+    background: #ff3e24;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -4179,6 +4179,7 @@ mark.search-keyword {
   width: 68px;
   height: 68px;
   overflow: hidden;
+  background-color: #0b1324;
   border-radius: 13px 0 0 13px;
 }
 .sidebar-music .aplayer .aplayer-info .aplayer-music {
@@ -4248,16 +4249,13 @@ mark.search-keyword {
 .sidebar-music .aplayer .aplayer-info .aplayer-controller .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar {
   background: rgba(255,255,255,0.18);
 }
-.sidebar-music .aplayer .aplayer-pic {
-  background-color: #0b1324;
-}
 .sidebar-music .aplayer .aplayer-list {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
   left: 0;
   z-index: 30;
-  max-height: var(--nemo-list-max, 220px);
+  max-height: 220px;
   overflow-x: hidden;
   overflow-y: auto;
   opacity: 1;
@@ -4280,7 +4278,7 @@ mark.search-keyword {
   transform: translateY(-6px) scale(0.98);
 }
 .sidebar-music .aplayer .aplayer-list ol {
-  max-height: calc(var(--nemo-list-max, 220px) - 2px);
+  max-height: 218px;
 }
 .sidebar-music .aplayer .aplayer-list ol li {
   color: #cbd5e1;
@@ -4419,10 +4417,6 @@ mark.search-keyword {
   }
 }
 @media (max-width: 991px) {
-  #waifu {
-    right: 0 !important;
-    left: auto !important;
-  }
   #waifu #live2d {
     width: clamp(120px, 40vw, 150px) !important;
     height: clamp(120px, 40vw, 150px) !important;
@@ -4754,13 +4748,6 @@ mark.search-keyword {
 .pdf-gate-status[data-state="ready"] .pdf-gate-dot {
   background: #4ade80;
   box-shadow: 0 0 0 3px rgba(74,222,128,0.12);
-}
-.pdf-gate-status[data-state="error"] {
-  color: #fca5a5;
-}
-.pdf-gate-status[data-state="error"] .pdf-gate-dot {
-  background: #f87171;
-  box-shadow: 0 0 0 3px rgba(248,113,113,0.12);
 }
 .pdf-gate-content[hidden] {
   display: none;
