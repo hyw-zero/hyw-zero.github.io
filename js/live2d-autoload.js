@@ -53,19 +53,25 @@
       });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', scheduleBoot, { once: true });
-  } else {
-    scheduleBoot();
+  var bootScheduled = false;
+
+  function scheduleBoot() {
+    if (bootScheduled) return;
+    bootScheduled = true;
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(boot, { timeout: 2000 });
+    } else {
+      window.setTimeout(boot, 800);
+    }
   }
 
-  // Keep the mascot off the critical path: the model + texture are by far
-  // the heaviest assets on mobile, so start them after the page is idle.
-  function scheduleBoot() {
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(boot, { timeout: 2500 });
-    } else {
-      window.setTimeout(boot, 1200);
-    }
+  // The model + texture are the heaviest assets on the page. Wait until the
+  // window load event so they never compete with the article's first paint.
+  if (document.readyState === 'complete') {
+    scheduleBoot();
+  } else {
+    window.addEventListener('load', scheduleBoot, { once: true });
+    window.setTimeout(scheduleBoot, 6000);
   }
 })();
