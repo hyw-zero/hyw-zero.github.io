@@ -30,6 +30,12 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
+  - 'lib/**'
+  - 'pdf/**'
+  - 'js/**'
+  - 'fonts/**'
+  - 'images/**'
+  - 'uploads/**'
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -66,7 +72,7 @@ marked:
 # Generates responsive WebP variants at build time and rewrites <img> tags.
 image_optimizer:
   enable: true
-  widths: [640, 1280]
+  widths: [640, 800, 1280]
   quality: 82
   gif_quality: 60
   min_width: 300

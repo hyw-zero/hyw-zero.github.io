@@ -182,7 +182,9 @@ github_banner:
 # Fonts
 # ---------------------------------------------------------------
 font:
-  enable: true
+  # Latin webfonts are self-hosted under /fonts (see source/_data/styles.styl),
+  # so the theme no longer requests fonts.googleapis.com.
+  enable: false
   host: https://fonts.googleapis.com
   global:
     external: true

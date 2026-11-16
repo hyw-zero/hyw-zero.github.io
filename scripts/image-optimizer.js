@@ -51,11 +51,11 @@ function getConfig(hexo) {
   const raw = (hexo.config && hexo.config.image_optimizer) || {};
   const widths = Array.isArray(raw.widths) && raw.widths.length
     ? raw.widths.map(Number).filter(n => Number.isFinite(n) && n > 0).sort((a, b) => a - b)
-    : [640, 1280];
+    : [640, 800, 1280];
 
   return {
     enable: raw.enable !== false,
-    widths: widths.length ? widths : [640, 1280],
+    widths: widths.length ? widths : [640, 800, 1280],
     quality: Number(raw.quality) || 82,
     gifQuality: Number(raw.gif_quality) || 60,
     minWidth: Number(raw.min_width) || 300,
@@ -204,9 +204,10 @@ async function optimizeImage(hexo, file, relativePath, config, cacheDir) {
   if (width <= config.widths[0]) {
     widths = [width];
   } else {
-    widths = [config.widths[0]];
+    widths = config.widths.filter(w => w < width);
+    if (!widths.length) widths = [config.widths[0]];
     const largest = Math.min(width, config.widths[config.widths.length - 1]);
-    if (largest > config.widths[0]) widths.push(largest);
+    if (largest > widths[widths.length - 1]) widths.push(largest);
   }
   widths = Array.from(new Set(widths)).sort((a, b) => a - b);
 

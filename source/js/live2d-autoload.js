@@ -53,9 +53,25 @@
       });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot, { once: true });
+  var bootScheduled = false;
+
+  function scheduleBoot() {
+    if (bootScheduled) return;
+    bootScheduled = true;
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(boot, { timeout: 2000 });
+    } else {
+      window.setTimeout(boot, 800);
+    }
+  }
+
+  // The model + texture are the heaviest assets on the page. Wait until the
+  // window load event so they never compete with the article's first paint.
+  if (document.readyState === 'complete') {
+    scheduleBoot();
   } else {
-    boot();
+    window.addEventListener('load', scheduleBoot, { once: true });
+    window.setTimeout(scheduleBoot, 6000);
   }
 })();

@@ -36,6 +36,8 @@
     "hexo-util@4.0.0": true
   },
   "devDependencies": {
-    "sharp": "^0.35.5"
+    "@fortawesome/fontawesome-free": "^7.3.1",
+    "sharp": "^0.35.5",
+    "subset-font": "^2.9.0"
   }
 }

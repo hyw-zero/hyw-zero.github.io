@@ -227,6 +227,7 @@ hexo.extend.generator.register('pdf_library', async function () {
         title: config.title,
         description: config.description,
         comments: false,
+        sitemap: false,
         content: renderGate(renderCatalog(items, baseUrl), items.length)
       }
     },
@@ -236,6 +237,7 @@ hexo.extend.generator.register('pdf_library', async function () {
       data: {
         title: 'PDF 阅读器',
         comments: false,
+        sitemap: false,
         content: renderViewer(baseUrl)
       }
     }
