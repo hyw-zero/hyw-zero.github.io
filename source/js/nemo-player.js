@@ -9,8 +9,7 @@
 
   var PLAYLIST = {
     server: 'netease',
-    id: '2392709157', // 轻音乐：解压 / 放松 / 学习 / 助眠
-    label: '轻音乐'
+    id: '2392709157' // 轻音乐：解压 / 放松 / 学习 / 助眠
   };
 
   // Ordered by playback reliability. The first source that returns a
@@ -23,24 +22,14 @@
 
   var player = null;
   var loading = false;
-  var retryHandler = null;
 
   function setStatus(text, isError) {
     statusEl.textContent = text;
     statusEl.classList.toggle('is-error', !!isError);
     statusEl.setAttribute('title', isError ? '点击重新加载' : text);
-
-    if (retryHandler) {
-      statusEl.removeEventListener('click', retryHandler);
-      retryHandler = null;
-    }
-
-    if (isError) {
-      retryHandler = function () {
-        load();
-      };
-      statusEl.addEventListener('click', retryHandler);
-    }
+    statusEl.onclick = isError ? function () {
+      load();
+    } : null;
   }
 
   function normalize(items) {
@@ -157,16 +146,14 @@
         return response.json();
       })
       .then(function (data) {
-        if (timer) window.clearTimeout(timer);
         if (!Array.isArray(data) || !data.length) throw new Error('empty playlist');
 
         var tracks = normalize(data);
         if (!tracks.length) throw new Error('no playable tracks');
         return tracks;
       })
-      .catch(function (error) {
+      .finally(function () {
         if (timer) window.clearTimeout(timer);
-        throw error;
       });
   }
 
@@ -190,13 +177,11 @@
     next();
   }
 
-  // Keep the player at the bottom of the sticky sidebar, as before. The
-  // playlist drops down from the card; its height is clamped to the space
-  // left below the card so it stays reachable on short screens.
+  // Keep the player at the bottom of the sticky sidebar. The playlist drops
+  // down from the card; its height is clamped to the space below the card so
+  // it stays reachable on short screens.
   var sidebar = document.querySelector('.sidebar');
-  if (sidebar) {
-    sidebar.appendChild(musicEl);
-  }
+  if (sidebar) sidebar.appendChild(musicEl);
 
   function syncListHeight() {
     var rect = musicEl.getBoundingClientRect();
@@ -213,7 +198,6 @@
     }
 
     space = Math.max(80, Math.min(220, space));
-    musicEl.style.setProperty('--nemo-list-max', space + 'px');
 
     // APlayer writes listMaxHeight inline, so keep both the container and the
     // inner list in sync with the actual space below the card.
@@ -228,7 +212,6 @@
     return !!(list && !list.classList.contains('aplayer-list-hide'));
   }
 
-  syncListHeight();
   window.addEventListener('resize', syncListHeight);
   window.addEventListener('scroll', function () {
     if (listIsOpen()) syncListHeight();

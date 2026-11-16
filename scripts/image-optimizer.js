@@ -26,6 +26,7 @@ const fs = require('fs');
 const fsp = fs.promises;
 const path = require('path');
 const crypto = require('crypto');
+const { formatBytes } = require('./lib/format');
 
 let sharp = null;
 try {
@@ -39,23 +40,17 @@ try {
 const IMAGE_EXT = /\.(png|jpe?g|gif)$/i;
 const GENERATED_EXT = /-w\d+\.webp$/i;
 const HTML_EXT = /\.html$/i;
-
-function formatBytes(bytes) {
-  if (!bytes) return '0 B';
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
-}
+const DEFAULT_WIDTHS = [640, 800, 1280];
 
 function getConfig(hexo) {
   const raw = (hexo.config && hexo.config.image_optimizer) || {};
   const widths = Array.isArray(raw.widths) && raw.widths.length
     ? raw.widths.map(Number).filter(n => Number.isFinite(n) && n > 0).sort((a, b) => a - b)
-    : [640, 800, 1280];
+    : DEFAULT_WIDTHS;
 
   return {
     enable: raw.enable !== false,
-    widths: widths.length ? widths : [640, 800, 1280],
+    widths: widths.length ? widths : DEFAULT_WIDTHS,
     quality: Number(raw.quality) || 82,
     gifQuality: Number(raw.gif_quality) || 60,
     minWidth: Number(raw.min_width) || 300,
@@ -125,14 +120,14 @@ function setAttr(tag, name, value) {
   return tag.replace(/\s*\/?>$/, match => ` ${name}="${escaped}"${match}`);
 }
 
-function normalizeImagePath(hexo, src) {
+function normalizeImagePath(src, siteUrl) {
   if (!src) return null;
 
   let value = src.trim();
   if (!value || /^(data:|blob:|#|javascript:)/i.test(value)) return null;
 
   if (/^https?:\/\//i.test(value)) {
-    const site = String(hexo.config.url || '').replace(/\/+$/, '');
+    const site = String(siteUrl || '').replace(/\/+$/, '');
     if (!site || !value.startsWith(site + '/')) return null;
     value = value.slice(site.length);
   }
@@ -161,7 +156,7 @@ function rewriteTag(tag, manifest, config) {
   if (/site-author-image|site-brand-image|brand-image|emoji/i.test(className)) return tag;
   if (/\/images\/(?:favicon|logo)/i.test(src)) return tag;
 
-  const key = normalizeImagePath({ config: { url: config.siteUrl } }, src);
+  const key = normalizeImagePath(src, config.siteUrl);
   if (!key) return tag;
 
   const entry = manifest.get(key);

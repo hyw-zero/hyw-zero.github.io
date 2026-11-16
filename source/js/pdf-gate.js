@@ -74,6 +74,7 @@
 
     pvLoading = true;
     pvAttempts += 1;
+    setStatus('loading', '正在准备…');
 
     var callback = 'nemoPv' + Date.now().toString(36) + pvAttempts;
     var script = document.createElement('script');
@@ -109,12 +110,7 @@
     }
 
     window[callback] = function (data) {
-      if (data && applyPv(data.site_pv)) {
-        settled = true;
-        pvLoading = false;
-        cleanup();
-        return;
-      }
+      if (data) applyPv(data.site_pv);
       finish();
     };
 
@@ -128,16 +124,11 @@
     if (sitePv) return;
     if (applyPv(readSitePv())) return;
 
-    var elapsed = Date.now() - pvStarted;
-    if (elapsed >= 2500 && pvAttempts === 0) requestPv();
+    if (pvAttempts === 0 && Date.now() - pvStarted >= 2500) requestPv();
 
-    if (pvAttempts >= MAX_ATTEMPTS && !pvLoading) {
-      setStatus('loading', '暂时无法连接，请稍后再试');
-    } else {
-      setStatus('loading', '正在准备…');
-    }
-
-    window.setTimeout(watchPv, 400);
+    // Keep watching the footer after the JSONP retries run out: a late
+    // Busuanzi response can still unlock the catalog.
+    window.setTimeout(watchPv, pvAttempts >= MAX_ATTEMPTS && !pvLoading ? 1000 : 400);
   }
 
   function decodePayload(text) {

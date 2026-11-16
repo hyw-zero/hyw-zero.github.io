@@ -20,10 +20,11 @@ NEMO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 
 - 深色主题、中文排版与响应式布局，移动端重新适配
 - 桌面端加宽内容区，文章正文更宽；首页摘要图片限高，单屏可见更多文章
-- 文章图片自动生成 640px / 原宽两档 WebP，支持 `srcset` 按屏幕取图
+- 文章图片自动生成 640px / 800px / 原宽三档 WebP，支持 `srcset` 按屏幕取图
 - 原图完整保留，点击图片仍可通过 Fancybox 查看原画质
 - 背景图使用 59KB 的 WebP，首屏更轻
-- Live2D 看板娘（本地模型，不依赖外部 CDN）、点击爱心、NEMO FM（APlayer + Meting 在线音乐）
+- 字体与图标本地化：Lato / Roboto Slab / JetBrains Mono 自托管，Font Awesome 在构建时裁剪为实际使用的图标
+- Live2D 看板娘（6 个本地模型，不依赖外部 CDN）、点击爱心、NEMO FM（APlayer + Meting 在线音乐）
 - 本地搜索、字数统计、阅读时长、文章目录、相关文章
 - PDF 阅读目录：把文件放进 `source/pdf/`，构建时自动生成目录和在线预览页；目录页带密码门禁
 - 文章级版权声明与「本文结束」签名
@@ -36,8 +37,10 @@ NEMO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 ├─ _config.next.yml          # NexT 主题配置（菜单、头像、代码块等）
 ├─ package.json              # 依赖与 npm 脚本
 ├─ scripts/
+│  ├─ fontawesome-subset.js # 构建期 Font Awesome 图标子集
 │  ├─ image-optimizer.js     # 构建期图片优化脚本
-│  └─ pdf-library.js         # PDF 目录与在线阅读页生成器
+│  ├─ pdf-library.js         # PDF 目录与在线阅读页生成器
+│  └─ lib/format.js          # 构建脚本共用工具
 ├─ source/
 │  ├─ _posts/                # 文章（一篇 .md 对应一个同名资源目录）
 │  ├─ _data/
@@ -52,7 +55,7 @@ NEMO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 │  ├─ lib/aplayer/           # 自托管 APlayer 样式与脚本
 │  ├─ lib/live2d/            # 自托管 Live2D 组件与模型
 │  ├─ js/                    # 自定义脚本（含 nemo-player.js 音乐播放器）
-│  └─ fonts/                 # 自托管字体（JetBrains Mono）
+│  └─ fonts/                 # 自托管字体（Lato、Roboto Slab、JetBrains Mono）
 ├─ public/                   # 生成结果（已忽略，不提交）
 └─ .image-cache/             # WebP 缓存（已忽略，可安全删除）
 ```
@@ -73,7 +76,7 @@ cd hyw-zero.github.io
 npm install
 ```
 
-> `npm install` 会安装开发依赖 `sharp`，用于构建期图片优化。若使用 `--omit=dev`，优化脚本会自动跳过，站点仍可正常生成，只是图片不会被转换。
+> `npm install` 会安装开发依赖 `sharp`、`subset-font` 与 Font Awesome，用于构建期图片优化和图标裁剪。若使用 `--omit=dev`，这两个优化脚本会自动跳过，站点仍可正常生成，只是图片不会转换、图标回退到主题默认 CDN。
 
 启动本地预览：
 
@@ -127,13 +130,13 @@ tags:
 `scripts/image-optimizer.js` 会在 `hexo generate` 结束时自动执行：
 
 1. 扫描 `public/` 下的 PNG / JPG / GIF（跳过 `images/`、头像、过小图片）；
-2. 在每张原图旁生成 `<名称>-w640.webp`、`<名称>-w1280.webp`（GIF 转为动态 WebP）；
+2. 在每张原图旁生成 `<名称>-w640.webp`、`<名称>-w800.webp`、`<名称>-w1280.webp`（GIF 转为动态 WebP）；
 3. 重写 HTML 中的 `<img>`：
 
 ```html
 <img
   src="/uploads/demo/img-01-w1280.webp"
-  srcset="/uploads/demo/img-01-w640.webp 640w, /uploads/demo/img-01-w1280.webp 1280w"
+  srcset="/uploads/demo/img-01-w640.webp 640w, /uploads/demo/img-01-w800.webp 800w, /uploads/demo/img-01-w1280.webp 1280w"
   sizes="(max-width: 767px) calc(100vw - 65px), ..., 780px"
   data-src="/uploads/demo/img-01.png"
   width="1397" height="425"
@@ -150,7 +153,7 @@ tags:
 ```yaml
 image_optimizer:
   enable: true
-  widths: [640, 1280]  # 生成的宽度档位
+  widths: [640, 800, 1280]  # 生成的宽度档位
   quality: 82          # WebP 质量（静态图）
   gif_quality: 60      # WebP 质量（动态 GIF）
   min_width: 300       # 小于该宽度不处理
@@ -239,7 +242,7 @@ deploy:
 | `source/js/pdf-gate.js` | 图书页密码门禁：校验密码后加载目录 |
 | `source/js/nemo-player.js` | NEMO FM 播放器：歌单加载、API 回退、错误跳过 |
 | `source/lib/aplayer/` | APlayer 静态资源（本地加载，不依赖 CDN） |
-| `source/lib/live2d/` | Live2D 组件、提示语与 Tia 模型（本地加载，不依赖 CDN） |
+| `source/lib/live2d/` | Live2D 组件、提示语与 6 个本地模型（不依赖 CDN） |
 
 `source/_data/` 下的文件会覆盖主题默认值，升级 NexT 时无需改动 `node_modules`。
 

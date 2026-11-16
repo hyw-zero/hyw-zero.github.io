@@ -182,28 +182,13 @@ github_banner:
 # Fonts
 # ---------------------------------------------------------------
 font:
-  # Latin webfonts are self-hosted under /fonts (see source/_data/styles.styl),
-  # so the theme no longer requests fonts.googleapis.com.
+  # Disable remote Google Fonts. The families below only feed the theme's
+  # Stylus variables; the actual Latin faces are self-hosted in styles.styl.
   enable: false
-  host: https://fonts.googleapis.com
   global:
-    external: true
     family: Lato
-    size:
-  title:
-    external: true
-    family:
-    size:
   headings:
-    external: true
     family: Roboto Slab
-    size:
-  posts:
-    external: true
-    family:
-  codes:
-    external: false
-    family:
 
 # ---------------------------------------------------------------
 # SEO

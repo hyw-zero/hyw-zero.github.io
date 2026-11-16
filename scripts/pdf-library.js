@@ -14,6 +14,7 @@
 const fs = require('fs');
 const fsp = fs.promises;
 const path = require('path');
+const { formatBytes } = require('./lib/format');
 
 const DEFAULTS = {
   dir: 'pdf',
@@ -71,13 +72,6 @@ function encodePath(relativePath) {
   return relativePath.split('/').map(encodeURIComponent).join('/');
 }
 
-function formatSize(bytes) {
-  if (!bytes) return '0 B';
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
-}
-
 function renderEmpty() {
   return [
     '<div class="pdf-empty">',
@@ -101,7 +95,7 @@ function renderCatalog(items, baseUrl) {
       '    <span class="pdf-card-icon" aria-hidden="true"><i class="far fa-file-pdf"></i></span>',
       '    <div>',
       `      <a class="pdf-card-title" href="${escapeHtml(viewerUrl)}">${escapeHtml(item.title)}</a>`,
-      `      <div class="pdf-card-meta">${folder}${formatSize(item.bytes)}</div>`,
+      `      <div class="pdf-card-meta">${folder}${formatBytes(item.bytes)}</div>`,
       '    </div>',
       '  </div>',
       '  <div class="pdf-card-actions">',
@@ -113,7 +107,7 @@ function renderCatalog(items, baseUrl) {
   }).join('\n');
 
   return [
-    `<p class="pdf-library-summary">共 ${items.length} 个文件 · ${formatSize(totalBytes)}</p>`,
+    `<p class="pdf-library-summary">共 ${items.length} 个文件 · ${formatBytes(totalBytes)}</p>`,
     '<div class="pdf-library">',
     cards,
     '</div>'

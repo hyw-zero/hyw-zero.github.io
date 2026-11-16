@@ -17,10 +17,19 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const subsetFont = require('subset-font');
 
 const FA_PACKAGE = '@fortawesome/fontawesome-free';
-const FA_CSS = path.join(path.dirname(require.resolve(FA_PACKAGE + '/package.json')), 'css', 'all.css');
+
+// These are devDependencies: `npm install --omit=dev` should still produce a
+// working site, only without the icon subset.
+let subsetFont = null;
+let FA_CSS = '';
+try {
+  subsetFont = require('subset-font');
+  FA_CSS = path.join(path.dirname(require.resolve(FA_PACKAGE + '/package.json')), 'css', 'all.css');
+} catch (err) {
+  subsetFont = null;
+}
 
 // Classes that are injected by theme JS rather than present in static HTML.
 const SAFELIST = [
@@ -28,6 +37,7 @@ const SAFELIST = [
   'fa-angle-down',
   'fa-check-circle',
   'fa-copy',
+  'fa-file-pdf',
   'fa-frown',
   'fa-search',
   'fa-times-circle'
@@ -95,7 +105,7 @@ function buildCss(icons, version) {
   return rules.join('\n');
 }
 
-async function writeSubset(publicDir, sourceName, outName, text, version) {
+async function writeSubset(publicDir, sourceName, outName, text) {
   const input = fs.readFileSync(path.join(path.dirname(FA_CSS), '..', 'webfonts', sourceName));
   const output = await subsetFont(input, text, { targetFormat: 'woff2' });
   fs.writeFileSync(path.join(publicDir, 'fonts', outName), output);
@@ -106,8 +116,15 @@ async function run(hexo) {
   const publicDir = hexo.public_dir;
   if (!publicDir || !fs.existsSync(publicDir)) return;
 
+  if (!subsetFont || !FA_CSS) {
+    hexo.log.warn('Font Awesome subset: build dependencies are missing; skipping.');
+    return;
+  }
+
   const iconMap = parseIconMap();
-  const used = new Set(SAFELIST);
+  // SAFELIST uses full class names for readability; the icon map is keyed by
+  // the name without the `fa-` prefix.
+  const used = new Set(SAFELIST.map(name => name.slice(3)));
 
   const htmlFiles = walk(publicDir, file => file.endsWith('.html'));
   for (const file of htmlFiles) {
@@ -115,10 +132,8 @@ async function run(hexo) {
     collectClassTokens(html, used);
   }
 
-  for (const dir of [path.join(publicDir, 'js'), path.join(hexo.base_dir, 'source', 'js')]) {
-    for (const file of walk(dir, name => name.endsWith('.js'))) {
-      collectClassTokens(fs.readFileSync(file, 'utf8'), used);
-    }
+  for (const file of walk(path.join(publicDir, 'js'), name => name.endsWith('.js'))) {
+    collectClassTokens(fs.readFileSync(file, 'utf8'), used);
   }
 
   const icons = new Map();
@@ -137,13 +152,13 @@ async function run(hexo) {
   fs.mkdirSync(path.join(publicDir, 'css'), { recursive: true });
 
   const sizes = {};
-  sizes.solid = await writeSubset(publicDir, 'fa-solid-900.woff2', 'fa-solid.woff2', glyphs, version);
-  sizes.regular = await writeSubset(publicDir, 'fa-regular-400.woff2', 'fa-regular.woff2', glyphs, version);
-  sizes.brands = await writeSubset(publicDir, 'fa-brands-400.woff2', 'fa-brands.woff2', glyphs, version);
+  sizes.solid = await writeSubset(publicDir, 'fa-solid-900.woff2', 'fa-solid.woff2', glyphs);
+  sizes.regular = await writeSubset(publicDir, 'fa-regular-400.woff2', 'fa-regular.woff2', glyphs);
+  sizes.brands = await writeSubset(publicDir, 'fa-brands-400.woff2', 'fa-brands.woff2', glyphs);
 
   fs.writeFileSync(path.join(publicDir, 'css', 'fontawesome-subset.css'), finalCss);
 
-  const faLink = /<link\b[^>]*href="https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/font-awesome\/[^"]*\/css\/all\.min\.css"[^>]*>/g;
+  const faLink = /<link\b[^>]*href="(?:https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/font-awesome\/[^"]*\/css\/all\.min\.css|\/css\/fontawesome-subset\.css)(?:\?v=[a-f0-9]+)?"[^>]*>/g;
   let rewritten = 0;
   for (const file of htmlFiles) {
     const html = fs.readFileSync(file, 'utf8');

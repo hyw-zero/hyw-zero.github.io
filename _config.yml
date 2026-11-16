@@ -30,12 +30,8 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
+  # Keep Live2D JSON model files out of the page/sitemap pipeline.
   - 'lib/**'
-  - 'pdf/**'
-  - 'js/**'
-  - 'fonts/**'
-  - 'images/**'
-  - 'uploads/**'
 
 # Writing
 new_post_name: :title.md # File name of new posts

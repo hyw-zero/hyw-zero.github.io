@@ -1691,6 +1691,7 @@ mark.search-keyword {
   width: 68px;
   height: 68px;
   overflow: hidden;
+  background-color: #0b1324;
   border-radius: 13px 0 0 13px;
 }
 
@@ -1780,10 +1781,6 @@ mark.search-keyword {
   background: rgba(255, 255, 255, 0.18);
 }
 
-.sidebar-music .aplayer .aplayer-pic {
-  background-color: #0b1324;
-}
-
 // Floating playlist: anchored to the card and dropped below it so the
 // sidebar layout never grows. The max height is clamped by nemo-player.js
 // to the space left in the viewport, keeping the list reachable on short
@@ -1794,7 +1791,7 @@ mark.search-keyword {
   right: 0;
   left: 0;
   z-index: 30;
-  max-height: var(--nemo-list-max, 220px);
+  max-height: 220px;
   overflow-x: hidden;
   overflow-y: auto;
   opacity: 1;
@@ -1819,7 +1816,7 @@ mark.search-keyword {
 }
 
 .sidebar-music .aplayer .aplayer-list ol {
-  max-height: calc(var(--nemo-list-max, 220px) - 2px);
+  max-height: 218px;
 }
 
 .sidebar-music .aplayer .aplayer-list ol li {
@@ -1994,11 +1991,6 @@ mark.search-keyword {
 }
 
 @media (max-width: 991px) {
-  #waifu {
-    right: 0 !important;
-    left: auto !important;
-  }
-
   #waifu #live2d {
     width: clamp(120px, 40vw, 150px) !important;
     height: clamp(120px, 40vw, 150px) !important;
@@ -2385,15 +2377,6 @@ mark.search-keyword {
 .pdf-gate-status[data-state="ready"] .pdf-gate-dot {
   background: #4ade80;
   box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12);
-}
-
-.pdf-gate-status[data-state="error"] {
-  color: #fca5a5;
-}
-
-.pdf-gate-status[data-state="error"] .pdf-gate-dot {
-  background: #f87171;
-  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.12);
 }
 
 .pdf-gate-content[hidden] {
