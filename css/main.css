@@ -1217,7 +1217,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ff3e24;
+    background: #14ff78;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -4587,8 +4587,28 @@ mark.search-keyword {
   background: rgba(245,158,11,0.1);
   border-radius: 6px;
 }
+.post-encrypted-note {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 4px 0 8px;
+  padding: 14px 18px;
+  color: #cbd5e1;
+  font-size: 13.5px;
+  line-height: 1.6;
+  background: linear-gradient(160deg, rgba(18,29,51,0.94), rgba(14,19,36,0.9));
+  border: 1px solid rgba(245,158,11,0.22);
+  border-radius: 14px;
+}
+.post-encrypted-note > i {
+  color: #fbbf24;
+  font-size: 14px;
+}
 .pdf-gate {
   max-width: 100%;
+}
+.post-gate {
+  margin: 4px 0 10px;
 }
 .pdf-gate-lock {
   position: relative;

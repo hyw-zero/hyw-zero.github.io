@@ -339,7 +339,8 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>前面学习APB总线时，由于内容不多就直接将APB4手册翻译了下。到了AHB总线再这样学习就不好了，一是逐句翻译太累人，二是原文翻译过来划不清重点。因此AHB总线以学习笔记的形式记录下来，但其实大多数也就是手册的翻译和理解。</p>
+    <div class="post-body" itemprop="articleBody">
+<p>前面学习APB总线时，由于内容不多就直接将APB4手册翻译了下。到了AHB总线再这样学习就不好了，一是逐句翻译太累人，二是原文翻译过来划不清重点。因此AHB总线以学习笔记的形式记录下来，但其实大多数也就是手册的翻译和理解。</p>
 <h2 id="1-AHB特点"><a href="#1-AHB特点" class="headerlink" title="1 AHB特点"></a>1 AHB特点</h2><p>AHB协议相比APB协议更加复杂，性能更加优越，手册上也清楚写明了它的特点：高性能、流水线、突发、多主机、分段传输，原文如下所示：</p>
 <p><img src="/uploads/amba/amba-bus-2-ahb/img-01-w972.webp" loading="lazy" srcset="/uploads/amba/amba-bus-2-ahb/img-01-w640.webp 640w, /uploads/amba/amba-bus-2-ahb/img-01-w800.webp 800w, /uploads/amba/amba-bus-2-ahb/img-01-w972.webp 972w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-2-ahb/img-01.png" width="972" height="512" decoding="async"></p>
 <p>注意这是AHB2中的描述，到了AHB-lite和AHB5中，AHB协议本身不再支持多主机操作，也去除了仲裁相关的若干信号，但可通过添加Multi-layer interconnect组件实现多主机功能。也不再支持分段传输Split，去除了HSPLITx信号。因此和APB相比，最大的不同是AHB支持流水线操作和突发操作。</p>
@@ -714,7 +715,7 @@
 <script src="/js/third-party/comments/livere.js" defer></script>
 <script src="/js/clicklove.js"></script>
 <script src="/js/live2d-autoload.js?v=6"></script>
-<script src="/js/pdf-gate.js?v=5"></script>
+<script src="/js/pdf-gate.js?v=6"></script>
 
 <link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
 <script src="/lib/aplayer/APlayer.min.js"></script>
