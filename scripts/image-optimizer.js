@@ -176,6 +176,37 @@ function rewriteTag(tag, manifest, config) {
   return out;
 }
 
+// Encrypted posts and the PDF catalog hide their HTML in a base64 payload.
+// Rewrite images inside that payload too, otherwise protected posts would load
+// the original full-size files after unlocking.
+const GATE_PAYLOAD_RE = /(<script\b[^>]*\bclass="[^"]*\bpdf-gate-payload\b[^"]*"[^>]*>)([\s\S]*?)(<\/script>)/gi;
+
+function rewritePayloadImages(html, manifest, config) {
+  let count = 0;
+
+  const next = html.replace(GATE_PAYLOAD_RE, (match, open, payload, close) => {
+    let decoded;
+    try {
+      decoded = Buffer.from(payload.trim(), 'base64').toString('utf8');
+    } catch (err) {
+      return match;
+    }
+
+    let changed = 0;
+    const rewritten = decoded.replace(/<img\b[^>]*>/gi, tag => {
+      const updated = rewriteTag(tag, manifest, config);
+      if (updated !== tag) changed++;
+      return updated;
+    });
+
+    if (!changed) return match;
+    count += changed;
+    return open + Buffer.from(rewritten, 'utf8').toString('base64') + close;
+  });
+
+  return { html: next, count };
+}
+
 async function optimizeImage(hexo, file, relativePath, config, cacheDir) {
   const stat = await fsp.stat(file);
   if (stat.size < config.minBytes) return null;
@@ -395,8 +426,11 @@ async function run(hexo, config) {
       return updated;
     });
 
+    const payloads = rewritePayloadImages(next, manifest, { ...config, siteUrl: hexo.config.url });
+    count += payloads.count;
+
     if (count > 0) {
-      await fsp.writeFile(file, next);
+      await fsp.writeFile(file, payloads.html);
       rewrittenFiles++;
       rewrittenImages += count;
     }

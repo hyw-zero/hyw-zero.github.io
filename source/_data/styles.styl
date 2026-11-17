@@ -2192,10 +2192,35 @@ mark.search-keyword {
   border-radius: 6px;
 }
 
+// Locked-post notice shown in place of the excerpt on list pages.
+.post-encrypted-note {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 4px 0 8px;
+  padding: 14px 18px;
+  color: #cbd5e1;
+  font-size: 13.5px;
+  line-height: 1.6;
+  background: linear-gradient(160deg, rgba(18, 29, 51, 0.94), rgba(14, 19, 36, 0.9));
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  border-radius: 14px;
+}
+
+.post-encrypted-note > i {
+  color: #fbbf24;
+  font-size: 14px;
+}
+
 // Encrypted library gate: keep the catalog out of view until the visitor
-// enters the current site-wide visitor count from the footer.
+// enters the current site-wide visitor count from the footer. The same
+// component is reused at the start of encrypted post bodies.
 .pdf-gate {
   max-width: 100%;
+}
+
+.post-gate {
+  margin: 4px 0 10px;
 }
 
 .pdf-gate-lock {

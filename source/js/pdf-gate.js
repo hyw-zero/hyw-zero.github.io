@@ -1,13 +1,14 @@
-/* NEMO · PDF library access gate
+/* NEMO · client-side content gate
  *
- * Client-side gate for the private PDF shelf. The catalog is decoded only
- * after the password check succeeds. GitHub Pages cannot enforce server-side
- * access control, so the PDF files remain directly reachable by URL.
+ * Shared by the private PDF shelf and encrypted posts. The payload is decoded
+ * only after the visitor enters the shared password. GitHub Pages cannot
+ * enforce server-side access control, so protected content remains decodable
+ * from the page source.
  */
 (function () {
   'use strict';
 
-  var gate = document.querySelector('[data-pdf-gate]');
+  var gate = document.querySelector('[data-pdf-gate], [data-post-gate]');
   if (!gate) return;
 
   var form = gate.querySelector('.pdf-gate-form');

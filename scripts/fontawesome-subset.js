@@ -61,6 +61,21 @@ function collectClassTokens(text, found) {
   while ((match = re.exec(text))) found.add(match[0].slice(3));
 }
 
+// Encrypted posts and the PDF catalog keep their HTML in a base64 payload, so
+// icons used only inside that content would otherwise be missing from the
+// subset.
+function collectPayloadTokens(html, found) {
+  const re = /<script\b[^>]*\bclass="[^"]*\bpdf-gate-payload\b[^"]*"[^>]*>([\s\S]*?)<\/script>/gi;
+  for (const match of html.matchAll(re)) {
+    try {
+      const decoded = Buffer.from(match[1].trim(), 'base64').toString('utf8');
+      collectClassTokens(decoded, found);
+    } catch (err) {
+      // Ignore malformed payloads; the gate reports decoding errors at runtime.
+    }
+  }
+}
+
 function parseIconMap() {
   const css = fs.readFileSync(FA_CSS, 'utf8');
   const map = new Map();
@@ -130,6 +145,7 @@ async function run(hexo) {
   for (const file of htmlFiles) {
     const html = fs.readFileSync(file, 'utf8');
     collectClassTokens(html, used);
+    collectPayloadTokens(html, used);
   }
 
   for (const file of walk(path.join(publicDir, 'js'), name => name.endsWith('.js'))) {

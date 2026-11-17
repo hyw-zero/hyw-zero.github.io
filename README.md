@@ -27,6 +27,7 @@ NEMO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 - Live2D 看板娘（6 个本地模型，不依赖外部 CDN）、点击爱心、NEMO FM（APlayer + Meting 在线音乐）
 - 本地搜索、字数统计、阅读时长、文章目录、相关文章
 - PDF 阅读目录：把文件放进 `source/pdf/`，构建时自动生成目录和在线预览页；目录页带密码门禁
+- 文章级密码门禁：front-matter 设置 `encryption: true` 后，正文与 PDF 图书馆共用同一访问密码
 - 文章级版权声明与「本文结束」签名
 
 ## 目录结构
@@ -200,6 +201,24 @@ pdf_library:
   description: 课程讲义、技术手册与学习笔记，支持在线预览和下载。
 ```
 
+## 文章加密
+
+在文章的 front matter 中加入 `encryption: true`：
+
+```yaml
+---
+title: 私人笔记
+date: 2026-11-17 10:00:00
+tags:
+  - 笔记
+encryption: true
+---
+```
+
+生成后正文会从页面源码中移出并编码为 payload；打开文章页时，输入与 PDF 图书馆相同的访问密码即可在浏览器中解锁。首页与归档页只显示加密提示，本地搜索不收录正文。加密文章中的图片同样会生成 WebP 响应式版本，解锁后正常加载。
+
+> 与 PDF 图书馆一样，这是纯前端门禁。GitHub Pages 无法提供服务端访问控制，payload 仍可从页面源码中解码；请勿用它保护真正敏感的机密信息。
+
 ## 构建与部署
 
 ```bash
@@ -238,9 +257,11 @@ deploy:
 | `source/_data/languages.yml` | 菜单等文案的翻译覆盖（如「图书」） |
 | `source/_data/body-end.njk` | Live2D、点击爱心、音乐播放器注入 |
 | `source/_data/post-body-end.njk` | 文章底部版权声明 |
+| `source/_data/post-gate.njk` | 加密文章的解锁表单 |
 | `source/js/live2d-autoload.js` | Live2D 启动逻辑（本地加载，无外部 CDN） |
-| `source/js/pdf-gate.js` | 图书页密码门禁：校验密码后加载目录 |
+| `source/js/pdf-gate.js` | 密码门禁：图书目录与加密文章共用 |
 | `source/js/nemo-player.js` | NEMO FM 播放器：歌单加载、API 回退、错误跳过 |
+| `scripts/post-encryption.js` | 构建期文章加密：把正文转为 base64 payload |
 | `source/lib/aplayer/` | APlayer 静态资源（本地加载，不依赖 CDN） |
 | `source/lib/live2d/` | Live2D 组件、提示语与 6 个本地模型（不依赖 CDN） |
 

@@ -1,0 +1,22 @@
+{% if page.encryption and page.encryptedPayload %}
+<div class="pdf-gate post-gate" data-post-gate>
+  <section class="pdf-gate-lock" aria-labelledby="post-gate-title">
+    <span class="pdf-gate-kicker"><i class="fa fa-lock" aria-hidden="true"></i> NEMO PRIVATE</span>
+    <span class="pdf-gate-icon" aria-hidden="true"><i class="fa fa-book-open"></i></span>
+    <p class="pdf-gate-title" id="post-gate-title">文章已加密</p>
+    <p class="pdf-gate-copy">私人笔记 · 输入访问密码后阅读</p>
+    <form class="pdf-gate-form" novalidate>
+      <label class="pdf-gate-label" for="post-gate-input">密码</label>
+      <div class="pdf-gate-row">
+        <input class="pdf-gate-input" id="post-gate-input" name="password" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="12" autocomplete="off" spellcheck="false" placeholder="输入密码">
+        <button class="pdf-gate-submit" type="submit"><i class="fa fa-unlock-alt" aria-hidden="true"></i><span>解锁</span></button>
+      </div>
+      <p class="pdf-gate-error" role="alert" aria-live="polite"></p>
+    </form>
+    <p class="pdf-gate-status" data-state="loading" aria-live="polite"><span class="pdf-gate-dot" aria-hidden="true"></span><span class="pdf-gate-status-text">正在准备…</span></p>
+    <noscript><p class="pdf-gate-noscript">需要启用 JavaScript 才能解锁文章。</p></noscript>
+  </section>
+  <div class="pdf-gate-content" hidden></div>
+  <script type="application/octet-stream" class="pdf-gate-payload">{{ page.encryptedPayload }}</script>
+</div>
+{% endif %}

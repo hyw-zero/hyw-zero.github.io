@@ -286,6 +286,7 @@ local_search:
 custom_file_path:
   variable: source/_data/variables.styl
   style: source/_data/styles.styl
+  postBodyStart: source/_data/post-gate.njk
   postBodyEnd: source/_data/post-body-end.njk
   bodyEnd: source/_data/body-end.njk
 
