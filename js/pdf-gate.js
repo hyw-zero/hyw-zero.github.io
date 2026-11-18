@@ -1,9 +1,9 @@
 /* NEMO · client-side content gate
  *
- * Shared by the private PDF shelf and encrypted posts. The payload is decoded
- * only after the visitor enters the shared password. GitHub Pages cannot
- * enforce server-side access control, so protected content remains decodable
- * from the page source.
+ * Shared by the private PDF shelf and encrypted posts. The password is set in
+ * `_config.yml` (`content_gate.password`) and only its SHA-256 hash is present
+ * in the page. GitHub Pages cannot enforce server-side access control, so
+ * protected content remains decodable from the page source.
  */
 (function () {
   'use strict';
@@ -21,21 +21,12 @@
   var lock = gate.querySelector('.pdf-gate-lock');
   if (!form || !input || !content || !payloadEl) return;
 
-  var sitePv = '';
-  var pvStarted = Date.now();
-  var pvAttempts = 0;
-  var pvLoading = false;
-  var MAX_ATTEMPTS = 8;
+  var passwordHash = String(gate.getAttribute('data-password-hash') || '').toLowerCase();
+  var submitButton = form.querySelector('button[type="submit"]');
+  var checking = false;
 
   function normalize(value) {
-    return String(value || '')
-      .replace(/[^\d]/g, '')
-      .replace(/^0+(?=\d)/, '');
-  }
-
-  function readSitePv() {
-    var el = document.getElementById('busuanzi_value_site_pv');
-    return el ? normalize(el.textContent) : '';
+    return String(value || '').replace(/[^\d]/g, '');
   }
 
   function setStatus(state, text) {
@@ -47,89 +38,6 @@
   function setError(message) {
     if (errorEl) errorEl.textContent = message || '';
     input.setAttribute('aria-invalid', message ? 'true' : 'false');
-  }
-
-  function applyPv(value) {
-    var pv = normalize(value);
-    if (!pv) return false;
-    if (sitePv) return true;
-
-    sitePv = pv;
-
-    // If the Busuanzi script failed but the API fallback worked, keep the
-    // footer consistent with the number the gate is now using.
-    var el = document.getElementById('busuanzi_value_site_pv');
-    if (el && !normalize(el.textContent)) el.textContent = pv;
-    var container = document.getElementById('busuanzi_container_site_pv');
-    if (container) container.style.display = 'inline';
-
-    setStatus('ready', '已就绪');
-    return true;
-  }
-
-  // Busuanzi occasionally drops its JSONP request on rapid refreshes. Retry
-  // the same public endpoint directly before giving up, instead of asking
-  // the visitor to refresh the whole page.
-  function requestPv() {
-    if (sitePv || pvLoading || pvAttempts >= MAX_ATTEMPTS) return;
-
-    pvLoading = true;
-    pvAttempts += 1;
-    setStatus('loading', '正在准备…');
-
-    var callback = 'nemoPv' + Date.now().toString(36) + pvAttempts;
-    var script = document.createElement('script');
-    var settled = false;
-    var timer = window.setTimeout(function () {
-      finish();
-    }, 6000);
-
-    function cleanup() {
-      window.clearTimeout(timer);
-      try {
-        delete window[callback];
-      } catch (err) {
-        window[callback] = undefined;
-      }
-      if (script.parentNode) script.parentNode.removeChild(script);
-    }
-
-    function finish() {
-      if (settled) return;
-      settled = true;
-      pvLoading = false;
-      cleanup();
-
-      if (sitePv) return;
-
-      if (pvAttempts >= MAX_ATTEMPTS) {
-        setStatus('loading', '暂时无法连接，请稍后再试');
-        return;
-      }
-
-      window.setTimeout(requestPv, Math.min(1000 + pvAttempts * 1000, 5000));
-    }
-
-    window[callback] = function (data) {
-      if (data) applyPv(data.site_pv);
-      finish();
-    };
-
-    script.src = 'https://busuanzi.ibruce.info/busuanzi?jsonpCallback=' + encodeURIComponent(callback) + '&t=' + Date.now();
-    script.async = true;
-    script.onerror = finish;
-    document.head.appendChild(script);
-  }
-
-  function watchPv() {
-    if (sitePv) return;
-    if (applyPv(readSitePv())) return;
-
-    if (pvAttempts === 0 && Date.now() - pvStarted >= 2500) requestPv();
-
-    // Keep watching the footer after the JSONP retries run out: a late
-    // Busuanzi response can still unlock the catalog.
-    window.setTimeout(watchPv, pvAttempts >= MAX_ATTEMPTS && !pvLoading ? 1000 : 400);
   }
 
   function decodePayload(text) {
@@ -148,7 +56,7 @@
     try {
       content.innerHTML = decodePayload(payloadEl.textContent.trim());
     } catch (err) {
-      setError('目录读取失败，请稍后再试。');
+      setError('内容读取失败，请稍后再试。');
       return;
     }
 
@@ -156,6 +64,18 @@
     gate.classList.add('is-unlocked');
     if (lock) lock.setAttribute('aria-hidden', 'true');
     payloadEl.remove();
+  }
+
+  function sha256(text) {
+    if (!window.crypto || !window.crypto.subtle || !window.TextEncoder) {
+      return Promise.reject(new Error('SHA-256 is unavailable'));
+    }
+    var data = new TextEncoder().encode(text);
+    return window.crypto.subtle.digest('SHA-256', data).then(function (buffer) {
+      return Array.prototype.map.call(new Uint8Array(buffer), function (byte) {
+        return ('0' + byte.toString(16)).slice(-2);
+      }).join('');
+    });
   }
 
   input.addEventListener('input', function () {
@@ -166,13 +86,7 @@
 
   form.addEventListener('submit', function (event) {
     event.preventDefault();
-
-    if (!sitePv) sitePv = readSitePv();
-    if (!sitePv) {
-      setError('请稍候再试。');
-      if (pvAttempts === 0 && !pvLoading) requestPv();
-      return;
-    }
+    if (checking) return;
 
     var value = normalize(input.value);
     if (!value) {
@@ -181,24 +95,33 @@
       return;
     }
 
-    if (value === sitePv) {
-      setError('');
-      unlock();
-    } else {
-      setError('密码不对，请重试。');
-      input.select();
+    if (!passwordHash) {
+      setError('门禁未配置，请联系站长。');
+      return;
     }
+
+    setError('');
+    checking = true;
+    if (submitButton) submitButton.disabled = true;
+
+    sha256(value).then(function (hash) {
+      if (hash === passwordHash) {
+        unlock();
+      } else {
+        setError('密码不对，请重试。');
+        input.select();
+      }
+    }).catch(function () {
+      setError('当前浏览器无法完成校验，请更换浏览器。');
+    }).then(function () {
+      checking = false;
+      if (submitButton) submitButton.disabled = false;
+    });
   });
 
-  if (statusEl) {
-    statusEl.addEventListener('click', function () {
-      if (sitePv) return;
-      pvAttempts = 0;
-      pvStarted = Date.now();
-      setStatus('loading', '正在准备…');
-      requestPv();
-    });
+  if (passwordHash) {
+    setStatus('ready', '已就绪');
+  } else {
+    setStatus('error', '未配置');
   }
-
-  watchPv();
 })();
