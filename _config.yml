@@ -84,11 +84,8 @@ pdf_library:
   title: PDF 阅读
   description: 课程讲义、技术手册与学习笔记，支持在线预览和下载。
 
-# Content gate (PDF library + encrypted posts)
-# The password is checked in the browser, so it is not real access control.
-# Keep it numeric: the unlock form only accepts digits.
-content_gate:
-  password: "27215592"
+# The PDF library and encrypted posts use the current site total page views
+# (the footer's 总访问量) as their password. No fixed password is stored.
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')

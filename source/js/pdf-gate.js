@@ -1,9 +1,10 @@
 /* NEMO · client-side content gate
  *
- * Shared by the private PDF shelf and encrypted posts. The password is set in
- * `_config.yml` (`content_gate.password`) and only its SHA-256 hash is present
- * in the page. GitHub Pages cannot enforce server-side access control, so
- * protected content remains decodable from the page source.
+ * Shared by the private PDF shelf and encrypted posts. The password is the
+ * site's current total page views shown in the footer (Busuanzi site PV), so
+ * it follows the same counter as the visit statistics. GitHub Pages cannot
+ * enforce server-side access control, so protected content remains decodable
+ * from the page source.
  */
 (function () {
   'use strict';
@@ -21,12 +22,22 @@
   var lock = gate.querySelector('.pdf-gate-lock');
   if (!form || !input || !content || !payloadEl) return;
 
-  var passwordHash = String(gate.getAttribute('data-password-hash') || '').toLowerCase();
-  var submitButton = form.querySelector('button[type="submit"]');
-  var checking = false;
+  var sitePv = '';
+  var pvDeadline = Date.now() + 20000;
 
   function normalize(value) {
-    return String(value || '').replace(/[^\d]/g, '');
+    return String(value || '')
+      .replace(/[^\d]/g, '')
+      .replace(/^0+(?=\d)/, '');
+  }
+
+  function readSitePv() {
+    var el = document.getElementById('busuanzi_site_pv');
+    if (!el) return '';
+
+    var raw = el.textContent.trim();
+    if (!/^[\d,]+$/.test(raw)) return '';
+    return normalize(raw);
   }
 
   function setStatus(state, text) {
@@ -38,6 +49,26 @@
   function setError(message) {
     if (errorEl) errorEl.textContent = message || '';
     input.setAttribute('aria-invalid', message ? 'true' : 'false');
+  }
+
+  function markReady(value) {
+    sitePv = value;
+    setStatus('ready', '已就绪');
+  }
+
+  function watchPv() {
+    var value = readSitePv();
+    if (value) {
+      markReady(value);
+      return;
+    }
+
+    if (Date.now() >= pvDeadline) {
+      setStatus('error', '暂时无法解锁');
+      return;
+    }
+
+    window.setTimeout(watchPv, 300);
   }
 
   function decodePayload(text) {
@@ -63,19 +94,8 @@
     content.hidden = false;
     gate.classList.add('is-unlocked');
     if (lock) lock.setAttribute('aria-hidden', 'true');
+    input.value = '';
     payloadEl.remove();
-  }
-
-  function sha256(text) {
-    if (!window.crypto || !window.crypto.subtle || !window.TextEncoder) {
-      return Promise.reject(new Error('SHA-256 is unavailable'));
-    }
-    var data = new TextEncoder().encode(text);
-    return window.crypto.subtle.digest('SHA-256', data).then(function (buffer) {
-      return Array.prototype.map.call(new Uint8Array(buffer), function (byte) {
-        return ('0' + byte.toString(16)).slice(-2);
-      }).join('');
-    });
   }
 
   input.addEventListener('input', function () {
@@ -86,7 +106,14 @@
 
   form.addEventListener('submit', function (event) {
     event.preventDefault();
-    if (checking) return;
+
+    var current = readSitePv();
+    if (current) sitePv = current;
+
+    if (!sitePv) {
+      setError('请稍后再试。');
+      return;
+    }
 
     var value = normalize(input.value);
     if (!value) {
@@ -95,33 +122,14 @@
       return;
     }
 
-    if (!passwordHash) {
-      setError('门禁未配置，请联系站长。');
-      return;
+    if (value === sitePv) {
+      setError('');
+      unlock();
+    } else {
+      setError('密码不对，请重试。');
+      input.select();
     }
-
-    setError('');
-    checking = true;
-    if (submitButton) submitButton.disabled = true;
-
-    sha256(value).then(function (hash) {
-      if (hash === passwordHash) {
-        unlock();
-      } else {
-        setError('密码不对，请重试。');
-        input.select();
-      }
-    }).catch(function () {
-      setError('当前浏览器无法完成校验，请更换浏览器。');
-    }).then(function () {
-      checking = false;
-      if (submitButton) submitButton.disabled = false;
-    });
   });
 
-  if (passwordHash) {
-    setStatus('ready', '已就绪');
-  } else {
-    setStatus('error', '未配置');
-  }
+  watchPv();
 })();

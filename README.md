@@ -27,7 +27,7 @@ NEMO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 - Live2D 看板娘（6 个本地模型，不依赖外部 CDN）、点击爱心、NEMO FM（APlayer + Meting 在线音乐）
 - 本地搜索、字数统计、阅读时长、文章目录、相关文章
 - PDF 阅读目录：把文件放进 `source/pdf/`，构建时自动生成目录和在线预览页；目录页带密码门禁
-- 文章级密码门禁：front-matter 设置 `encryption: true` 才加密，默认 `false`；与 PDF 图书馆共用 `_config.yml` 中的访问密码
+- 文章级密码门禁：front-matter 设置 `encryption: true` 才加密，默认 `false`；与 PDF 图书馆共用页脚「总访问量」当前数字
 - 文章级版权声明与「本文结束」签名
 
 ## 目录结构
@@ -217,9 +217,9 @@ encryption: true
 ---
 ```
 
-生成后正文会从页面源码中移出并编码为 payload；打开文章页时，输入与 PDF 图书馆相同的访问密码即可在浏览器中解锁。首页与归档页只显示加密提示，本地搜索不收录正文。加密文章中的图片同样会生成 WebP 响应式版本，解锁后正常加载。
+生成后正文会从页面源码中移出并编码为 payload；打开文章页时，输入页脚「总访问量」当前显示的数字即可在浏览器中解锁。首页与归档页只显示加密提示，本地搜索不收录正文。加密文章中的图片同样会生成 WebP 响应式版本，解锁后正常加载。
 
-访问密码在 `_config.yml` 的 `content_gate.password` 中设置，PDF 图书馆与加密文章共用；修改后需要重新生成并部署。
+密码与页脚「总访问量」保持一致，会随站点访问量变化；每次打开页面时以页脚当前数字为准。
 
 > 与 PDF 图书馆一样，这是纯前端门禁。GitHub Pages 无法提供服务端访问控制，payload 仍可从页面源码中解码；请勿用它保护真正敏感的机密信息。
 
@@ -254,7 +254,7 @@ deploy:
 
 | 文件 | 用途 |
 | --- | --- |
-| `_config.yml` | 站点信息、URL、文章目录、图片优化、PDF 目录、访问密码、部署 |
+| `_config.yml` | 站点信息、URL、文章目录、图片优化、PDF 目录、部署 |
 | `_config.next.yml` | NexT 主题：菜单、头像、社交链接、代码高亮、Fancybox、本地搜索、访问统计 |
 | `source/_data/styles.styl` | 深色配色、文章排版、背景、PDF 目录样式、移动端适配 |
 | `source/_data/variables.styl` | 字体栈等变量 |
@@ -263,7 +263,7 @@ deploy:
 | `source/_data/post-body-end.njk` | 文章底部版权声明 |
 | `source/_data/post-gate.njk` | 加密文章的解锁表单 |
 | `source/js/live2d-autoload.js` | Live2D 启动逻辑（本地加载，无外部 CDN） |
-| `source/js/pdf-gate.js` | 密码门禁：图书目录与加密文章共用（SHA-256 校验） |
+| `source/js/pdf-gate.js` | 密码门禁：图书目录与加密文章共用 |
 | `source/js/nemo-player.js` | NEMO FM 播放器：歌单加载、API 回退、错误跳过 |
 | `scripts/post-encryption.js` | 构建期文章加密：把正文转为 base64 payload |
 | `scripts/busuanzi-compat.js` | 构建期把 NexT 计数节点映射到 busuanzi.cc |
