@@ -15,6 +15,7 @@ const fs = require('fs');
 const fsp = fs.promises;
 const path = require('path');
 const { formatBytes } = require('./lib/format');
+const { hashPassword } = require('./lib/gate');
 
 const DEFAULTS = {
   dir: 'pdf',
@@ -118,11 +119,11 @@ function renderCatalog(items, baseUrl) {
 // links do not show up in page source before the visitor unlocks the gate.
 // This is still a client-side gate: GitHub Pages cannot enforce real access
 // control, and the PDF files themselves remain directly reachable by URL.
-function renderGate(content, count) {
+function renderGate(content, count, passwordHash) {
   const payload = Buffer.from(content, 'utf8').toString('base64');
 
   return [
-    '<div class="pdf-gate" data-pdf-gate>',
+    '<div class="pdf-gate" data-pdf-gate data-password-hash="' + passwordHash + '">',
     '  <section class="pdf-gate-lock" aria-labelledby="pdf-gate-title">',
     '    <span class="pdf-gate-kicker"><i class="fa fa-lock" aria-hidden="true"></i> NEMO LIBRARY</span>',
     '    <span class="pdf-gate-icon" aria-hidden="true"><i class="fa fa-book-open"></i></span>',
@@ -222,7 +223,7 @@ hexo.extend.generator.register('pdf_library', async function () {
         description: config.description,
         comments: false,
         sitemap: false,
-        content: renderGate(renderCatalog(items, baseUrl), items.length)
+        content: renderGate(renderCatalog(items, baseUrl), items.length, hashPassword(hexo))
       }
     },
     {

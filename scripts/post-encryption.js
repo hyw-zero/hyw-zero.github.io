@@ -5,8 +5,9 @@
  *
  * Add `encryption: true` to a post's front matter. The rendered article is
  * moved into a base64 payload and only decoded in the browser after the
- * visitor enters the same password used by the PDF library (the site-wide
- * visitor count shown in the footer).
+ * visitor enters the shared content password configured in `_config.yml`.
+ *
+ * Posts without the flag stay public; `encryption: false` is the default.
  *
  * This is a client-side gate. GitHub Pages cannot enforce real access control,
  * so the payload can still be decoded from the page source, just like the PDF
