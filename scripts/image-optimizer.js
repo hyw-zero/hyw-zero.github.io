@@ -176,6 +176,71 @@ function rewriteTag(tag, manifest, config) {
   return out;
 }
 
+function firstSrcsetUrl(value) {
+  if (!value) return '';
+  const first = value.split(',')[0] || '';
+  return first.trim().split(/\s+/)[0] || '';
+}
+
+// Build a short, readable alt text from an image path. Generic camera or
+// upload names (`img-01`, `photo_2`, `screenshot`) carry no information for
+// screen readers, so they are rejected and replaced by a per-page counter.
+function readableAlt(value) {
+  if (!value) return '';
+
+  let file = String(value);
+  try {
+    file = decodeURIComponent(file);
+  } catch (err) {
+    // Keep the raw value when it is not valid percent-encoding.
+  }
+
+  file = file.split('#')[0].split('?')[0].split('/').pop() || '';
+  let name = file
+    .replace(/\.[a-z0-9]+$/i, '')
+    .replace(/-w\d+$/i, '')
+    .replace(/[-_]+/g, ' ')
+    .trim();
+
+  if (!name) return '';
+  if (/^(?:img|image|photo|pic|picture|screenshot|untitled|dsc|dcim|wechatimg|qq(?:image)?|图片|截图|图像|照片)(?:\s*\d+)?$/i.test(name)) {
+    return '';
+  }
+  return name;
+}
+
+function ensureAlt(tag, index) {
+  if (hasAttr(tag, 'alt')) return tag;
+
+  const sources = [
+    getAttr(tag, 'data-src'),
+    getAttr(tag, 'src'),
+    firstSrcsetUrl(getAttr(tag, 'srcset'))
+  ];
+
+  let alt = '';
+  for (const source of sources) {
+    alt = readableAlt(source);
+    if (alt) break;
+  }
+
+  return setAttr(tag, 'alt', alt || `文章配图 ${index}`);
+}
+
+function addMissingAlts(html) {
+  let index = 0;
+  let count = 0;
+
+  const next = html.replace(/<img\b[^>]*>/gi, tag => {
+    index += 1;
+    const updated = ensureAlt(tag, index);
+    if (updated !== tag) count += 1;
+    return updated;
+  });
+
+  return { html: next, count };
+}
+
 // Encrypted posts and the PDF catalog hide their HTML in a base64 payload.
 // Rewrite images inside that payload too, otherwise protected posts would load
 // the original full-size files after unlocking.
@@ -193,8 +258,11 @@ function rewritePayloadImages(html, manifest, config) {
     }
 
     let changed = 0;
+    let index = 0;
     const rewritten = decoded.replace(/<img\b[^>]*>/gi, tag => {
-      const updated = rewriteTag(tag, manifest, config);
+      index += 1;
+      const withAlt = ensureAlt(tag, index);
+      const updated = rewriteTag(withAlt, manifest, config);
       if (updated !== tag) changed++;
       return updated;
     });
@@ -364,15 +432,14 @@ async function optimizeImage(hexo, file, relativePath, config, cacheDir) {
 
 async function run(hexo, config) {
   if (!sharp) {
-    hexo.log.warn('Image optimizer: sharp is not installed; skipping image optimization.');
-    return;
+    hexo.log.warn('Image optimizer: sharp is not installed; skipping WebP conversion.');
   }
 
   const publicDir = hexo.public_dir;
   const cacheDir = path.join(hexo.base_dir, '.image-cache');
   const files = await walk(publicDir);
 
-  const candidates = files.filter(file => {
+  const candidates = sharp ? files.filter(file => {
     if (!IMAGE_EXT.test(file) || GENERATED_EXT.test(file)) return false;
     const relative = toPosix(path.relative(publicDir, file));
     // Background/favicon/logo assets live in /images and are handled by the
@@ -383,9 +450,7 @@ async function run(hexo, config) {
     if (relative.startsWith('lib/live2d/')) return false;
     if (relative === 'uploads/avatar.jpg') return false;
     return true;
-  });
-
-  if (!candidates.length) return;
+  }) : [];
 
   const started = Date.now();
   const entries = await mapLimit(candidates, config.concurrency, async file => {
@@ -411,26 +476,33 @@ async function run(hexo, config) {
     optimizedCount++;
   }
 
-  if (!optimizedCount) return;
-
   const htmlFiles = files.filter(file => HTML_EXT.test(file));
   let rewrittenFiles = 0;
   let rewrittenImages = 0;
+  let altImages = 0;
 
   for (const file of htmlFiles) {
     const html = await fsp.readFile(file, 'utf8');
+    const alts = addMissingAlts(html);
+    altImages += alts.count;
+
     let count = 0;
-    const next = html.replace(/<img\b[^>]*>/gi, tag => {
-      const updated = rewriteTag(tag, manifest, { ...config, siteUrl: hexo.config.url });
-      if (updated !== tag) count++;
-      return updated;
-    });
+    let next = alts.html;
 
-    const payloads = rewritePayloadImages(next, manifest, { ...config, siteUrl: hexo.config.url });
-    count += payloads.count;
+    if (manifest.size) {
+      next = next.replace(/<img\b[^>]*>/gi, tag => {
+        const updated = rewriteTag(tag, manifest, { ...config, siteUrl: hexo.config.url });
+        if (updated !== tag) count++;
+        return updated;
+      });
 
-    if (count > 0) {
-      await fsp.writeFile(file, payloads.html);
+      const payloads = rewritePayloadImages(next, manifest, { ...config, siteUrl: hexo.config.url });
+      next = payloads.html;
+      count += payloads.count;
+    }
+
+    if (alts.count > 0 || count > 0) {
+      await fsp.writeFile(file, next);
       rewrittenFiles++;
       rewrittenImages += count;
     }
@@ -438,11 +510,12 @@ async function run(hexo, config) {
 
   const seconds = ((Date.now() - started) / 1000).toFixed(1);
   hexo.log.info(
-    'Image optimizer: %d images -> WebP, %s -> %s (largest variant), %d tags in %d pages, %ss',
+    'Image optimizer: %d images -> WebP, %s -> %s (largest variant), %d tags + %d alt in %d pages, %ss',
     optimizedCount,
     formatBytes(originalBytes),
     formatBytes(largestBytes),
     rewrittenImages,
+    altImages,
     rewrittenFiles,
     seconds
   );

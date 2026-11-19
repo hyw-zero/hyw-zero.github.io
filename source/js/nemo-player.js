@@ -75,6 +75,33 @@
     loading = false;
   }
 
+  function labelControls() {
+    var labels = {
+      back: '上一首',
+      play: '播放或暂停',
+      forward: '下一首',
+      order: '切换播放顺序',
+      loop: '切换循环模式',
+      menu: '播放列表',
+      'volume-down': '静音',
+      'volume-up': '取消静音',
+      lrc: '歌词'
+    };
+
+    Object.keys(labels).forEach(function (name) {
+      var button = mount.querySelector('.aplayer-icon-' + name);
+      if (!button) return;
+      button.setAttribute('aria-label', labels[name]);
+      button.setAttribute('title', labels[name]);
+    });
+
+    var mini = mount.querySelector('.aplayer-miniswitcher .aplayer-icon');
+    if (mini) {
+      mini.setAttribute('aria-label', '展开或收起播放器');
+      mini.setAttribute('title', '展开或收起播放器');
+    }
+  }
+
   function init(tracks) {
     if (!window.APlayer) {
       fail();
@@ -107,6 +134,7 @@
     var list = mount.querySelector('.aplayer-list');
     if (list) list.classList.add('aplayer-list-hide');
     syncListHeight();
+    labelControls();
 
     var errors = 0;
 
@@ -125,7 +153,10 @@
 
     player.on('play', function () {
       errors = 0;
+      labelControls();
     });
+
+    player.on('volumechange', labelControls);
 
     setStatus(tracks.length + ' 首 · 在线', false);
     loading = false;

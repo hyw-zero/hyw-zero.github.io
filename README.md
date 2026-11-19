@@ -147,6 +147,7 @@ tags:
 - **原图不会被修改或删除**；`data-src` 让 Fancybox 放大时加载原图。
 - 若 WebP 体积没有比原图小 5% 以上，则回退使用原图，避免「越压越大」。
 - 未被最终 `srcset` 引用的变体会在构建时清理。
+- 缺少 `alt` 的图片会自动补全可读描述：优先使用文件名，`img-01` 这类无意义名称则使用「文章配图 N」，避免无障碍与 SEO 审计失败。
 - 生成结果缓存于 `.image-cache/`，`hexo clean` 后重建通常只需十几秒；首次无缓存构建需要几分钟。
 
 相关配置位于 `_config.yml`：
@@ -260,12 +261,15 @@ deploy:
 | `source/_data/variables.styl` | 字体栈等变量 |
 | `source/_data/languages.yml` | 菜单等文案的翻译覆盖（如「图书」） |
 | `source/_data/body-end.njk` | Live2D、点击爱心、音乐播放器注入 |
+| `source/_data/head.njk` | 预连接访问统计、预加载首屏字体 |
 | `source/_data/post-body-end.njk` | 文章底部版权声明 |
 | `source/_data/post-gate.njk` | 加密文章的解锁表单 |
+| `source/js/a11y.js` | 侧栏按钮键盘操作等无障碍增强 |
 | `source/js/live2d-autoload.js` | Live2D 启动逻辑（本地加载，无外部 CDN） |
 | `source/js/pdf-gate.js` | 密码门禁：图书目录与加密文章共用 |
 | `source/js/nemo-player.js` | NEMO FM 播放器：歌单加载、API 回退、错误跳过 |
 | `scripts/post-encryption.js` | 构建期文章加密：把正文转为 base64 payload |
+| `scripts/accessibility.js` | 构建期补充侧栏按钮的无障碍名称 |
 | `scripts/busuanzi-compat.js` | 构建期把 NexT 计数节点映射到 busuanzi.cc |
 | `source/lib/aplayer/` | APlayer 静态资源（本地加载，不依赖 CDN） |
 | `source/lib/live2d/` | Live2D 组件、提示语与 6 个本地模型（不依赖 CDN） |

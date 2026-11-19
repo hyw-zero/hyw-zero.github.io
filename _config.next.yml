@@ -284,6 +284,7 @@ local_search:
 # Custom files
 # ---------------------------------------------------------------
 custom_file_path:
+  head: source/_data/head.njk
   variable: source/_data/variables.styl
   style: source/_data/styles.styl
   postBodyStart: source/_data/post-gate.njk
