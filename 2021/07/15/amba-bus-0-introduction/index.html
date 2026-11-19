@@ -83,6 +83,9 @@
 <script src="/js/third-party/math/mathjax.js" defer></script>
 
 
+<link rel="preconnect" href="https://cdn.busuanzi.cc">
+<link rel="preload" href="/fonts/lato-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/roboto-slab-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
@@ -307,7 +310,7 @@
     
     <div class="post-body" itemprop="articleBody">
 <p>ARM 公司推出了 AMBA 系列总线，一直迭代至今，不断丰富扩展内容，常用的 AMBA 协议各个版本的变化如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-0-introduction/img-01.png" loading="lazy" srcset="/uploads/amba/amba-bus-0-introduction/img-01-w640.webp 640w, /uploads/amba/amba-bus-0-introduction/img-01-w800.webp 800w, /uploads/amba/amba-bus-0-introduction/img-01-w1280.webp 1280w, /uploads/amba/amba-bus-0-introduction/img-01.png 1428w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-0-introduction/img-01.png" width="1428" height="654" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-0-introduction/img-01.png" loading="lazy" alt="文章配图 2" srcset="/uploads/amba/amba-bus-0-introduction/img-01-w640.webp 640w, /uploads/amba/amba-bus-0-introduction/img-01-w800.webp 800w, /uploads/amba/amba-bus-0-introduction/img-01-w1280.webp 1280w, /uploads/amba/amba-bus-0-introduction/img-01.png 1428w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-0-introduction/img-01.png" width="1428" height="654" decoding="async"></p>
 <p>在我刚入职时，指导人让我前 2 个星期什么都不用干，甚至不用登陆 Linux 系统，就在电脑上硬看 APB、AHB、AXI 数据手册。那时我连基本的握手、互联的概念都没有，看完后虽有收获，但非常流于表面。现在工作了一小段时间，打算再看一遍 AMBA 数据手册，希望把边边角角都给扫到。</p>
 <p>AMBA 学习资料主要是 ARM 官方文档，见 <a target="_blank" rel="noopener" href="https://www.arm.com/architecture/system-architectures/amba/amba-specifications">https://www.arm.com/architecture/system-architectures/amba/amba-specifications</a> ，这里罗列了 AMBA 的所有 PDF 数据手册，都可以免登录免费下载。甚至可以逛逛 ARM 的 AMBA 官方论坛，看看别人都提了哪些问题，见 <a target="_blank" rel="noopener" href="https://community.arm.com/support-forums/f/soc-design-and-simulation-forum/tags/AMBA">https://community.arm.com/support-forums/f/soc-design-and-simulation-forum/tags/AMBA</a> 。</p>
 <p>我的计划是翻译式的学习 AMBA 手册，难理解的地方加上自己的理解。不理解的直接原文翻译或跳过，日后理解了再补上。翻译式的学习似乎很蠢，但可以确保我脑子里至少流过了所有知识点，也可以检查我对 AMBA 的认知是否和协议不符合。</p>
@@ -428,7 +431,7 @@
   </footer>
 
   
-  <div class="toggle sidebar-toggle" role="button">
+  <div class="toggle sidebar-toggle" role="button" tabindex="0" aria-label="切换侧栏">
     <span class="toggle-line"></span>
     <span class="toggle-line"></span>
     <span class="toggle-line"></span>
@@ -439,6 +442,7 @@
 </noscript>
 <script src="/js/third-party/comments/livere.js" defer></script>
 <script src="/js/clicklove.js"></script>
+<script src="/js/a11y.js?v=1"></script>
 <script src="/js/live2d-autoload.js?v=6"></script>
 <script src="/js/pdf-gate.js?v=8"></script>
 <script src="/js/busuanzi-show.js?v=2"></script>
@@ -455,7 +459,7 @@
     <div class="nemo-player-loading">正在连接音乐源…</div>
   </div>
 </div>
-<script src="/js/nemo-player.js?v=5"></script>
+<script src="/js/nemo-player.js?v=7"></script>
 
 </body>
 </html>

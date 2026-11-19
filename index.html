@@ -78,6 +78,9 @@
 <script src="/js/third-party/math/mathjax.js" defer></script>
 
 
+<link rel="preconnect" href="https://cdn.busuanzi.cc">
+<link rel="preload" href="/fonts/lato-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/roboto-slab-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
@@ -495,8 +498,8 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>前面博客《<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xianyuIC/p/17372573.html">AMBA总线（3）—— AXI协议</a>》大致过了一遍 AXI3 和 AXI4 协议，对于 AXI5 部分没有研究。本篇博客翻译一下 AXI5 中的新 feature，参考文档是《AMBA5 AXI and ACE Protocol Specification》。</p>
-<p><img src="/uploads/amba/amba-bus-5-axi5/img-01-w1092.webp" loading="lazy" srcset="/uploads/amba/amba-bus-5-axi5/img-01-w640.webp 640w, /uploads/amba/amba-bus-5-axi5/img-01-w800.webp 800w, /uploads/amba/amba-bus-5-axi5/img-01-w1092.webp 1092w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-5-axi5/img-01.png" width="1092" height="772" decoding="async"></p>
-<p><img src="/uploads/amba/amba-bus-5-axi5/img-02-w1092.webp" loading="lazy" srcset="/uploads/amba/amba-bus-5-axi5/img-02-w640.webp 640w, /uploads/amba/amba-bus-5-axi5/img-02-w800.webp 800w, /uploads/amba/amba-bus-5-axi5/img-02-w1092.webp 1092w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-5-axi5/img-02.png" width="1092" height="775" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-5-axi5/img-01-w1092.webp" loading="lazy" alt="文章配图 2" srcset="/uploads/amba/amba-bus-5-axi5/img-01-w640.webp 640w, /uploads/amba/amba-bus-5-axi5/img-01-w800.webp 800w, /uploads/amba/amba-bus-5-axi5/img-01-w1092.webp 1092w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-5-axi5/img-01.png" width="1092" height="772" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-5-axi5/img-02-w1092.webp" loading="lazy" alt="文章配图 3" srcset="/uploads/amba/amba-bus-5-axi5/img-02-w640.webp 640w, /uploads/amba/amba-bus-5-axi5/img-02-w800.webp 800w, /uploads/amba/amba-bus-5-axi5/img-02-w1092.webp 1092w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-5-axi5/img-02.png" width="1092" height="775" decoding="async"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/01/01/amba-bus-5-axi5/#more" rel="contents">
@@ -923,7 +926,7 @@
 <li><strong>不能读写同时传输，因为其读写地址是共用的。（AHB也不能读写同时传输）</strong></li>
 <li><strong>不能仲裁，因为是单主多从协议。典型的APB协议包括唯一的APB桥作为Master，而所有的APB模块都是APB slave。</strong></li>
 </ul>
-<p><img src="/uploads/amba/amba-bus-1-apb/img-01-w1227.webp" loading="lazy" srcset="/uploads/amba/amba-bus-1-apb/img-01-w640.webp 640w, /uploads/amba/amba-bus-1-apb/img-01-w800.webp 800w, /uploads/amba/amba-bus-1-apb/img-01-w1227.webp 1227w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-1-apb/img-01.png" width="1227" height="386" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-1-apb/img-01-w1227.webp" loading="lazy" alt="文章配图 4" srcset="/uploads/amba/amba-bus-1-apb/img-01-w640.webp 640w, /uploads/amba/amba-bus-1-apb/img-01-w800.webp 800w, /uploads/amba/amba-bus-1-apb/img-01-w1227.webp 1227w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-1-apb/img-01.png" width="1227" height="386" decoding="async"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/04/02/amba-bus-1-apb/#more" rel="contents">
@@ -1127,7 +1130,7 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>ARM 公司推出了 AMBA 系列总线，一直迭代至今，不断丰富扩展内容，常用的 AMBA 协议各个版本的变化如下所示：</p>
-<p><img src="/uploads/amba/amba-bus-0-introduction/img-01.png" loading="lazy" srcset="/uploads/amba/amba-bus-0-introduction/img-01-w640.webp 640w, /uploads/amba/amba-bus-0-introduction/img-01-w800.webp 800w, /uploads/amba/amba-bus-0-introduction/img-01-w1280.webp 1280w, /uploads/amba/amba-bus-0-introduction/img-01.png 1428w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-0-introduction/img-01.png" width="1428" height="654" decoding="async"></p>
+<p><img src="/uploads/amba/amba-bus-0-introduction/img-01.png" loading="lazy" alt="文章配图 6" srcset="/uploads/amba/amba-bus-0-introduction/img-01-w640.webp 640w, /uploads/amba/amba-bus-0-introduction/img-01-w800.webp 800w, /uploads/amba/amba-bus-0-introduction/img-01-w1280.webp 1280w, /uploads/amba/amba-bus-0-introduction/img-01.png 1428w" sizes="(max-width: 767px) calc(100vw - 65px), (max-width: 991px) calc(100vw - 50px), 780px" data-src="/uploads/amba/amba-bus-0-introduction/img-01.png" width="1428" height="654" decoding="async"></p>
 <p>在我刚入职时，指导人让我前 2 个星期什么都不用干，甚至不用登陆 Linux 系统，就在电脑上硬看 APB、AHB、AXI 数据手册。那时我连基本的握手、互联的概念都没有，看完后虽有收获，但非常流于表面。现在工作了一小段时间，打算再看一遍 AMBA 数据手册，希望把边边角角都给扫到。</p>
           <!--noindex-->
             <div class="post-button">
@@ -1239,7 +1242,7 @@
 <h2 id="时间，空间复杂度比较"><a href="#时间，空间复杂度比较" class="headerlink" title="时间，空间复杂度比较"></a>时间，空间复杂度比较</h2><table>
 <thead>
 <tr>
-<th></th>
+<th>推荐</th>
 <th>排序算法</th>
 <th>英文</th>
 <th>平均时间复杂度</th>
@@ -1419,7 +1422,7 @@
   </footer>
 
   
-  <div class="toggle sidebar-toggle" role="button">
+  <div class="toggle sidebar-toggle" role="button" tabindex="0" aria-label="切换侧栏">
     <span class="toggle-line"></span>
     <span class="toggle-line"></span>
     <span class="toggle-line"></span>
@@ -1430,6 +1433,7 @@
 </noscript>
 <script src="/js/third-party/comments/livere.js" defer></script>
 <script src="/js/clicklove.js"></script>
+<script src="/js/a11y.js?v=1"></script>
 <script src="/js/live2d-autoload.js?v=6"></script>
 <script src="/js/pdf-gate.js?v=8"></script>
 <script src="/js/busuanzi-show.js?v=2"></script>
@@ -1446,7 +1450,7 @@
     <div class="nemo-player-loading">正在连接音乐源…</div>
   </div>
 </div>
-<script src="/js/nemo-player.js?v=5"></script>
+<script src="/js/nemo-player.js?v=7"></script>
 
 </body>
 </html>

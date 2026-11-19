@@ -1217,7 +1217,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #837fdb;
+    background: #e86081;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -2798,7 +2798,7 @@ header.header {
 :root {
   --nemo-ink: #172033;
   --nemo-text: #465268;
-  --nemo-muted: #7c8798;
+  --nemo-muted: #556173;
   --nemo-accent: #f59e0b;
   --nemo-accent-deep: #b45309;
   --nemo-accent-soft: rgba(245,158,11,0.1);
@@ -3798,7 +3798,7 @@ figure.highlight .gutter pre {
   color: var(--nemo-accent-deep);
 }
 .posts-collapse .post-content .post-meta-container {
-  color: #94a3b8;
+  color: var(--nemo-muted);
 }
 .tag-cloud {
   margin-top: 6px;
