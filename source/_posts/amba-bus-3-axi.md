@@ -6,6 +6,7 @@ categories:
 tags:
   - AMBA
   - AXI
+encryption: false
 ---
 
 ## 1 AXI基本概述

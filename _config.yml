@@ -30,7 +30,7 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
-  # Keep Live2D JSON model files out of the page/sitemap pipeline.
+  # Keep static files under lib/ out of the page/sitemap pipeline.
   - 'lib/**'
 
 # Writing

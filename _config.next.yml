@@ -16,7 +16,7 @@ favicon:
   small: /images/favicon.ico
   medium: /images/favicon.ico
   apple_touch_icon: /images/favicon.ico
-  safari_pinned_tab: /images/logo.svg
+  safari_pinned_tab:
 
 custom_logo:
 
@@ -233,12 +233,17 @@ math:
 # Preload main.css and preconnect to the font/CDN origins used by the theme.
 preconnect: true
 
+# Decorative fade-in / loading bar are disabled: they delay first paint,
+# pull two extra CDN assets, and make contrast audits scan half-faded text.
+motion:
+  enable: false
+
 fancybox: true
 mediumzoom: false
 pangu: false
 
 pace:
-  enable: true
+  enable: false
   color: blue
   theme: minimal
 

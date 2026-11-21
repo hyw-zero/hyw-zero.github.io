@@ -445,9 +445,6 @@ async function run(hexo, config) {
     // Background/favicon/logo assets live in /images and are handled by the
     // stylesheet; the avatar is small and is used in several layouts.
     if (relative.startsWith('images/')) return false;
-    // Live2D models load their textures by exact path; do not generate or
-    // rewrite WebP variants for them.
-    if (relative.startsWith('lib/live2d/')) return false;
     if (relative === 'uploads/avatar.jpg') return false;
     return true;
   }) : [];
