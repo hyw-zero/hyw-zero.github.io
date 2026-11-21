@@ -1217,7 +1217,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #e86081;
+    background: #99b0b8;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -2645,7 +2645,6 @@ header.header {
     color: var(--text-color);
     margin-top: 12px;
     max-height: calc(100vh - 24px);
-    visibility: hidden;
   }
   .site-state-item {
     padding: 0 10px;
@@ -2800,7 +2799,7 @@ header.header {
   --nemo-text: #465268;
   --nemo-muted: #556173;
   --nemo-accent: #f59e0b;
-  --nemo-accent-deep: #b45309;
+  --nemo-accent-deep: #92400e;
   --nemo-accent-soft: rgba(245,158,11,0.1);
   --nemo-gradient: linear-gradient(135deg, #fbbf24 0%, #f97316 58%, #fb7185 100%);
   --nemo-card: rgba(255,255,255,0.9);
@@ -3425,7 +3424,7 @@ figure.highlight .gutter pre {
 }
 .post-body figure.highlight .gutter pre {
   padding: 16px 12px;
-  color: #6272a4;
+  color: #7f8fc4;
   font-size: 13px;
   line-height: 1.75;
   text-align: right;
@@ -3442,7 +3441,7 @@ figure.highlight .gutter pre {
 .post-body figure.highlight .quote,
 .post-body figure.highlight .hljs-comment,
 .post-body figure.highlight .hljs-quote {
-  color: #6272a4;
+  color: #7f8fc4;
   font-style: italic;
 }
 .post-body figure.highlight .keyword,
@@ -3560,7 +3559,7 @@ figure.highlight .gutter pre {
 }
 .passage-end-tag {
   margin: 36px 0 18px;
-  color: #9aa4b2;
+  color: var(--nemo-muted);
   font-size: 13px;
   text-align: center;
   letter-spacing: 0.08em;
@@ -3615,7 +3614,7 @@ figure.highlight .gutter pre {
 .reward-container {
   margin-top: 28px;
   padding-top: 24px;
-  color: #64748b;
+  color: var(--nemo-muted);
   font-size: 13px;
   border-top: 1px dashed rgba(23,32,51,0.12);
 }
@@ -3639,7 +3638,7 @@ figure.highlight .gutter pre {
 }
 .post-reward div span {
   margin-top: 4px;
-  color: #64748b;
+  color: var(--nemo-muted);
   font-size: 12px;
 }
 .post-reward img {
@@ -3924,7 +3923,7 @@ figure.highlight .gutter pre {
   color: var(--nemo-accent-deep);
 }
 .search-popup p.search-result {
-  color: #64748b;
+  color: var(--nemo-muted);
   border-bottom: 1px dashed rgba(23,32,51,0.1);
 }
 .search-popup .search-result-icon {
@@ -4872,6 +4871,272 @@ body:has(.pdf-viewer) .breadcrumb {
   .pdf-viewer-name {
     flex-basis: 100%;
     order: 3;
+  }
+}
+/* About page */
+.about-page {
+  --about-line: rgba(23,32,51,0.1);
+}
+.about-page .about-hero {
+  margin: 4px 0 30px;
+  padding: 28px 30px;
+  background: linear-gradient(135deg, rgba(245,158,11,0.11), rgba(99,102,241,0.055) 68%, rgba(255,255,255,0));
+  border: 1px solid rgba(245,158,11,0.2);
+  border-radius: 18px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.62);
+}
+.about-page .about-eyebrow {
+  margin: 0 0 10px;
+  color: var(--nemo-accent-deep);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.18em;
+}
+.about-page .about-hero-title {
+  margin: 0 0 14px;
+  color: var(--nemo-ink);
+  font-size: 1.55em;
+  line-height: 1.35;
+}
+.about-page .about-hero-title::before {
+  display: none;
+}
+.about-page .about-lead {
+  margin: 0 0 0.9em;
+  color: #3f4b60;
+  font-size: 1em;
+  line-height: 1.85;
+}
+.about-page .about-lead:last-of-type {
+  margin-bottom: 0;
+}
+.about-page .about-actions {
+  display: flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.about-page .about-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  color: #3f4b60;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid var(--about-line);
+  border-radius: 10px;
+  transition: color 0.2s ease-in-out, background 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.about-page .about-button:hover {
+  color: var(--nemo-accent-deep);
+  background: #fff;
+  border-color: rgba(245,158,11,0.45);
+  transform: translateY(-1px);
+}
+.about-page .about-button-primary {
+  color: #fff;
+  background: var(--nemo-accent-deep);
+  border-color: var(--nemo-accent-deep);
+}
+.about-page .about-button-primary:hover {
+  color: #fff;
+  background: #7c2d12;
+  border-color: #7c2d12;
+}
+.post-body .about-page a.about-button {
+  color: #3f4b60;
+}
+.post-body .about-page a.about-button:hover {
+  color: var(--nemo-accent-deep);
+}
+.post-body .about-page a.about-button-primary,
+.post-body .about-page a.about-button-primary:hover {
+  color: #fff;
+}
+.post-body .about-page a.about-link {
+  color: #334155;
+}
+.post-body .about-page a.about-link:hover {
+  color: var(--nemo-accent-deep);
+}
+.post-body .about-page .about-card a {
+  color: var(--nemo-accent-deep);
+}
+.post-body .about-page .about-card a:hover {
+  color: #7c2d12;
+}
+.post-block .post-description {
+  color: var(--nemo-muted);
+}
+.about-page .about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 30px;
+}
+.about-page .about-card {
+  padding: 22px 24px;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid var(--about-line);
+  border-radius: 16px;
+}
+.about-page .about-card h2 {
+  margin: 0 0 12px;
+  font-size: 1.12em;
+  line-height: 1.45;
+}
+.about-page .about-card h2::before {
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+}
+.about-page .about-card p {
+  margin: 0 0 0.8em;
+  font-size: 0.92em;
+  line-height: 1.8;
+}
+.about-page .about-card p:last-child {
+  margin-bottom: 0;
+}
+.about-page .about-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.about-page .about-list li {
+  position: relative;
+  margin: 0;
+  padding: 5px 0 5px 18px;
+  font-size: 0.92em;
+  line-height: 1.75;
+}
+.about-page .about-list li::before {
+  position: absolute;
+  top: 14px;
+  left: 2px;
+  width: 6px;
+  height: 6px;
+  content: '';
+  background: var(--nemo-gradient);
+  border-radius: 50%;
+}
+.about-page .about-stack {
+  display: flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 30px;
+  padding: 0;
+  list-style: none;
+}
+.about-page .about-stack li {
+  margin: 0;
+  padding: 6px 12px;
+  color: #3f4b60;
+  font-family: 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  background: rgba(255,255,255,0.66);
+  border: 1px solid var(--about-line);
+  border-radius: 999px;
+}
+.about-page .about-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.about-page .about-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px 16px;
+  color: #334155;
+  text-decoration: none;
+  background: rgba(255,255,255,0.6);
+  border: 1px solid var(--about-line);
+  border-radius: 14px;
+  transition: color 0.2s ease-in-out, background 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.about-page .about-link:hover {
+  color: var(--nemo-accent-deep);
+  background: rgba(245,158,11,0.07);
+  border-color: rgba(245,158,11,0.4);
+  transform: translateY(-1px);
+}
+.about-page .about-link-icon {
+  display: inline-flex;
+  flex: 0 0 34px;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  color: var(--nemo-accent-deep);
+  font-size: 15px;
+  background: rgba(245,158,11,0.13);
+  border-radius: 10px;
+}
+.about-page .about-link-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+.about-page .about-link-body strong {
+  overflow: hidden;
+  color: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.about-page .about-link-body span {
+  overflow: hidden;
+  color: var(--nemo-muted);
+  font-size: 12px;
+  line-height: 1.6;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.about-page .about-link-arrow {
+  flex: 0 0 auto;
+  color: #64748b;
+  font-size: 12px;
+  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.about-page .about-link:hover .about-link-arrow {
+  color: var(--nemo-accent-deep);
+  transform: translateX(2px);
+}
+.about-page .about-footnote {
+  margin: 28px 0 4px;
+  color: var(--nemo-muted);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .about-page .about-hero {
+    padding: 22px 20px;
+  }
+  .about-page .about-hero-title {
+    font-size: 1.35em;
+  }
+  .about-page .about-grid,
+  .about-page .about-links {
+    grid-template-columns: 1fr;
+  }
+  .about-page .about-card {
+    padding: 20px;
   }
 }
 /* Self-hosted Latin webfonts: keep first paint independent of Google Fonts. */
