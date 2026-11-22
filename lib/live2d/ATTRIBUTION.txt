@@ -1,0 +1,31 @@
+# Live2D 资源说明
+
+这些文件全部由站点自托管，Live2D 页面运行时不请求 jsDelivr、GitHub Raw 等外部静态资源。
+
+## 组件
+
+- `live2d.min.js`、`waifu.css`、`waifu-tips.js`、`waifu-tips.json`
+- 来源：<https://github.com/stevenjoezhang/live2d-widget>（v0.9.1）
+- 离线目录结构参考：<https://github.com/alink/live2d-widget>
+- 许可证：GPL-3.0-or-later，完整文本见同目录 `LICENSE`
+
+## 模型
+
+- `model/Potion-Maker/Tia/`
+- `model/Potion-Maker/Pio/`
+- `model/bilibili-live/22/`
+- `model/bilibili-live/33/`
+- `model/KantaiCollection/murakumo/`
+- `model/ShizukuTalk/shizuku-48/`
+
+来源：<https://github.com/fghrsh/live2d_api> 与
+<https://github.com/alink/live2d-widget>。bilibili-live 模型仅保留
+`index.json` 使用的默认服装贴图，未使用的换装贴图已移除。
+
+仅用于个人博客展示；模型版权归原作者所有。
+
+## 更新方式
+
+1. 替换或新增 `model/<作者>/<模型>/` 下的 `index.json`、`model.moc`、贴图与动作文件。
+2. 修改 `model_list.json`，保持数组顺序与 `modelId` 一致。
+3. 清理并重新生成：`npx hexo clean && npx hexo generate`。
