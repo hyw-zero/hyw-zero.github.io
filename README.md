@@ -24,7 +24,7 @@ NEMO 的个人博客，记录编程、Linux、Python、C++、前端与数字IC �
 - 原图完整保留，点击图片仍可通过 Fancybox 查看原画质
 - 背景图使用 59KB 的 WebP，首屏更轻
 - 字体与图标本地化：Lato / Roboto Slab / JetBrains Mono 自托管，Font Awesome 在构建时裁剪为实际使用的图标
-- Live2D 看板娘（组件与模型通过 jsDelivr 在线加载）、点击爱心、NEMO FM（APlayer + Meting 在线音乐）
+- Live2D 看板娘（组件与 6 个模型均本地加载，不依赖 CDN）、点击爱心、NEMO FM（APlayer + Meting 在线音乐）
 - 本地搜索、字数统计、阅读时长、文章目录、相关文章
 - PDF 阅读目录：把文件放进 `source/pdf/`，构建时自动生成目录和在线预览页；目录页带密码门禁
 - 文章级密码门禁：front-matter 设置 `encryption: true` 才加密，默认 `false`；与 PDF 图书馆共用页脚「总访问量」当前数字
@@ -264,13 +264,14 @@ deploy:
 | `source/_data/post-body-end.njk` | 文章底部版权声明 |
 | `source/_data/post-gate.njk` | 加密文章的解锁表单 |
 | `source/js/a11y.js` | 侧栏按钮键盘操作等无障碍增强 |
-| `source/js/live2d-autoload.js` | Live2D 启动逻辑（组件、提示语与模型均在线加载） |
+| `source/js/live2d-autoload.js` | Live2D 启动逻辑（本地组件、提示语与模型） |
 | `source/js/pdf-gate.js` | 密码门禁：图书目录与加密文章共用 |
 | `source/js/nemo-player.js` | NEMO FM 播放器：歌单加载、API 回退、错误跳过 |
 | `scripts/post-encryption.js` | 构建期文章加密：把正文转为 base64 payload |
 | `scripts/accessibility.js` | 构建期补充侧栏按钮的无障碍名称 |
 | `scripts/busuanzi-compat.js` | 构建期把 NexT 计数节点映射到 busuanzi.cc |
 | `source/lib/aplayer/` | APlayer 静态资源（本地加载，不依赖 CDN） |
+| `source/lib/live2d/` | Live2D 组件、提示语与 6 个本地模型（不依赖 CDN） |
 
 `source/_data/` 下的文件会覆盖主题默认值，升级 NexT 时无需改动 `node_modules`。
 
@@ -294,7 +295,7 @@ npx hexo server --static
 目录页在构建时扫描 `source/pdf/` 生成，放好文件后需要重新 `npx hexo generate`；部署前同样要先生成。文件名会自动作为标题（去掉 `.pdf` 后缀）。
 
 **看板娘不显示或模型空白？**
-看板娘组件、提示语与模型都通过 jsDelivr 在线加载：组件和提示语来自 `fastly.jsdelivr.net`，模型来自 `gcore.jsdelivr.net`。若模型空白，先确认浏览器可以访问这两个域名，再 `npx hexo clean && npx hexo generate` 并强制刷新缓存。替换默认模型时，修改 `source/js/live2d-autoload.js` 中的 `modelId`（对应 `fghrsh/live2d_api` 的模型列表下标）。
+看板娘组件、提示语与模型都放在 `source/lib/live2d/`，页面不再请求 jsDelivr。若模型空白，先确认 `/lib/live2d/model_list.json` 和 `/lib/live2d/model/Potion-Maker/Tia/index.json` 可以访问，再 `npx hexo clean && npx hexo generate` 并强制刷新缓存。替换默认模型时，修改 `source/js/live2d-autoload.js` 中的 `modelId`（对应 `source/lib/live2d/model_list.json` 的模型列表下标）。
 
 **NEMO FM 显示「重试」或无法播放？**
 播放器通过公共 Meting API 读取网易云歌单，接口偶尔会限流。点击右上角「重试」即可；若长期不可用，可在 `source/js/nemo-player.js` 中调整 `SOURCES`（接口顺序）或 `PLAYLIST.id`（歌单 ID）。播放失败的曲目会自动跳过。
