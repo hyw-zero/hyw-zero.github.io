@@ -47,36 +47,25 @@
   }
 
   function boot() {
+    // The three widget files do not depend on each other until initWidget runs,
+    // so fetch them in parallel instead of chaining two round trips.
     Promise.all([
       loadResource(BASE + 'waifu.css?v=3', 'css'),
-      loadResource(BASE + 'live2d.min.js?v=3', 'js')
+      loadResource(BASE + 'live2d.min.js?v=3', 'js'),
+      loadResource(BASE + 'waifu-tips.js?v=3', 'js')
     ])
-      .then(function () { return loadResource(BASE + 'waifu-tips.js?v=3', 'js'); })
       .then(init)
       .catch(function (error) {
         console.warn('[NEMO] Live2D could not start:', error && error.message);
       });
   }
 
-  var bootScheduled = false;
-
-  function scheduleBoot() {
-    if (bootScheduled) return;
-    bootScheduled = true;
-
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(boot, { timeout: 2000 });
-    } else {
-      window.setTimeout(boot, 800);
-    }
-  }
-
-  // Local model files are still the heaviest assets on the page. Wait until
-  // the window load event so they never compete with the article's first paint.
-  if (document.readyState === 'complete') {
-    scheduleBoot();
+  // Start as soon as the document is parsed. Waiting for window.load made the
+  // mascot appear seconds late on image-heavy pages; these files are preloaded
+  // from <head>, so the model can render while late images finish.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
   } else {
-    window.addEventListener('load', scheduleBoot, { once: true });
-    window.setTimeout(scheduleBoot, 6000);
+    boot();
   }
 })();
