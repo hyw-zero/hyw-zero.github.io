@@ -1,14 +1,14 @@
 (function () {
   'use strict';
 
-  // NexT hides the counters until Busuanzi fills them. busuanzi.cc writes the
-  // values but does not toggle the containers, so show each one as soon as a
-  // numeric value arrives. Error messages (for example on localhost) stay
-  // hidden instead of appearing in the footer.
+  // NexT hides the counters until Busuanzi fills them. Watch the footer spans
+  // and show each container as soon as a numeric value arrives. Error messages
+  // (for example on localhost) stay hidden instead of appearing in the footer.
   var NUMBER = /^[\d.,]+[KkMmBbWwEe]?$/;
 
   ['site_uv', 'site_pv', 'page_pv'].forEach(function (key) {
-    var value = document.getElementById('busuanzi_' + key);
+    var value = document.getElementById('busuanzi_value_' + key) ||
+      document.getElementById('busuanzi_' + key);
     var container = document.getElementById('busuanzi_container_' + key);
     if (!value || !container) return;
 

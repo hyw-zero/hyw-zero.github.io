@@ -302,6 +302,6 @@ custom_file_path:
 vendors:
   internal: local
   plugins: cdnjs
-  # Busuanzi's current official counter (busuanzi.cc). The compat filter in
-  # scripts/busuanzi-compat.js maps its element IDs to NexT's footer spans.
-  busuanzi: https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js
+  # Use the classic Busuanzi counter (ibruce) so the totals accumulated before
+  # the temporary busuanzi.cc switch are restored.
+  busuanzi: https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js

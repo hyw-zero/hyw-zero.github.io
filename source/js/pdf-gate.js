@@ -32,7 +32,8 @@
   }
 
   function readSitePv() {
-    var el = document.getElementById('busuanzi_site_pv');
+    var el = document.getElementById('busuanzi_value_site_pv') ||
+      document.getElementById('busuanzi_site_pv');
     if (!el) return '';
 
     var raw = el.textContent.trim();

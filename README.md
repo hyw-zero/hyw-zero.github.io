@@ -269,7 +269,7 @@ deploy:
 | `source/js/nemo-player.js` | NEMO FM 播放器：歌单加载、API 回退、错误跳过 |
 | `scripts/post-encryption.js` | 构建期文章加密：把正文转为 base64 payload |
 | `scripts/accessibility.js` | 构建期补充侧栏按钮的无障碍名称 |
-| `scripts/busuanzi-compat.js` | 构建期把 NexT 计数节点映射到 busuanzi.cc |
+| `scripts/busuanzi-compat.js` | 构建期把 Busuanzi 脚本延迟到 DOM 就绪，确保页脚计数能写入 |
 | `source/lib/aplayer/` | APlayer 静态资源（本地加载，不依赖 CDN） |
 | `source/lib/live2d/` | Live2D 组件、提示语与 6 个本地模型（不依赖 CDN） |
 
