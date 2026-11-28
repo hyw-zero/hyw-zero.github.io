@@ -1217,7 +1217,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #6e94ff;
+    background: #6f8cb0;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3878,6 +3878,27 @@ figure.highlight .gutter pre {
 }
 .footer .with-love {
   color: #fb7185;
+}
+.footer-inner {
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  justify-content: center;
+  gap: 0 1em;
+}
+.footer-inner .copyright {
+  flex: 0 0 100%;
+}
+.footer-inner .wordcount,
+.footer-inner .busuanzi-count {
+  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 .search-active .search-pop-overlay {
   background: rgba(6,11,22,0.66);
