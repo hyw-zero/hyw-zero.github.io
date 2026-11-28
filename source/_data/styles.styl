@@ -1315,6 +1315,28 @@ figure.highlight .gutter pre {
   color: #fb7185;
 }
 
+// Keep the copyright on its own row, then center the word count and the visit
+// counters together on a single line.
+.footer-inner {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0 1em;
+}
+
+.footer-inner .copyright {
+  flex: 0 0 100%;
+}
+
+.footer-inner .wordcount,
+.footer-inner .busuanzi-count {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
 // ---------------------------------------------------------------
 // Search overlay
 // ---------------------------------------------------------------
